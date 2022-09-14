@@ -1,0 +1,43 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "airbnb",
+        "prettier/prettier",
+        "plugin:prettier/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 14,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint",
+        "react-hooks"
+    ],
+    "rules": {
+        "react/jsx-filename-extension": ["warn", {"extensions": [".tsx"]}],
+        "import/extensions": ["error", "ignorePackages", {"ts": "never", "tsx": "never"}],
+        // 확장자 에러 해결
+        "max-len": ["warn", {"code": 80}],
+        // 코드 한 줄 최대 길이
+        "@typescript-eslint/explicit-function-return-type": ["error", { "allowExpressions": true }],
+        // 모든 함수에 명시적 반환 유형
+        "react-hooks/rules-of-hooks":"error",
+        "react-hooks/exhaustive-deps":"warn"
+        // 리액트 훅 관련 
+    },
+    "settings": {
+        "import/resolver": {
+            "typescript": {}
+        }
+        // 모듈 './App'에 대한 경로를 확인할 수 없는 경우에 대한 세팅
+    }
+}

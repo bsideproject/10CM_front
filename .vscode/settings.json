@@ -1,0 +1,11 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "eslint.alwaysShowStatus": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
+// prettierrc에 정의된 룰에 따라 자동으로 코드 세팅
+
+// eslint.alwaysShowStatus, editor.codeActionsOnSave 의미 확인하기.
