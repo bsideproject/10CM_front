@@ -6,7 +6,6 @@
     "extends": [
         "plugin:react/recommended",
         "airbnb",
-        "prettier/prettier",
         "plugin:prettier/recommended"
     ],
     "parser": "@typescript-eslint/parser",
@@ -28,7 +27,7 @@
         // 확장자 에러 해결
         "max-len": ["warn", {"code": 80}],
         // 코드 한 줄 최대 길이
-        "@typescript-eslint/explicit-function-return-type": ["error", { "allowExpressions": true }],
+        // "@typescript-eslint/explicit-function-return-type": ["error", { "allowExpressions": true }],
         // 모든 함수에 명시적 반환 유형
         "react-hooks/rules-of-hooks":"error",
         "react-hooks/exhaustive-deps":"warn"
