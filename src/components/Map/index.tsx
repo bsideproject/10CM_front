@@ -1,11 +1,13 @@
 import React, { ReactNode, useRef, useState, useEffect } from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import styled from 'styled-components';
+import { Address, LatLng } from 'types/dtos/address';
 interface Props {}
 
 const Map: React.FC<Props> = () => {
   const map = useRef<any>(null);
   const { kakao } = window;
+
   const [test, setState] = useState<boolean>(false);
   useEffect(() => {
     const testMap = document.getElementById('map');
@@ -163,15 +165,56 @@ const Map: React.FC<Props> = () => {
   const getMapLevel = () => {
     alert(map.current.getLevel());
   };
+
+  const handleClickSearchAddress = () => {
+    const { daum } = window;
+    new daum.Postcode({
+      width: '500px',
+      height: '500px',
+      oncomplete: (data: Address) => {
+        const geocoder = new kakao.maps.services.Geocoder();
+        geocoder.addressSearch(
+          data.address,
+          function (result: LatLng[], status: any) {
+            console.log('result', result, 'STATUS', status);
+
+            // 정상적으로 검색이 완료됐으면
+            if (status === kakao.maps.services.Status.OK) {
+              const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+              // console.log(coords);
+              // 가져온 x, y 좌표
+              const marker = new kakao.maps.Marker({
+                map: map.current,
+                position: coords,
+              });
+              const infowindow = new kakao.maps.InfoWindow({
+                content:
+                  '<div style="width:150px;text-align:center;padding:6px 0;">결과좌표</div>',
+              });
+              infowindow.open(map.current, marker);
+
+              map.current.setCenter(coords);
+            }
+          },
+        );
+        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+        // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+      },
+    }).open();
+  };
   return (
     <div>
-      <Wrap id="map" style={{ width: '2000px', height: '700px' }} />
+      <Wrap
+        id="map"
+        style={{ width: '2000px', height: '700px', backgroundColor: 'red' }}
+      />
       <div id="maplevel" />
       <button onClick={createMarker}>마커생성</button>
       <button onClick={createCluster}>클러스터생성</button>
       <button onClick={searchHome}>내 위치 찾기</button>
       <button onClick={createOveray}>마커찍기</button>
       <button onClick={getMapLevel}>줌 레벨</button>
+      <button onClick={handleClickSearchAddress}>주소검색</button>
       <button
         onClick={() => {
           console.log('dfawe');

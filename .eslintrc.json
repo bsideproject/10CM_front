@@ -59,20 +59,8 @@
     "jsx-a11y/click-events-have-key-events": "off",
     // 버튼에 type button 안쓰고 이벤트 걸 때
     "jsx-a11y/no-static-element-interactions": "off",
-    "jsx-a11y/no-noninteractive-element-interactions": "off",
-    // 비대화형 요소에 이벤트
-    "arrow-body-style": ["error", "always"]
-    // 함수 무조건 중괄호 씌우기
-    // "react/jsx-no-bind": [
-    //   2,
-    //   {
-    //     "ignoreDOMComponents": true,
-    //     // "ignoreRefs": <boolean> || false,
-    //     // "allowArrowFunctions": true
-    //     "allowFunctions": true
-    //     // "allowBind": <boolean> || false
-    //   }
-    // ]
+    "jsx-a11y/no-noninteractive-element-interactions": "off"
+    // 비대화형 요소에 이벤트yarn
   },
   "settings": {
     "import/resolver": {
