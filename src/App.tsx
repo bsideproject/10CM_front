@@ -7,6 +7,7 @@ const App = () => {
   return (
     <div>
       <div>10 TEAM</div>
+      <div>카카오 지도</div>
       <Map />
     </div>
   );
