@@ -6,9 +6,12 @@ interface Props {}
 
 const Map: React.FC<Props> = () => {
   const map = useRef<any>(null);
+  let manager: any;
+
   const { kakao } = window;
 
   const [test, setState] = useState<boolean>(false);
+
   useEffect(() => {
     const testMap = document.getElementById('map');
     const options = {
@@ -17,8 +20,86 @@ const Map: React.FC<Props> = () => {
       level: 3, // 지도의 레벨(확대, 축소 정도)
     };
     map.current = new kakao.maps.Map(testMap, options); // 지도 생성 및 객체 리턴
+
+    const managerOptions = {
+      // Drawing Manager를 생성할 때 사용할 옵션입니다
+      map: map.current, // Drawing Manager로 그리기 요소를 그릴 map 객체입니다
+      drawingMode: [
+        // drawing manager로 제공할 그리기 요소 모드입니다
+        kakao.maps.drawing.OverlayType.MARKER,
+        kakao.maps.drawing.OverlayType.POLYLINE,
+        kakao.maps.drawing.OverlayType.RECTANGLE,
+        kakao.maps.drawing.OverlayType.CIRCLE,
+        kakao.maps.drawing.OverlayType.POLYGON,
+      ],
+      // 사용자에게 제공할 그리기 가이드 툴팁입니다
+      // 사용자에게 도형을 그릴때, 드래그할때, 수정할때 가이드 툴팁을 표시하도록 설정합니다
+      guideTooltip: ['draw', 'drag', 'edit'],
+      markerOptions: {
+        // 마커 옵션입니다
+        draggable: true, // 마커를 그리고 나서 드래그 가능하게 합니다
+        removable: true, // 마커를 삭제 할 수 있도록 x 버튼이 표시됩니다
+      },
+      polylineOptions: {
+        // 선 옵션입니다
+        draggable: true, // 그린 후 드래그가 가능하도록 설정합니다
+        removable: true, // 그린 후 삭제 할 수 있도록 x 버튼이 표시됩니다
+        editable: true, // 그린 후 수정할 수 있도록 설정합니다
+        strokeColor: '#39f', // 선 색
+        hintStrokeStyle: 'dash', // 그리중 마우스를 따라다니는 보조선의 선 스타일
+        hintStrokeOpacity: 0.5, // 그리중 마우스를 따라다니는 보조선의 투명도
+      },
+      rectangleOptions: {
+        draggable: true,
+        removable: true,
+        editable: true,
+        strokeColor: '#39f', // 외곽선 색
+        fillColor: '#39f', // 채우기 색
+        fillOpacity: 0.5, // 채우기색 투명도
+      },
+      circleOptions: {
+        draggable: true,
+        removable: true,
+        editable: true,
+        strokeColor: '#39f',
+        fillColor: '#39f',
+        fillOpacity: 0.5,
+      },
+      polygonOptions: {
+        draggable: true,
+        removable: true,
+        editable: true,
+        strokeColor: '#39f',
+        fillColor: '#39f',
+        fillOpacity: 0.5,
+        hintStrokeStyle: 'dash',
+        hintStrokeOpacity: 0.5,
+      },
+    };
+    manager = new kakao.maps.drawing.DrawingManager(managerOptions);
   }, []);
   // 지도 생성
+
+  useEffect(() => {
+    if (map.current) {
+      kakao.maps.event.addListener(map.current, 'zoom_changed', function () {
+        // 지도의 현재 레벨을 얻어옵니다
+        const level = map.current.getLevel();
+
+        console.log('현재 지도 레벨은 ', level, ' 입니다');
+      });
+      kakao.maps.event.addListener(
+        map.current,
+        'click',
+        function (mouseEvent: any) {
+          // 클릭한 위도, 경도 정보를 가져옵니다
+          const latlng = mouseEvent.latLng;
+          console.log('마커를 찍은 위치는? ', latlng);
+        },
+      );
+    }
+  }, []);
+  // 맵 이벤트 등록
 
   const createMarker = () => {
     const markerPosition = new kakao.maps.LatLng(33.450711, 126.570611);
@@ -28,8 +109,8 @@ const Map: React.FC<Props> = () => {
     });
     marker.setMap(map.current);
   };
-
   // 마커 생성
+
   const createCluster = () => {
     const clusterer = new kakao.maps.MarkerClusterer({
       map: map.current, // 마커들을 클러스터로 관리하고 표시할 지도 객체
@@ -53,6 +134,7 @@ const Map: React.FC<Props> = () => {
     clusterer.addMarkers(markers);
   };
   // 클러스터 생성
+
   const displayMarker = (locPosition: any, message: string) => {
     const marker = new kakao.maps.Marker({
       map: map.current,
@@ -151,17 +233,6 @@ const Map: React.FC<Props> = () => {
     customOverlay.setMap(map.current);
   };
 
-  useEffect(() => {
-    if (map.current) {
-      kakao.maps.event.addListener(map.current, 'zoom_changed', function () {
-        // 지도의 현재 레벨을 얻어옵니다
-        const level = map.current.getLevel();
-
-        console.log('현재 지도 레벨은 ', level, ' 입니다');
-      });
-    }
-  }, [map]);
-
   const getMapLevel = () => {
     alert(map.current.getLevel());
   };
@@ -202,6 +273,24 @@ const Map: React.FC<Props> = () => {
       },
     }).open();
   };
+  const handleClear = () => {
+    const testMap = document.getElementById('map');
+    const options = {
+      center: map.current.getCenter(),
+      level: map.current.getLevel(),
+    };
+    map.current = new kakao.maps.Map(testMap, options); // 지도 생성 및 객체 리턴
+  };
+
+  const handleCreateCursorMarker = (type: string) => {
+    return () => {
+      // 그리기 중이면 그리기를 취소합니다
+      manager.cancel();
+
+      // 클릭한 그리기 요소 타입을 선택합니다
+      manager.select(kakao.maps.drawing.OverlayType[type]);
+    };
+  };
   return (
     <div>
       <Wrap
@@ -215,6 +304,10 @@ const Map: React.FC<Props> = () => {
       <button onClick={createOveray}>마커찍기</button>
       <button onClick={getMapLevel}>줌 레벨</button>
       <button onClick={handleClickSearchAddress}>주소검색</button>
+      <button onClick={handleClear}>초기화</button>
+      <button onClick={handleCreateCursorMarker('MARKER')}>
+        따라다니는 마커
+      </button>
       <button
         onClick={() => {
           console.log('dfawe');
