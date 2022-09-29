@@ -9,7 +9,7 @@ const Map: React.FC<Props> = () => {
   let manager: any;
 
   const { kakao } = window;
-
+  console.log(window.kakao);
   const [test, setState] = useState<boolean>(false);
 
   useEffect(() => {
@@ -308,6 +308,7 @@ const Map: React.FC<Props> = () => {
       <button onClick={handleCreateCursorMarker('MARKER')}>
         따라다니는 마커
       </button>
+      <button onClick={handleCreateCursorMarker('POLYLINE')}>선 그리기</button>
       <button
         onClick={() => {
           console.log('dfawe');
