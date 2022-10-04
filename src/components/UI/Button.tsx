@@ -10,8 +10,6 @@ const Button: React.FC<IProps> = ({ children, onClick }) => {
   return <ButtonContent onClick={onClick}>{children}</ButtonContent>;
 };
 
-const ButtonContent = styled.button`
-
-`;
+const ButtonContent = styled.button``;
 
 export default Button;

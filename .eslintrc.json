@@ -46,6 +46,8 @@
     // 사용하지 않는 변수
     "react/button-has-type": "off",
     // 버튼에 type속성 지정 안하는 거
+    "react/require-default-props": "off",
+    // default props off
     "no-use-before-define": "off",
     // 정의하기 전에 호출
     "react/function-component-definition": [
@@ -59,8 +61,10 @@
     "jsx-a11y/click-events-have-key-events": "off",
     // 버튼에 type button 안쓰고 이벤트 걸 때
     "jsx-a11y/no-static-element-interactions": "off",
-    "jsx-a11y/no-noninteractive-element-interactions": "off"
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
     // 비대화형 요소에 이벤트yarn
+    "react/react-in-jsx-scope": "off"
+    // 리턴값에서 Tag의 line을 떨어뜨리는 경우 오류내는 것을 off
   },
   "settings": {
     "import/resolver": {

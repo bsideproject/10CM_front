@@ -25,3 +25,5 @@ const Input: FC<IProps> = forwardRef<HTMLInputElement, IProps>(
 const InputContent = styled.input``;
 
 export default Input;
+
+// default props off
