@@ -11,8 +11,9 @@ const Map: React.FC<Props> = () => {
 
   const { kakao } = window;
   const [test, setState] = useState<boolean>(false);
-  const kakaoMap = document.getElementById('map');
+
   useEffect(() => {
+    const kakaoMap = document.getElementById('map');
     const options = {
       // 지도를 생성할 때 필요한 기본 옵션
       center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표.
@@ -46,7 +47,7 @@ const Map: React.FC<Props> = () => {
   }, []);
   // 맵 이벤트 등록
   const createMarker = () => {
-    // locationY, locationX 예시
+    // locationY, locationX 예시s
     MapConfig.createMarker(kakao, map, 32, 26);
   };
 
@@ -172,6 +173,7 @@ const Map: React.FC<Props> = () => {
     }).open();
   };
   const handleClear = () => {
+    const kakaoMap = document.getElementById('map');
     const options = {
       center: map.current.getCenter(),
       level: map.current.getLevel(),
@@ -206,13 +208,6 @@ const Map: React.FC<Props> = () => {
         따라다니는 마커
       </button>
       <button onClick={handleCreateCursorMarker('POLYLINE')}>선 그리기</button>
-      <button
-        onClick={() => {
-          console.log('dfawe');
-        }}
-      >
-        테스트
-      </button>
       <div>지도</div>
     </div>
   );
