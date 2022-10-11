@@ -31,7 +31,6 @@ const Map: React.FC<Props> = () => {
       kakao.maps.event.addListener(map.current, 'zoom_changed', function () {
         // 지도의 현재 레벨을 얻어옵니다
         const level = map.current.getLevel();
-
         console.log('현재 지도 레벨은 ', level, ' 입니다');
       });
       kakao.maps.event.addListener(
@@ -48,7 +47,7 @@ const Map: React.FC<Props> = () => {
   // 맵 이벤트 등록
   const createMarker = () => {
     // locationY, locationX 예시s
-    MapConfig.createMarker(kakao, map, 32, 26);
+    MapConfig.createMarker(kakao, map, 33.450258, 126.570513);
   };
 
   const createCluster = () => {
@@ -72,66 +71,6 @@ const Map: React.FC<Props> = () => {
   };
   // 내 위치에 마커 찍기
 
-  const createOveray = () => {
-    const content = ReactDOMServer.renderToString(
-      <div
-        className="overlaybox"
-        onClick={() => {
-          console.log('good');
-        }}
-      >
-        <div className="boxtitle">금주 영화순위</div>
-        <div className="first">
-          <div className="triangle text">1</div>
-          <div className="movietitle text">드래곤 길들이기2</div>
-        </div>
-        <ul>
-          <li className="up">
-            <span className="number">2</span>
-            <span className="title">명량</span>
-            <span className="arrow up" />
-            <span className="count">2</span>
-          </li>
-          <li
-            onClick={() => {
-              setState(true);
-            }}
-          >
-            <span className="number">3</span>
-            <span className="title">해적(바다로 간 산적)</span>
-            <span className="arrow up" />
-            <span className="count">6</span>
-          </li>
-          <li>
-            <span className="number">4</span>
-            <span className="title">해무</span>
-            <span className="arrow up" />
-            <span className="count">3</span>
-          </li>
-          <li>
-            <span className="number">5</span>
-            <span className="title">안녕, 헤이즐</span>
-            <span className="arrow down" />
-            <span className="count">1</span>
-          </li>
-        </ul>
-      </div>,
-    );
-    const position = new kakao.maps.LatLng(37.49887, 127.026581);
-
-    // 커스텀 오버레이를 생성합니다
-    const customOverlay = new kakao.maps.CustomOverlay({
-      position,
-      content,
-      xAnchor: 0.3,
-      yAnchor: 0.91,
-      clickable: true,
-    });
-
-    // 커스텀 오버레이를 지도에 표시합니다
-    customOverlay.setMap(map.current);
-  };
-
   const getMapLevel = () => {
     alert(map.current.getLevel());
   };
@@ -142,33 +81,7 @@ const Map: React.FC<Props> = () => {
       width: '500px',
       height: '500px',
       oncomplete: (data: Address) => {
-        const geocoder = new kakao.maps.services.Geocoder();
-        geocoder.addressSearch(
-          data.address,
-          function (result: LatLng[], status: any) {
-            console.log('result', result, 'STATUS', status);
-
-            // 정상적으로 검색이 완료됐으면
-            if (status === kakao.maps.services.Status.OK) {
-              const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-              // console.log(coords);
-              // 가져온 x, y 좌표
-              const marker = new kakao.maps.Marker({
-                map: map.current,
-                position: coords,
-              });
-              const infowindow = new kakao.maps.InfoWindow({
-                content:
-                  '<div style="width:150px;text-align:center;padding:6px 0;">결과좌표</div>',
-              });
-              infowindow.open(map.current, marker);
-
-              map.current.setCenter(coords);
-            }
-          },
-        );
-        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-        // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+        MapConfig.completedAddress(kakao, map, data);
       },
     }).open();
   };
@@ -200,14 +113,14 @@ const Map: React.FC<Props> = () => {
       <button onClick={createMarker}>마커생성</button>
       <button onClick={createCluster}>클러스터생성</button>
       <button onClick={searchHome}>내 위치 찾기</button>
-      <button onClick={createOveray}>마커찍기</button>
+      {/* <button onClick={createOveray}>마커찍기</button> */}
       <button onClick={getMapLevel}>줌 레벨</button>
       <button onClick={handleClickSearchAddress}>주소검색</button>
       <button onClick={handleClear}>초기화</button>
       <button onClick={handleCreateCursorMarker('MARKER')}>
         따라다니는 마커
       </button>
-      <button onClick={handleCreateCursorMarker('POLYLINE')}>선 그리기</button>
+      {/* <button onClick={handleCreateCursorMarker('POLYLINE')}>선 그리기</button> */}
       <div>지도</div>
     </div>
   );

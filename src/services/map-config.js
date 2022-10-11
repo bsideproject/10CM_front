@@ -115,6 +115,31 @@ class MapConfig {
     // 지도 중심좌표를 접속위치로 변경합니다
     map.current.setCenter(locPosition);
   }
+
+  static completedAddress(kakao, map, data) {
+    const geocoder = new kakao.maps.services.Geocoder();
+    geocoder.addressSearch(data.address, function (result, status) {
+      console.log('result', result, 'STATUS', status);
+      console.log(data);
+      // 정상적으로 검색이 완료됐으면
+      if (status === kakao.maps.services.Status.OK) {
+        const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+        // console.log(coords);
+        // 가져온 x, y 좌표
+        const marker = new kakao.maps.Marker({
+          map: map.current,
+          position: coords,
+        });
+        const infowindow = new kakao.maps.InfoWindow({
+          content:
+            '<div style="width:150px;text-align:center;padding:6px 0;">결과좌표</div>',
+        });
+        infowindow.open(map.current, marker);
+
+        map.current.setCenter(coords);
+      }
+    });
+  }
 }
 // js로 적용 후 ts로 변경
 export default MapConfig;
