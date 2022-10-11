@@ -3,6 +3,7 @@ import * as ReactDOMServer from 'react-dom/server';
 import styled from 'styled-components';
 import { Address, LatLng } from 'types/dtos/address';
 import MapConfig from 'services/map-config.js';
+import CustomOverlay from '../CustomOverlay';
 interface Props {}
 
 const Map: React.FC<Props> = () => {
@@ -10,7 +11,7 @@ const Map: React.FC<Props> = () => {
   let manager: any;
 
   const { kakao } = window;
-  const [test, setState] = useState<boolean>(false);
+  const [test, setTest] = useState<boolean>(false);
 
   useEffect(() => {
     const kakaoMap = document.getElementById('map');
@@ -98,17 +99,65 @@ const Map: React.FC<Props> = () => {
     return () => {
       // 그리기 중이면 그리기를 취소합니다
       manager.cancel();
-
       // 클릭한 그리기 요소 타입을 선택합니다
       manager.select(kakao.maps.drawing.OverlayType[type]);
     };
   };
+
+  const handleCreatePolyLine = () => {
+    MapConfig.drawPolyLine(kakao, map);
+  };
+
+  const handleCreateRoadView = () => {
+    const roadviewContainer = document.querySelector('#roadview');
+    const roadview = new kakao.maps.Roadview(roadviewContainer);
+    const roadviewClient = new kakao.maps.RoadviewClient();
+
+    const position = new kakao.maps.LatLng(33.450258, 126.570513);
+
+    roadviewClient.getNearestPanoId(position, 50, function (panoId: number) {
+      roadview.setPanoId(panoId, position);
+    });
+
+    let content = '<div class="overlay_info">';
+    content +=
+      '    <a href="https://place.map.kakao.com/17600274" target="_blank"><strong>월정리 해수욕장</strong></a>';
+    content += '    <div class="desc">';
+    content +=
+      '        <img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/place_thumb.png" alt="">';
+    content +=
+      '        <span class="address">제주특별자치도 제주시 구좌읍 월정리 33-3</span>';
+    content += '    </div>';
+    content += '</div>';
+
+    kakao.maps.event.addListener(roadview, 'init', function () {
+      const rvCustomOverlay = new kakao.maps.CustomOverlay({
+        position,
+        content,
+        xAnchor: 0.5,
+        yAnchor: 0.5,
+      });
+
+      rvCustomOverlay.setMap(roadview);
+
+      const projection = roadview.getProjection();
+
+      const viewpoint = projection.viewpointFromCoords(
+        rvCustomOverlay.getPosition(),
+        rvCustomOverlay.getAltitude(),
+      );
+
+      roadview.setViewpoint(viewpoint);
+    });
+  };
+
   return (
     <div>
       <Wrap
         id="map"
-        style={{ width: '2000px', height: '700px', backgroundColor: 'red' }}
+        style={{ width: '1000px', height: '500px', backgroundColor: 'red' }}
       />
+      <div id="roadview" style={{ width: '1000px', height: '500px' }} />
       <div id="maplevel" />
       <button onClick={createMarker}>마커생성</button>
       <button onClick={createCluster}>클러스터생성</button>
@@ -120,6 +169,8 @@ const Map: React.FC<Props> = () => {
       <button onClick={handleCreateCursorMarker('MARKER')}>
         따라다니는 마커
       </button>
+      <button onClick={handleCreatePolyLine}>선 테스트</button>
+      <button onClick={handleCreateRoadView}>로드뷰 생성</button>
       {/* <button onClick={handleCreateCursorMarker('POLYLINE')}>선 그리기</button> */}
       <div>지도</div>
     </div>

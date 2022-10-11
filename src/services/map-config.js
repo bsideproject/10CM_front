@@ -101,6 +101,7 @@ class MapConfig {
       removable: true,
       content: '<span class="info-title">말풍선타이틀</span>', // 인포윈도우 내부에 들어갈 컨텐츠 입니다.
     });
+    // content는 prop으로 받아오는 것이 좋을 것 같음.
     // content: msg
     infowindow.open(map.current, marker);
     const infoTitle = document.querySelectorAll('.info-title');
@@ -120,7 +121,6 @@ class MapConfig {
     const geocoder = new kakao.maps.services.Geocoder();
     geocoder.addressSearch(data.address, function (result, status) {
       console.log('result', result, 'STATUS', status);
-      console.log(data);
       // 정상적으로 검색이 완료됐으면
       if (status === kakao.maps.services.Status.OK) {
         const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -135,10 +135,28 @@ class MapConfig {
             '<div style="width:150px;text-align:center;padding:6px 0;">결과좌표</div>',
         });
         infowindow.open(map.current, marker);
-
+        // content는 prop으로 받아오는 것이 좋을 것 같음.
         map.current.setCenter(coords);
       }
     });
+  }
+
+  static drawPolyLine(kakao, map) {
+    const linePath = [
+      new kakao.maps.LatLng(33.44861872974139, 126.57085430868555),
+      new kakao.maps.LatLng(33.44829225907745, 126.57030740427622),
+      new kakao.maps.LatLng(33.44820519052851, 126.57120050948008),
+    ];
+
+    const polyline = new kakao.maps.Polyline({
+      path: linePath,
+      strokeWeight: 4,
+      strokeColor: '#FFAE00',
+      strokeOpacity: 0.7,
+      strokeStyle: 'solid',
+    });
+
+    polyline.setMap(map.current);
   }
 }
 // js로 적용 후 ts로 변경
