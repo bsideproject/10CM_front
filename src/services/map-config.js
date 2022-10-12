@@ -1,4 +1,30 @@
 class MapConfig {
+  static initMapOption(kakao) {
+    const options = {
+      // 지도를 생성할 때 필요한 기본 옵션
+      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표.
+      level: 3, // 지도의 레벨(확대, 축소 정도)
+    };
+    return options;
+  }
+
+  static confirmMapLog(kakao, map) {
+    kakao.maps.event.addListener(map.current, 'zoom_changed', function () {
+      // 지도의 현재 레벨을 얻어옵니다
+      const level = map.current.getLevel();
+      console.log('현재 지도 레벨은 ', level, ' 입니다');
+    });
+    kakao.maps.event.addListener(
+      map.current,
+      'click',
+      function event(mouseEvent) {
+        // 클릭한 위도, 경도 정보를 가져옵니다
+        const latlng = mouseEvent.latLng;
+        console.log('마커를 찍은 위치는? ', latlng);
+      },
+    );
+  }
+
   static managerOptions(kakao, map) {
     return {
       map: map.current, // Drawing Manager로 그리기 요소를 그릴 map 객체입니다
@@ -57,8 +83,7 @@ class MapConfig {
   }
 
   static createMarker(kakao, map, locationY, locationX) {
-    // 마커 생성 type number
-
+    // 마커 생성
     const markerPosition = new kakao.maps.LatLng(locationY, locationX);
 
     const marker = new kakao.maps.Marker({
@@ -101,7 +126,6 @@ class MapConfig {
       removable: true,
       content: '<span class="info-title">말풍선타이틀</span>', // 인포윈도우 내부에 들어갈 컨텐츠 입니다.
     });
-    // content는 prop으로 받아오는 것이 좋을 것 같음.
     // content: msg
     infowindow.open(map.current, marker);
     const infoTitle = document.querySelectorAll('.info-title');
@@ -157,6 +181,48 @@ class MapConfig {
     });
 
     polyline.setMap(map.current);
+  }
+
+  static createRoadview(kakao, roadview, locations) {
+    const roadviewClient = new kakao.maps.RoadviewClient();
+
+    const position = new kakao.maps.LatLng(33.450258, 126.570513);
+
+    roadviewClient.getNearestPanoId(position, 50, function (panoId) {
+      roadview.setPanoId(panoId, position);
+    });
+
+    let content = '<div class="overlay_info">';
+    content +=
+      '    <a href="https://place.map.kakao.com/17600274" target="_blank"><strong>월정리 해수욕장</strong></a>';
+    content += '    <div class="desc">';
+    content +=
+      '        <img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/place_thumb.png" alt="">';
+    content +=
+      '        <span class="address">제주특별자치도 제주시 구좌읍 월정리 33-3</span>';
+    content += '    </div>';
+    content += '</div>';
+
+    kakao.maps.event.addListener(roadview, 'init', function () {
+      const rvCustomOverlay = new kakao.maps.CustomOverlay({
+        position,
+        content,
+        // https://devtalk.kakao.com/t/topic/105513/5  html 문자열만 가능
+        xAnchor: 0.5,
+        yAnchor: 0.5,
+      });
+
+      rvCustomOverlay.setMap(roadview);
+
+      const projection = roadview.getProjection();
+
+      const viewpoint = projection.viewpointFromCoords(
+        rvCustomOverlay.getPosition(),
+        rvCustomOverlay.getAltitude(),
+      );
+
+      roadview.setViewpoint(viewpoint);
+    });
   }
 }
 // js로 적용 후 ts로 변경

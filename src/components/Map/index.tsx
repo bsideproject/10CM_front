@@ -15,36 +15,19 @@ const Map: React.FC<Props> = () => {
 
   useEffect(() => {
     const kakaoMap = document.getElementById('map');
-    const options = {
-      // 지도를 생성할 때 필요한 기본 옵션
-      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표.
-      level: 3, // 지도의 레벨(확대, 축소 정도)
-    };
+    const options = MapConfig.initMapOption(kakao); // 좌표, 레벨 설정 필요
     map.current = new kakao.maps.Map(kakaoMap, options); // 지도 생성 및 객체 리턴
 
     const managerOptions = MapConfig.managerOptions(kakao, map);
     manager = new kakao.maps.drawing.DrawingManager(managerOptions);
+
+    if (map.current) {
+      MapConfig.confirmMapLog(kakao, map);
+      // console.log
+    }
   }, []);
   // 지도 생성
 
-  useEffect(() => {
-    if (map.current) {
-      kakao.maps.event.addListener(map.current, 'zoom_changed', function () {
-        // 지도의 현재 레벨을 얻어옵니다
-        const level = map.current.getLevel();
-        console.log('현재 지도 레벨은 ', level, ' 입니다');
-      });
-      kakao.maps.event.addListener(
-        map.current,
-        'click',
-        function (mouseEvent: any) {
-          // 클릭한 위도, 경도 정보를 가져옵니다
-          const latlng = mouseEvent.latLng;
-          console.log('마커를 찍은 위치는? ', latlng);
-        },
-      );
-    }
-  }, []);
   // 맵 이벤트 등록
   const createMarker = () => {
     // locationY, locationX 예시s
@@ -57,9 +40,9 @@ const Map: React.FC<Props> = () => {
   };
   // 마커 생성 : MapConfig.createMarker(kakao, map, locationY, locationX);
 
-  // 클러스터 생성 : MapConfig.createCluster(kakao, map, -locations);
+  // 클러스터 생성 : MapConfig.createCluster(kakao, map, locations);
 
-  const searchHome = () => {
+  const currentLocation = () => {
     navigator.geolocation.getCurrentPosition(function (position) {
       const lat = position.coords.latitude; // 위도
       const lon = position.coords.longitude; // 경도
@@ -86,6 +69,7 @@ const Map: React.FC<Props> = () => {
       },
     }).open();
   };
+
   const handleClear = () => {
     const kakaoMap = document.getElementById('map');
     const options = {
@@ -111,44 +95,7 @@ const Map: React.FC<Props> = () => {
   const handleCreateRoadView = () => {
     const roadviewContainer = document.querySelector('#roadview');
     const roadview = new kakao.maps.Roadview(roadviewContainer);
-    const roadviewClient = new kakao.maps.RoadviewClient();
-
-    const position = new kakao.maps.LatLng(33.450258, 126.570513);
-
-    roadviewClient.getNearestPanoId(position, 50, function (panoId: number) {
-      roadview.setPanoId(panoId, position);
-    });
-
-    let content = '<div class="overlay_info">';
-    content +=
-      '    <a href="https://place.map.kakao.com/17600274" target="_blank"><strong>월정리 해수욕장</strong></a>';
-    content += '    <div class="desc">';
-    content +=
-      '        <img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/place_thumb.png" alt="">';
-    content +=
-      '        <span class="address">제주특별자치도 제주시 구좌읍 월정리 33-3</span>';
-    content += '    </div>';
-    content += '</div>';
-
-    kakao.maps.event.addListener(roadview, 'init', function () {
-      const rvCustomOverlay = new kakao.maps.CustomOverlay({
-        position,
-        content,
-        xAnchor: 0.5,
-        yAnchor: 0.5,
-      });
-
-      rvCustomOverlay.setMap(roadview);
-
-      const projection = roadview.getProjection();
-
-      const viewpoint = projection.viewpointFromCoords(
-        rvCustomOverlay.getPosition(),
-        rvCustomOverlay.getAltitude(),
-      );
-
-      roadview.setViewpoint(viewpoint);
-    });
+    MapConfig.createRoadview(kakao, roadview);
   };
 
   return (
@@ -161,7 +108,7 @@ const Map: React.FC<Props> = () => {
       <div id="maplevel" />
       <button onClick={createMarker}>마커생성</button>
       <button onClick={createCluster}>클러스터생성</button>
-      <button onClick={searchHome}>내 위치 찾기</button>
+      <button onClick={currentLocation}>내 위치 찾기</button>
       {/* <button onClick={createOveray}>마커찍기</button> */}
       <button onClick={getMapLevel}>줌 레벨</button>
       <button onClick={handleClickSearchAddress}>주소검색</button>
@@ -172,7 +119,6 @@ const Map: React.FC<Props> = () => {
       <button onClick={handleCreatePolyLine}>선 테스트</button>
       <button onClick={handleCreateRoadView}>로드뷰 생성</button>
       {/* <button onClick={handleCreateCursorMarker('POLYLINE')}>선 그리기</button> */}
-      <div>지도</div>
     </div>
   );
 };
