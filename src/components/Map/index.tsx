@@ -2,83 +2,47 @@ import React, { ReactNode, useRef, useState, useEffect } from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import styled from 'styled-components';
 import { Address, LatLng } from 'types/dtos/address';
+import MapConfig from 'services/map-config.js';
+import CustomOverlay from '../CustomOverlay';
 interface Props {}
 
 const Map: React.FC<Props> = () => {
   const map = useRef<any>(null);
-  const { kakao } = window;
+  let manager: any;
 
-  const [test, setState] = useState<boolean>(false);
+  const { kakao } = window;
+  const [test, setTest] = useState<boolean>(false);
+
   useEffect(() => {
-    const testMap = document.getElementById('map');
-    const options = {
-      // 지도를 생성할 때 필요한 기본 옵션
-      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표.
-      level: 3, // 지도의 레벨(확대, 축소 정도)
-    };
-    map.current = new kakao.maps.Map(testMap, options); // 지도 생성 및 객체 리턴
+    const kakaoMap = document.getElementById('map');
+    const options = MapConfig.initMapOption(kakao); // 좌표, 레벨 설정 필요
+    map.current = new kakao.maps.Map(kakaoMap, options); // 지도 생성 및 객체 리턴
+
+    const managerOptions = MapConfig.managerOptions(kakao, map);
+    manager = new kakao.maps.drawing.DrawingManager(managerOptions);
+
+    if (map.current) {
+      MapConfig.confirmMapLog(kakao, map);
+      // console.log
+    }
   }, []);
   // 지도 생성
 
+  // 맵 이벤트 등록
   const createMarker = () => {
-    const markerPosition = new kakao.maps.LatLng(33.450711, 126.570611);
-
-    const marker = new kakao.maps.Marker({
-      position: markerPosition,
-    });
-    marker.setMap(map.current);
+    // locationY, locationX 예시s
+    MapConfig.createMarker(kakao, map, 33.450258, 126.570513);
   };
 
-  // 마커 생성
   const createCluster = () => {
-    const clusterer = new kakao.maps.MarkerClusterer({
-      map: map.current, // 마커들을 클러스터로 관리하고 표시할 지도 객체
-      averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-      minLevel: 3, // 클러스터 할 최소 지도 레벨
-    });
-    const markers = [
-      new kakao.maps.Marker({
-        position: new kakao.maps.LatLng(33.450711, 126.570611),
-      }),
-      new kakao.maps.Marker({
-        position: new kakao.maps.LatLng(33.451021, 126.574833),
-      }),
-      new kakao.maps.Marker({
-        position: new kakao.maps.LatLng(33.450231, 126.5739444),
-      }),
-      new kakao.maps.Marker({
-        position: new kakao.maps.LatLng(33.451141, 126.575332),
-      }),
-    ];
-    clusterer.addMarkers(markers);
+    const locations = {};
+    MapConfig.createCluster(kakao, map, locations);
   };
-  // 클러스터 생성
-  const displayMarker = (locPosition: any, message: string) => {
-    const marker = new kakao.maps.Marker({
-      map: map.current,
-      position: locPosition,
-    });
-    const infowindow = new kakao.maps.InfoWindow({
-      position: locPosition,
-      removable: true,
-      content: '<span class="info-title">말풍선타이틀</span>', // 인포윈도우 내부에 들어갈 컨텐츠 입니다.
-    });
+  // 마커 생성 : MapConfig.createMarker(kakao, map, locationY, locationX);
 
-    infowindow.open(map.current, marker);
-    const infoTitle = document.querySelectorAll('.info-title');
-    infoTitle.forEach(el => {
-      const element = el;
-      if (element.parentElement?.parentElement) {
-        element.parentElement.parentElement.style.border = '0';
-        element.parentElement.parentElement.style.backgroundColor =
-          'transparent';
-      }
-    });
-    // 지도 중심좌표를 접속위치로 변경합니다
-    map.current.setCenter(locPosition);
-  };
+  // 클러스터 생성 : MapConfig.createCluster(kakao, map, locations);
 
-  const searchHome = () => {
+  const currentLocation = () => {
     navigator.geolocation.getCurrentPosition(function (position) {
       const lat = position.coords.latitude; // 위도
       const lon = position.coords.longitude; // 경도
@@ -86,81 +50,10 @@ const Map: React.FC<Props> = () => {
       const locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
       const message = '<div>하이</div>'; // 인포윈도우에 표시될 내용입니다
       // 마커와 인포윈도우를 표시합니다
-      displayMarker(locPosition, message);
+      MapConfig.displayMarker(kakao, map, locPosition, message);
     });
   };
   // 내 위치에 마커 찍기
-
-  const createOveray = () => {
-    const content = ReactDOMServer.renderToString(
-      <div
-        className="overlaybox"
-        onClick={() => {
-          console.log('good');
-        }}
-      >
-        <div className="boxtitle">금주 영화순위</div>
-        <div className="first">
-          <div className="triangle text">1</div>
-          <div className="movietitle text">드래곤 길들이기2</div>
-        </div>
-        <ul>
-          <li className="up">
-            <span className="number">2</span>
-            <span className="title">명량</span>
-            <span className="arrow up" />
-            <span className="count">2</span>
-          </li>
-          <li
-            onClick={() => {
-              setState(true);
-            }}
-          >
-            <span className="number">3</span>
-            <span className="title">해적(바다로 간 산적)</span>
-            <span className="arrow up" />
-            <span className="count">6</span>
-          </li>
-          <li>
-            <span className="number">4</span>
-            <span className="title">해무</span>
-            <span className="arrow up" />
-            <span className="count">3</span>
-          </li>
-          <li>
-            <span className="number">5</span>
-            <span className="title">안녕, 헤이즐</span>
-            <span className="arrow down" />
-            <span className="count">1</span>
-          </li>
-        </ul>
-      </div>,
-    );
-    const position = new kakao.maps.LatLng(37.49887, 127.026581);
-
-    // 커스텀 오버레이를 생성합니다
-    const customOverlay = new kakao.maps.CustomOverlay({
-      position,
-      content,
-      xAnchor: 0.3,
-      yAnchor: 0.91,
-      clickable: true,
-    });
-
-    // 커스텀 오버레이를 지도에 표시합니다
-    customOverlay.setMap(map.current);
-  };
-
-  useEffect(() => {
-    if (map.current) {
-      kakao.maps.event.addListener(map.current, 'zoom_changed', function () {
-        // 지도의 현재 레벨을 얻어옵니다
-        const level = map.current.getLevel();
-
-        console.log('현재 지도 레벨은 ', level, ' 입니다');
-      });
-    }
-  }, [map]);
 
   const getMapLevel = () => {
     alert(map.current.getLevel());
@@ -172,57 +65,60 @@ const Map: React.FC<Props> = () => {
       width: '500px',
       height: '500px',
       oncomplete: (data: Address) => {
-        const geocoder = new kakao.maps.services.Geocoder();
-        geocoder.addressSearch(
-          data.address,
-          function (result: LatLng[], status: any) {
-            console.log('result', result, 'STATUS', status);
-
-            // 정상적으로 검색이 완료됐으면
-            if (status === kakao.maps.services.Status.OK) {
-              const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-              // console.log(coords);
-              // 가져온 x, y 좌표
-              const marker = new kakao.maps.Marker({
-                map: map.current,
-                position: coords,
-              });
-              const infowindow = new kakao.maps.InfoWindow({
-                content:
-                  '<div style="width:150px;text-align:center;padding:6px 0;">결과좌표</div>',
-              });
-              infowindow.open(map.current, marker);
-
-              map.current.setCenter(coords);
-            }
-          },
-        );
-        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-        // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+        MapConfig.completedAddress(kakao, map, data);
       },
     }).open();
   };
+
+  const handleClear = () => {
+    const kakaoMap = document.getElementById('map');
+    const options = {
+      center: map.current.getCenter(),
+      level: map.current.getLevel(),
+    };
+    map.current = new kakao.maps.Map(kakaoMap, options); // 지도 생성 및 객체 리턴
+  };
+
+  const handleCreateCursorMarker = (type: string) => {
+    return () => {
+      // 그리기 중이면 그리기를 취소합니다
+      manager.cancel();
+      // 클릭한 그리기 요소 타입을 선택합니다
+      manager.select(kakao.maps.drawing.OverlayType[type]);
+    };
+  };
+
+  const handleCreatePolyLine = () => {
+    MapConfig.drawPolyLine(kakao, map);
+  };
+
+  const handleCreateRoadView = () => {
+    const roadviewContainer = document.querySelector('#roadview');
+    const roadview = new kakao.maps.Roadview(roadviewContainer);
+    MapConfig.createRoadview(kakao, roadview);
+  };
+
   return (
     <div>
       <Wrap
         id="map"
-        style={{ width: '2000px', height: '700px', backgroundColor: 'red' }}
+        style={{ width: '1000px', height: '500px', backgroundColor: 'red' }}
       />
+      <div id="roadview" style={{ width: '1000px', height: '500px' }} />
       <div id="maplevel" />
       <button onClick={createMarker}>마커생성</button>
       <button onClick={createCluster}>클러스터생성</button>
-      <button onClick={searchHome}>내 위치 찾기</button>
-      <button onClick={createOveray}>마커찍기</button>
+      <button onClick={currentLocation}>내 위치 찾기</button>
+      {/* <button onClick={createOveray}>마커찍기</button> */}
       <button onClick={getMapLevel}>줌 레벨</button>
       <button onClick={handleClickSearchAddress}>주소검색</button>
-      <button
-        onClick={() => {
-          console.log('dfawe');
-        }}
-      >
-        테스트
+      <button onClick={handleClear}>초기화</button>
+      <button onClick={handleCreateCursorMarker('MARKER')}>
+        따라다니는 마커
       </button>
-      <div>지도</div>
+      <button onClick={handleCreatePolyLine}>선 테스트</button>
+      <button onClick={handleCreateRoadView}>로드뷰 생성</button>
+      {/* <button onClick={handleCreateCursorMarker('POLYLINE')}>선 그리기</button> */}
     </div>
   );
 };
