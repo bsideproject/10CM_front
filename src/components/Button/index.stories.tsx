@@ -10,10 +10,13 @@ const Template: ComponentStory<typeof Button> = args => <Button {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  buttonType: 'primary',
+  buttonType: 'filled',
   children: '버튼',
+  disabled: true,
 };
 export const Ghost = Template.bind({});
 Ghost.args = {
-  buttonType: 'ghost',
+  buttonType: 'outline',
+  children: '버튼',
+  disabled: true,
 };
