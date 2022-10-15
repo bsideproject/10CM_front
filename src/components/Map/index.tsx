@@ -15,16 +15,21 @@ const Map: React.FC<Props> = () => {
 
   useEffect(() => {
     const kakaoMap = document.getElementById('map');
-    const options = MapConfig.initMapOption(kakao); // 좌표, 레벨 설정 필요
-    map.current = new kakao.maps.Map(kakaoMap, options); // 지도 생성 및 객체 리턴
+    // const options = MapConfig.initMapOption(kakao); // 좌표, 레벨 설정 필요
+    const options = {
+      // 지도를 생성할 때 필요한 기본 옵션
+      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표.
+      level: 3, // 지도의 레벨(확대, 축소 정도)
+    };
+    // map.current = new kakao.maps.Map(kakaoMap, options); // 지도 생성 및 객체 리턴
 
-    const managerOptions = MapConfig.managerOptions(kakao, map);
-    manager = new kakao.maps.drawing.DrawingManager(managerOptions);
+    // const managerOptions = MapConfig.managerOptions(kakao, map);
+    // manager = new kakao.maps.drawing.DrawingManager(managerOptions);
 
-    if (map.current) {
-      MapConfig.confirmMapLog(kakao, map);
-      // console.log
-    }
+    // if (map.current) {
+    //   MapConfig.confirmMapLog(kakao, map);
+    //   // console.log
+    // }
   }, []);
   // 지도 생성
 
