@@ -9,12 +9,32 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
-  const { error = false, count = false, ...rest } = props;
+  const {
+    error = false,
+    count = false,
+    value = '',
+    maxLength = 50,
+    ...rest
+  } = props;
   return (
     <div>
-      <MyInput ref={ref} {...rest} error={!!error} placeholder="입력을" />
-      {!!error && <Error>안녕하세용 저는 에러입니다</Error>}
-      {count && <div>zkdnsxm</div>}
+      <MyInput
+        ref={ref}
+        {...rest}
+        error={!!error}
+        placeholder="입력을"
+        maxLength={maxLength}
+      />
+      {(!!error || count) && (
+        <OptionsWrap error={!!error}>
+          <div>{error}</div>
+          {count && (
+            <div>
+              {value.toString().length} / {maxLength}
+            </div>
+          )}
+        </OptionsWrap>
+      )}
     </div>
   );
 });
@@ -63,9 +83,18 @@ const MyInput = styled.input<{ error: boolean }>`
   ${({ disabled }) => getInputBackground(disabled)}
   ${({ error }) => getInputBorder(error)};
 `;
-const Error = styled.div`
-  padding: 0 12px;
+const OptionsWrap = styled.div<{ error: boolean }>`
+  display: flex;
+  justify-content: space-between;
   margin-top: 2px;
-  ${fonts('caption')};
-  color: ${colors.ALERT};
+  padding: 0 12px;
+  ${fonts('caption')}
+  ${({ error }) =>
+    error
+      ? css`
+          color: ${colors.ALERT};
+        `
+      : css`
+          ${colors.NEUTRAl_400}
+        `}
 `;
