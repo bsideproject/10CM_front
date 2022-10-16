@@ -46,29 +46,30 @@ const getButtonStyle = (type: ButtonType = 'filled', disabled?: boolean) => {
         border: 1px solid ${colors.BLUE_DARK};
       }
     `;
-  } else {
-    if (disabled) {
-      console.log('good');
-      return css`
-        border: 1px solid ${colors.NEUTRAl_200};
-        background-color: ${colors.WHITE};
-        color: ${colors.NEUTRAl_300};
-      `;
-    }
+  }
+  // filled가 아니고 disabled 이면
+  if (disabled) {
+    console.log('good');
     return css`
       border: 1px solid ${colors.NEUTRAl_200};
       background-color: ${colors.WHITE};
-      color: ${colors.BLUE_BASE};
-      &:hover {
-        background-color: ${colors.NEUTRAl_50};
-        color: ${colors.BLUE_LIGHT};
-      }
-      &:active {
-        background-color: ${colors.NEUTRAl_50};
-        color: ${colors.BLUE_DARK};
-      }
+      color: ${colors.NEUTRAl_300};
     `;
   }
+  // filled가 아니고 disabled가 아니면
+  return css`
+    border: 1px solid ${colors.NEUTRAl_200};
+    background-color: ${colors.WHITE};
+    color: ${colors.BLUE_BASE};
+    &:hover {
+      background-color: ${colors.NEUTRAl_50};
+      color: ${colors.BLUE_LIGHT};
+    }
+    &:active {
+      background-color: ${colors.NEUTRAl_50};
+      color: ${colors.BLUE_DARK};
+    }
+  `;
 };
 const getButtonSize = (size: ButtonSize = 'medium') => {
   switch (size) {
@@ -102,6 +103,7 @@ const defaultButtonStyle = css`
   ${fonts('text-sm-bold')};
   box-sizing: border-box;
 `;
+// button 스타일
 const MyButton = styled.button<{
   buttonType?: ButtonType;
   buttonSize?: ButtonSize;

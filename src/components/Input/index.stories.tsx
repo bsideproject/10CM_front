@@ -12,7 +12,12 @@ export const Primary = Template.bind({});
 Primary.args = {
   disabled: false,
 };
-export const Ghost = Template.bind({});
-Ghost.args = {
-  disabled: false,
+export const Error = Template.bind({});
+Error.args = {
+  error: true,
+};
+export const Disabled = Template.bind({});
+Disabled.args = {
+  error: true,
+  disabled: true,
 };
