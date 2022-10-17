@@ -1,4 +1,5 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
+import React, { useState } from 'react';
 import Input from '.';
 
 export default {
@@ -6,13 +7,17 @@ export default {
   component: Input,
 } as ComponentMeta<typeof Input>;
 
-const Template: ComponentStory<typeof Input> = args => <Input {...args} />;
+const Template: ComponentStory<typeof Input> = args => {
+  const [string, setString] = useState<string>('');
+  const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setString(e.target.value);
+  };
+  return <Input {...args} value={string} onChange={handleChangeValue} />;
+};
 
 export const Primary = Template.bind({});
 Primary.args = {
   disabled: false,
-};
-export const Ghost = Template.bind({});
-Ghost.args = {
-  disabled: false,
+  count: true,
+  error: true,
 };
