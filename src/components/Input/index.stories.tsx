@@ -19,5 +19,5 @@ export const Primary = Template.bind({});
 Primary.args = {
   disabled: false,
   count: true,
-  error: true,
+  placeholder: '텍스트입력',
 };
