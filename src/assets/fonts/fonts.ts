@@ -10,7 +10,7 @@ type Size =
   | 'title-4xl'
   | 'caption'
   | 'text-xs-regular'
-  | 'text-xxs'
+  | 'text-xxs-regular'
   | 'text-xs'
   | 'text-xs-bold'
   | 'text-sm-regular'
@@ -66,7 +66,7 @@ export const fonts = (size: Size): FlattenSimpleInterpolation => {
         font-size: 12px;
         line-height: 21px;
       `;
-    case 'text-xxs':
+    case 'text-xxs-regular':
       return css`
         font-weight: 400;
         font-size: 15px;

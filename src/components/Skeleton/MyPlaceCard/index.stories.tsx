@@ -1,13 +1,13 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import Skeleton from '.';
+import MyPlaceCard from '.';
 
 export default {
-  title: 'Component/Skeleton',
-  component: Skeleton,
-} as ComponentMeta<typeof Skeleton>;
+  title: 'Component/MyPlaceCard',
+  component: MyPlaceCard,
+} as ComponentMeta<typeof MyPlaceCard>;
 
-const Template: ComponentStory<typeof Skeleton> = args => {
-  return <Skeleton {...args} />;
+const Template: ComponentStory<typeof MyPlaceCard> = args => {
+  return <MyPlaceCard {...args} />;
 };
 
 export const Blink = Template.bind({});
