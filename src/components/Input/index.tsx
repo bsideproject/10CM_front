@@ -4,13 +4,13 @@ import React, { forwardRef, InputHTMLAttributes } from 'react';
 import styled, { css } from 'styled-components';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
-  error?: boolean;
+  error?: string;
   count?: boolean;
 }
 
 const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
   const {
-    error = false,
+    error = '',
     count = false,
     value = '',
     maxLength = 50,
@@ -18,13 +18,7 @@ const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
   } = props;
   return (
     <div>
-      <MyInput
-        ref={ref}
-        {...rest}
-        error={!!error}
-        placeholder="입력을"
-        maxLength={maxLength}
-      />
+      <MyInput ref={ref} {...rest} error={!!error} maxLength={maxLength} />
       {(!!error || count) && (
         <OptionsWrap error={!!error}>
           <div>{error}</div>
