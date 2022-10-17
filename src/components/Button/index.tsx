@@ -25,7 +25,7 @@ const Button = forwardRef<HTMLButtonElement, Props>((props, ref) => {
 });
 export default Button;
 
-const getButtonStyle = (type: ButtonType = 'filled', disabled?: boolean) => {
+const getButtonStyle = (disabled?: boolean, type: ButtonType = 'filled') => {
   if (type === 'filled') {
     if (disabled) {
       return css`
@@ -109,6 +109,6 @@ const MyButton = styled.button<{
   buttonSize?: ButtonSize;
 }>`
   ${defaultButtonStyle};
-  ${({ buttonType, disabled }) => getButtonStyle(buttonType, disabled)};
+  ${({ buttonType, disabled }) => getButtonStyle(disabled, buttonType)};
   ${({ buttonSize }) => getButtonSize(buttonSize)}
 `;

@@ -1,24 +1,24 @@
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
-import React, { forwardRef, InputHTMLAttributes } from 'react';
+import React, { forwardRef, TextareaHTMLAttributes } from 'react';
 import styled, { css } from 'styled-components';
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
+interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   error?: string;
   count?: boolean;
 }
 
-const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
+const Textarea = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
   const {
-    error = '',
+    error = false,
     count = false,
     value = '',
-    maxLength = 50,
+    maxLength = 150,
     ...rest
   } = props;
   return (
     <div>
-      <MyInput ref={ref} {...rest} error={!!error} maxLength={maxLength} />
+      <MyTextarea ref={ref} {...rest} error={!!error} maxLength={maxLength} />
       {(!!error || count) && (
         <OptionsWrap error={!!error}>
           <div>{error}</div>
@@ -32,14 +32,14 @@ const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
     </div>
   );
 });
-export default Input;
+export default Textarea;
 
-const defaultInputStyle = css`
+const defaultTextareaStyle = css`
   width: 100%;
-  padding: 0 12px;
-  border: 0;
-  outline: 0;
+  height: 128px;
+  padding: 8px 12px;
   border-radius: 4px;
+  resize: none;
   box-sizing: border-box;
   ${fonts('text-xs-regular')};
   &::placeholder {
@@ -47,7 +47,7 @@ const defaultInputStyle = css`
   }
   transition: 0.1s linear;
 `;
-const getInputBackground = (disabled?: boolean) => {
+const getTextareaBackground = (disabled?: boolean) => {
   if (disabled) {
     return css`
       background-color: ${colors.NEUTRAl_100};
@@ -57,7 +57,7 @@ const getInputBackground = (disabled?: boolean) => {
     background-color: ${colors.WHITE};
   `;
 };
-const getInputBorder = (error: boolean) => {
+const getTextareaBorder = (error: boolean) => {
   if (error) {
     return css`
       border: 1px solid ${colors.ALERT};
@@ -70,12 +70,11 @@ const getInputBorder = (error: boolean) => {
     }
   `;
 };
-// input 스타일
-const MyInput = styled.input<{ error: boolean }>`
-  ${defaultInputStyle};
-  height: 44px;
-  ${({ disabled }) => getInputBackground(disabled)}
-  ${({ error }) => getInputBorder(error)};
+// textarea 스타일
+const MyTextarea = styled.textarea<{ error: boolean }>`
+  ${defaultTextareaStyle};
+  ${({ disabled }) => getTextareaBackground(disabled)}
+  ${({ error }) => getTextareaBorder(error)};
 `;
 const OptionsWrap = styled.div<{ error: boolean }>`
   display: flex;
