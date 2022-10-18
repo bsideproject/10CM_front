@@ -22,8 +22,8 @@ const flow = keyframes`
   0% {
     transform: translateX(-100%);
   }
-  20% {
-    transform: translateX(-300px);
+  80% {
+    transform: translateX(200%);
   }
   100% {
     transform: translateX(200%);
