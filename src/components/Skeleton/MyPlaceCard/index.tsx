@@ -15,11 +15,12 @@ const MyPlaceCard: React.FC<Props> = ({ type }) => {
         <Skeleton style={{ width: '100%', height: '183px' }} type={type} />
       </MyPlaceCardImageWrap>
       <MyPlaceInfoWrap>
-        <Skeleton style={{ width: '50px', height: '28px' }} />
-        <Skeleton style={{ width: '290px', height: '26px' }} />
-        <Skeleton style={{ width: '150px', height: '24px' }} />
+        <Skeleton style={{ width: '50px', height: '28px' }} type={type} />
+        <Skeleton style={{ width: '290px', height: '26px' }} type={type} />
+        <Skeleton style={{ width: '150px', height: '24px' }} type={type} />
         <Skeleton
           style={{ width: '90px', height: '21px', marginTop: '12px' }}
+          type={type}
         />
       </MyPlaceInfoWrap>
     </MyPlaceCardWrap>
