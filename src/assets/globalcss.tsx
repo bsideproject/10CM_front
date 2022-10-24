@@ -2,8 +2,10 @@ import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 
 const GlobalStyle = createGlobalStyle`
-    ${reset};
-    font-family: "Pretendard";
+    html,body {
+        ${reset};
+        font-family: 'Pretendard' sans-serif ;
+    }
 `;
 
 export default GlobalStyle;
