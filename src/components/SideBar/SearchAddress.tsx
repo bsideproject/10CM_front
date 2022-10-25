@@ -6,6 +6,7 @@ import styled, { css } from 'styled-components';
 import { ReactComponent as AddressSearchIcon } from '../../assets/svg/nav-search.svg';
 import { ReactComponent as AddressBookMark } from '../../assets/svg/nav-bookmark.svg';
 import SearchAddressCard from 'components/SearchAddressCard';
+import { SearchWrap } from './styles';
 
 interface Props {}
 
@@ -20,9 +21,9 @@ const SearchAddress: React.FC<Props> = () => {
   };
   return (
     <SearchAddressWrap>
-      <InputWrap>
+      <SearchWrap>
         <Input />
-      </InputWrap>
+      </SearchWrap>
       <SearchAddressNav>
         <ul>
           <li
@@ -53,9 +54,6 @@ export default SearchAddress;
 
 const SearchAddressWrap = styled.div`
   width: 390px;
-`;
-const InputWrap = styled.div`
-  padding: 40px 20px 12px 20px;
 `;
 const SearchAddressNav = styled.nav`
   ul {
