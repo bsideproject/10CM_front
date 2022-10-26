@@ -46,12 +46,15 @@
 
 .rv-desc-p {
   height: 72px;
-  text-overflow: ellipsis;
   white-space: normal;
   font-size: 12px;
   letter-spacing: 0.013em;
   line-height: 21px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .rv-desc > img {

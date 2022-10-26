@@ -38,9 +38,10 @@ function range(from: number, to: number): number[] {
   const min = Math.min(from, to);
   const length = max - min + 1;
 
-  if (from > to)
+  if (from > to) {
     return [...new Array(length).keys()].map(num => num + min).reverse();
-  else return [...new Array(length).keys()].map(num => num + min);
+  }
+  return [...new Array(length).keys()].map(num => num + min);
 }
 
 export function getPagination({

@@ -6,15 +6,23 @@ import Img from "components/Img/Img";
 
 const SmallNav: React.FC = () => {
   return (
-    <Wrap>
+    <Wrap className="hover-status">
       <LogoWrap>
-        <Img src={smallNavLogo} width={"44px"} height={"44px"} />
+        <Img
+          src={smallNavLogo}
+          width="44px"
+          height="44px"
+          padding="28px 18px"
+        />
       </LogoWrap>
-      <ul>
-        <li>test1</li>
-        <li>test2</li>
-        <li>test3</li>
-      </ul>
+      <MenuWrap>
+        <UserProfile></UserProfile>
+        <ul>
+          <li>test1</li>
+          <li>test2</li>
+          <li>test3</li>
+        </ul>
+      </MenuWrap>
     </Wrap>
   );
 };
@@ -24,7 +32,7 @@ const defaultStyle = css`
 `;
 
 const Wrap = styled.div`
-  ${defaultStyle}
+  ${defaultStyle};
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -36,8 +44,22 @@ const Wrap = styled.div`
 `;
 
 const LogoWrap = styled.div`
-  ${defaultStyle}
+  ${defaultStyle};
   height: 100px;
+`;
+
+const MenuWrap = styled.div`
+  ${defaultStyle};
+  height: 406px;
+`;
+
+const UserProfile = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 0px;
 `;
 
 export default SmallNav;

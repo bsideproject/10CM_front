@@ -1,5 +1,5 @@
-import EmptyPlace from 'components/SearchPlace/EmptyPlace';
-import styled from 'styled-components';
+import EmptyPlace from "components/SearchPlace/EmptyPlace";
+import styled from "styled-components";
 
 const PlaceCardContent = () => {
   return (

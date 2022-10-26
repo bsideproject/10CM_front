@@ -21,11 +21,14 @@ const Wrap = styled.div`
   flex-direction: column;
 
   &:hover {
-    width: 220px;
-    transition: 0.4s;
+    .hover-status {
+      display: none;
+    }
   }
 `;
 
 export default SideNav;
 
+// width: 220px;
+// transition: 0.4s;
 // hover로 처리

@@ -1,7 +1,7 @@
-import { fonts } from "assets/fonts/fonts";
-import { colors } from "constants/colors";
-import React, { forwardRef, InputHTMLAttributes } from "react";
-import styled, { css } from "styled-components";
+import { fonts } from 'assets/fonts/fonts';
+import { colors } from 'constants/colors';
+import React, { forwardRef, InputHTMLAttributes } from 'react';
+import styled, { css } from 'styled-components';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
@@ -10,9 +10,9 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 
 const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
   const {
-    error = "",
+    error = '',
     count = false,
-    value = "",
+    value = '',
     maxLength = 50,
     ...rest
   } = props;
@@ -41,7 +41,7 @@ const defaultInputStyle = css`
   outline: 0;
   border-radius: 4px;
   box-sizing: border-box;
-  ${fonts("text-xs-regular")};
+  ${fonts('text-xs-regular')};
   &::placeholder {
     color: ${colors.NEUTRAl_300};
   }
@@ -82,7 +82,7 @@ const OptionsWrap = styled.div<{ error: boolean }>`
   justify-content: space-between;
   margin-top: 2px;
   padding: 0 12px;
-  ${fonts("caption")}
+  ${fonts('caption')}
   ${({ error }) =>
     error
       ? css`

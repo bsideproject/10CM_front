@@ -5,16 +5,31 @@ interface IProps {
   src: any;
   width: string;
   height: string;
+  padding?: string;
 }
 
-const Img: React.FC<IProps> = ({ src, width, height }) => {
-  return <MyImg src={src} alt="logo" width={width} height={height} />;
+interface ImgProps {
+  width: string;
+  height: string;
+  padding: string;
+}
+
+const Img: React.FC<IProps> = ({ src, width, height, padding }) => {
+  return (
+    <MyImg
+      src={src}
+      alt="logo"
+      width={width}
+      height={height}
+      padding={padding || "0"}
+    />
+  );
 };
 
-const MyImg = styled.img`
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
-  padding: 28px 18px;
+const MyImg = styled.img<ImgProps>`
+  width: ${props => props.width};
+  height: ${props => props.height};
+  padding: ${props => props.padding};
 `;
 
 // padding은 수정되어야 함.
