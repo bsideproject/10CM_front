@@ -1,8 +1,8 @@
-import React, { ReactNode, useRef, useState, useEffect } from "react";
-import * as ReactDOMServer from "react-dom/server";
-import styled from "styled-components";
-import { Address } from "types/dtos/address";
-import MapConfig from "services/map-config.js";
+import React, { ReactNode, useRef, useState, useEffect } from 'react';
+import * as ReactDOMServer from 'react-dom/server';
+import styled from 'styled-components';
+import { Address } from 'types/dtos/address';
+import MapConfig from 'services/map-config.js';
 interface Props {}
 
 const Map: React.FC<Props> = () => {
@@ -13,7 +13,7 @@ const Map: React.FC<Props> = () => {
   const [test, setTest] = useState<boolean>(false);
 
   useEffect(() => {
-    const kakaoMap = document.getElementById("map");
+    const kakaoMap = document.getElementById('map');
     // const options = MapConfig.initMapOption(kakao); // 좌표, 레벨 설정 필요
     const options = {
       // 지도를 생성할 때 필요한 기본 옵션
@@ -52,7 +52,7 @@ const Map: React.FC<Props> = () => {
       const lon = position.coords.longitude; // 경도
 
       const locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-      const message = "<div>하이</div>"; // 인포윈도우에 표시될 내용입니다
+      const message = '<div>하이</div>'; // 인포윈도우에 표시될 내용입니다
       // 마커와 인포윈도우를 표시합니다
       MapConfig.displayMarker(kakao, map, locPosition, message);
     });
@@ -66,8 +66,8 @@ const Map: React.FC<Props> = () => {
   const handleClickSearchAddress = () => {
     const { daum } = window;
     new daum.Postcode({
-      width: "500px",
-      height: "500px",
+      width: '500px',
+      height: '500px',
       oncomplete: (data: Address) => {
         MapConfig.completedAddress(kakao, map, data);
       },
@@ -75,7 +75,7 @@ const Map: React.FC<Props> = () => {
   };
 
   const handleClear = () => {
-    const kakaoMap = document.getElementById("map");
+    const kakaoMap = document.getElementById('map');
     const options = {
       center: map.current.getCenter(),
       level: map.current.getLevel(),
@@ -97,29 +97,30 @@ const Map: React.FC<Props> = () => {
   };
 
   const handleCreateRoadView = () => {
-    const roadviewContainer = document.querySelector("#roadview");
+    const roadviewContainer = document.querySelector('#roadview');
     const roadview = new kakao.maps.Roadview(roadviewContainer);
     MapConfig.createRoadview(kakao, roadview);
   };
 
   return (
-    <div style={{ flex: 1 }}>
+    <div
+      style={{
+        flex: 1,
+      }}
+    >
       <Wrap
         id="map"
         style={{
-          width: "100%",
-          height: "100%",
-          backgroundColor: "red",
-          display: "none",
+          width: '100%',
+          height: '100%',
         }}
       />
       <div
         id="roadview"
-        style={{ width: "100%", height: "100%" }}
+        style={{ width: '100%', height: '100%', display: 'none' }}
         onClick={() => handleCreateRoadView()}
       />
-      <div id="maplevel" />
-      <div style={{ display: "none" }}>
+      <div style={{ display: 'none' }}>
         <button onClick={createMarker}>마커생성</button>
         <button onClick={createCluster}>클러스터생성</button>
         <button onClick={currentLocation}>내 위치 찾기</button>
@@ -127,7 +128,7 @@ const Map: React.FC<Props> = () => {
         <button onClick={getMapLevel}>줌 레벨</button>
         <button onClick={handleClickSearchAddress}>주소검색</button>
         <button onClick={handleClear}>초기화</button>
-        <button onClick={handleCreateCursorMarker("MARKER")}>
+        <button onClick={handleCreateCursorMarker('MARKER')}>
           따라다니는 마커
         </button>
         <button onClick={handleCreatePolyLine}>선 테스트</button>
@@ -154,7 +155,7 @@ const Wrap = styled.div`
     position: relative;
     width: 360px;
     height: 350px;
-    background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png")
+    background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png')
       no-repeat;
     padding: 15px 10px;
   }
@@ -171,7 +172,7 @@ const Wrap = styled.div`
     color: #fff;
     font-size: 16px;
     font-weight: bold;
-    background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png")
+    background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png')
       no-repeat right 120px center;
     margin-bottom: 8px;
   }
@@ -179,7 +180,7 @@ const Wrap = styled.div`
     position: relative;
     width: 247px;
     height: 136px;
-    background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/thumb.png")
+    background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/thumb.png')
       no-repeat;
     margin-bottom: 8px;
   }
@@ -193,7 +194,7 @@ const Wrap = styled.div`
     height: 48px;
     top: 0;
     left: 0;
-    background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/triangle.png")
+    background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/triangle.png')
       no-repeat;
     padding: 6px;
     font-size: 18px;
@@ -233,7 +234,7 @@ const Wrap = styled.div`
     right: 25px;
     width: 5px;
     height: 3px;
-    background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/updown.png")
+    background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/updown.png')
       no-repeat;
   }
   .overlaybox li .up {

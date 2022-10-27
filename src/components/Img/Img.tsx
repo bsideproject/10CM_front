@@ -1,5 +1,5 @@
-import React from "react";
-import styled, { css } from "styled-components";
+import React from 'react';
+import styled, { css } from 'styled-components';
 
 interface IProps {
   src: any;
@@ -21,7 +21,7 @@ const Img: React.FC<IProps> = ({ src, width, height, padding }) => {
       alt="logo"
       width={width}
       height={height}
-      padding={padding || "0"}
+      padding={padding || '0'}
     />
   );
 };

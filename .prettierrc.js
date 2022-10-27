@@ -1,5 +1,5 @@
 module.exports = {
-  // singleQuote: true,
+  singleQuote: true,
   // 문자열은 singleQuote ("" -> '')
   semi: true,
   // 코드 마지막에 세미콜론 있도록 formatting (합의 필요)

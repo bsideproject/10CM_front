@@ -1,11 +1,13 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import SmallNav from "./SmallNav";
+import React from 'react';
+import styled, { css } from 'styled-components';
+import Nav from './Nav';
+import SmallNav from './SmallNav';
 
 const SideNav = () => {
   return (
     <Wrap>
-      <SmallNav />
+      <SmallNav className="hover-hidden" />
+      <Nav className="hover-open" />
     </Wrap>
   );
 };
@@ -20,9 +22,16 @@ const Wrap = styled.div`
   display: flex;
   flex-direction: column;
 
+  .hover-open {
+    display: none;
+  }
+
   &:hover {
-    .hover-status {
+    .hover-hidden {
       display: none;
+    }
+    .hover-open {
+      display: block;
     }
   }
 `;
