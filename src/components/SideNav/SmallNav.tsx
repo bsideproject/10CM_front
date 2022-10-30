@@ -101,12 +101,12 @@ const MenuList = styled.ul`
 const ListItem = styled.li`
   width: 64px;
   height: 48px;
-  border-radius: 12px;
   // padding은 이미지 내부에서 12px 0px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: lightblue;
+  border-radius: 12px;
 `;
 
 export default SmallNav;

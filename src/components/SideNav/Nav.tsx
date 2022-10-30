@@ -20,8 +20,16 @@ const Nav: React.FC<IProps> = ({ className }) => {
         <MenuWrap>
           <UserProfile>
             <Img src={profileImg} width="64px" height="64px" />
+            <ProfileName>가나다라마바사아자님</ProfileName>
           </UserProfile>
-          <ProfileName>가나다라마바사아자님</ProfileName>
+          <MenuList>
+            <ListItem>IMG1</ListItem>
+            <ListItem>IMG2</ListItem>
+            <ListItem>IMG3</ListItem>
+          </MenuList>
+          <LogoutList>
+            <ListItem>IMG1</ListItem>
+          </LogoutList>
         </MenuWrap>
       </NavContent>
     </Wrap>
@@ -72,6 +80,7 @@ const UserProfile = styled.div`
   width: 204px;
   height: 116px;
   margin: 0 auto;
+  margin-bottom: 16px;
 `;
 
 const ProfileName = styled.div`
@@ -82,5 +91,36 @@ const ProfileName = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const MenuList = styled.ul`
+  width: 188px;
+  height: 176px;
+  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  border-top: 1px solid black;
+  padding: 16px 0;
+`;
+
+const LogoutList = styled.ul`
+  width: 188px;
+  height: 48px;
+  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  border-top: 1px solid black;
+  padding: 16px 0;
+`;
+
+const ListItem = styled.li`
+  width: calc(100% - 32px);
+  height: 48px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
 `;
 export default Nav;
