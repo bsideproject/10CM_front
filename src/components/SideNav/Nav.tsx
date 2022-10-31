@@ -84,8 +84,8 @@ const UserProfile = styled.div`
 `;
 
 const ProfileName = styled.div`
-  ${fonts('text-xxs-regular')}
-  color: ${colors.NEUTRAl_600}
+  ${fonts('text-xxs-regular')};
+  color: ${colors.NEUTRAl_600};
   width: 148px;
   height: 24px;
   display: flex;

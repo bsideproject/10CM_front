@@ -11,4 +11,8 @@ module.exports = {
   // 화살표 함수가 하나의 매개변수를 받을 때 괄호 생략 포맷팅(합의 필요)
   endOfLine: 'auto',
   // windows에 뜨는 'delete cr에러 해결
+<<<<<<< HEAD
 };
+=======
+}
+>>>>>>> develop

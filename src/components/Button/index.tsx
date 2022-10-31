@@ -1,15 +1,28 @@
+<<<<<<< HEAD
 import { fonts } from "assets/fonts/fonts";
 import { colors } from "constants/colors";
+=======
+import { fonts } from 'assets/fonts/fonts';
+import { colors } from 'constants/colors';
+>>>>>>> develop
 import React, {
   ButtonHTMLAttributes,
   forwardRef,
   HTMLProps,
   useEffect,
+<<<<<<< HEAD
 } from "react";
 import styled, { css } from "styled-components";
 
 type ButtonType = "filled" | "outline";
 type ButtonSize = "large" | "medium" | "small";
+=======
+} from 'react';
+import styled, { css } from 'styled-components';
+
+type ButtonType = 'filled' | 'outline';
+type ButtonSize = 'large' | 'medium' | 'small';
+>>>>>>> develop
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonType?: ButtonType;
@@ -25,8 +38,13 @@ const Button = forwardRef<HTMLButtonElement, Props>((props, ref) => {
 });
 export default Button;
 
+<<<<<<< HEAD
 const getButtonStyle = (disabled?: boolean, type: ButtonType = "filled") => {
   if (type === "filled") {
+=======
+const getButtonStyle = (disabled?: boolean, type: ButtonType = 'filled') => {
+  if (type === 'filled') {
+>>>>>>> develop
     if (disabled) {
       return css`
         background-color: ${colors.NEUTRAl_200};
@@ -49,7 +67,11 @@ const getButtonStyle = (disabled?: boolean, type: ButtonType = "filled") => {
   }
   // filled가 아니고 disabled 이면
   if (disabled) {
+<<<<<<< HEAD
     console.log("good");
+=======
+    console.log('good');
+>>>>>>> develop
     return css`
       border: 1px solid ${colors.NEUTRAl_200};
       background-color: ${colors.WHITE};
@@ -71,19 +93,33 @@ const getButtonStyle = (disabled?: boolean, type: ButtonType = "filled") => {
     }
   `;
 };
+<<<<<<< HEAD
 const getButtonSize = (size: ButtonSize = "medium") => {
   switch (size) {
     case "large":
+=======
+const getButtonSize = (size: ButtonSize = 'medium') => {
+  switch (size) {
+    case 'large':
+>>>>>>> develop
       return css`
         height: 56px;
         padding: 0 24px;
       `;
+<<<<<<< HEAD
     case "medium":
+=======
+    case 'medium':
+>>>>>>> develop
       return css`
         height: 48px;
         padding: 0 24px;
       `;
+<<<<<<< HEAD
     case "small":
+=======
+    case 'small':
+>>>>>>> develop
       return css`
         height: 36px;
         padding: 0 20px;
@@ -100,7 +136,11 @@ const defaultButtonStyle = css`
   border: 0;
   outline: 0;
   transition: 0.1s;
+<<<<<<< HEAD
   ${fonts("text-sm-bold")};
+=======
+  ${fonts('text-sm-bold')};
+>>>>>>> develop
   box-sizing: border-box;
 `;
 // button 스타일

@@ -1,5 +1,9 @@
 class MapConfig {
   static initMapOption(kakao) {
+<<<<<<< HEAD
+=======
+    console.log(kakao);
+>>>>>>> develop
     const options = {
       // 지도를 생성할 때 필요한 기본 옵션
       center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표.
@@ -192,6 +196,7 @@ class MapConfig {
       roadview.setPanoId(panoId, position);
     });
 
+<<<<<<< HEAD
     let content = '';
     content += '<div class="rv-custom">';
     content += '  <div class="rv-title">';
@@ -218,16 +223,37 @@ class MapConfig {
         position,
         map: roadview,
       });
+=======
+    let content = '<div class="overlay_info">';
+    content +=
+      '    <a href="https://place.map.kakao.com/17600274" target="_blank"><strong>월정리 해수욕장</strong></a>';
+    content += '    <div class="desc">';
+    content +=
+      '        <img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/place_thumb.png" alt="">';
+    content +=
+      '        <span class="address">제주특별자치도 제주시 구좌읍 월정리 33-3</span>';
+    content += '    </div>';
+    content += '</div>';
+
+    kakao.maps.event.addListener(roadview, 'init', function () {
+>>>>>>> develop
       const rvCustomOverlay = new kakao.maps.CustomOverlay({
         position,
         content,
         // https://devtalk.kakao.com/t/topic/105513/5  html 문자열만 가능
         xAnchor: 0.5,
+<<<<<<< HEAD
         yAnchor: 1.3,
       });
 
       rvCustomOverlay.setMap(roadview);
       rvCustomOverlay.open(roadview, rMarker);
+=======
+        yAnchor: 0.5,
+      });
+
+      rvCustomOverlay.setMap(roadview);
+>>>>>>> develop
 
       const projection = roadview.getProjection();
 
