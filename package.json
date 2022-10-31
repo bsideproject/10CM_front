@@ -16,20 +16,14 @@
     "@types/styled-components": "^5.1.26",
     "axios": "^0.27.2",
     "dayjs": "^1.11.5",
-<<<<<<< HEAD
     "eslint": "8.23.1",
-=======
->>>>>>> develop
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "styled-components": "^5.3.5",
-<<<<<<< HEAD
-=======
     "styled-reset": "^4.4.2",
->>>>>>> develop
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -67,10 +61,7 @@
     "@typescript-eslint/eslint-plugin": "^5.37.0",
     "@typescript-eslint/parser": "^5.37.0",
     "babel-plugin-named-exports-order": "^0.0.2",
-<<<<<<< HEAD
-=======
     "eslint": "^8.23.1",
->>>>>>> develop
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^3.5.1",
