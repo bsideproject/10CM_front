@@ -1,12 +1,12 @@
 import Input from 'components/Input';
 import React from 'react';
 import styled from 'styled-components';
-import { SearchWrap } from './styles';
-import { ReactComponent as SortIcon } from '../../assets/svg/my-place-sort.svg';
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
 import SkeletonMyPlaceCard from 'components/Skeleton/MyPlaceCard';
 import MyPlaceCard from 'components/MyPlaceCard';
+import { SearchWrap } from './styles';
+import { ReactComponent as SortIcon } from '../../assets/svg/my-place-sort.svg';
 
 interface Props {}
 
