@@ -1,58 +1,46 @@
 import React, { ReactNode, useRef, useState, useEffect } from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import styled from 'styled-components';
-import { Address, LatLng } from 'types/dtos/address';
+import { Address } from 'types/dtos/address';
 import MapConfig from 'services/map-config.js';
-
 interface Props {}
-
 const Map: React.FC<Props> = () => {
   const map = useRef<any>(null);
   let manager: any;
-
   const { kakao } = window;
   const [test, setTest] = useState<boolean>(false);
-
   useEffect(() => {
     const kakaoMap = document.getElementById('map');
-    const options = MapConfig.initMapOption(kakao); // 좌표, 레벨 설정 필요
-
-    // const options = {
-    //   // 지도를 생성할 때 필요한 기본 옵션
-    //   center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표.
-    //   level: 3, // 지도의 레벨(확대, 축소 정도)
-    // };
+    // const options = MapConfig.initMapOption(kakao); // 좌표, 레벨 설정 필요
+    const options = {
+      // 지도를 생성할 때 필요한 기본 옵션
+      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표.
+      level: 3, // 지도의 레벨(확대, 축소 정도)
+    };
     map.current = new kakao.maps.Map(kakaoMap, options); // 지도 생성 및 객체 리턴
-
     // const managerOptions = MapConfig.managerOptions(kakao, map);
     // manager = new kakao.maps.drawing.DrawingManager(managerOptions);
-
     // if (map.current) {
     //   MapConfig.confirmMapLog(kakao, map);
     //   // console.log
     // }
   }, []);
   // 지도 생성
-
   // 맵 이벤트 등록
   const createMarker = () => {
     // locationY, locationX 예시s
     MapConfig.createMarker(kakao, map, 33.450258, 126.570513);
   };
-
   const createCluster = () => {
     const locations = {};
     MapConfig.createCluster(kakao, map, locations);
   };
   // 마커 생성 : MapConfig.createMarker(kakao, map, locationY, locationX);
-
   // 클러스터 생성 : MapConfig.createCluster(kakao, map, locations);
-
   const currentLocation = () => {
     navigator.geolocation.getCurrentPosition(function (position) {
       const lat = position.coords.latitude; // 위도
       const lon = position.coords.longitude; // 경도
-
       const locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
       const message = '<div>하이</div>'; // 인포윈도우에 표시될 내용입니다
       // 마커와 인포윈도우를 표시합니다
@@ -60,11 +48,9 @@ const Map: React.FC<Props> = () => {
     });
   };
   // 내 위치에 마커 찍기
-
   const getMapLevel = () => {
     alert(map.current.getLevel());
   };
-
   const handleClickSearchAddress = () => {
     const { daum } = window;
     new daum.Postcode({
@@ -75,7 +61,6 @@ const Map: React.FC<Props> = () => {
       },
     }).open();
   };
-
   const handleClear = () => {
     const kakaoMap = document.getElementById('map');
     const options = {
@@ -84,7 +69,6 @@ const Map: React.FC<Props> = () => {
     };
     map.current = new kakao.maps.Map(kakaoMap, options); // 지도 생성 및 객체 리턴
   };
-
   const handleCreateCursorMarker = (type: string) => {
     return () => {
       // 그리기 중이면 그리기를 취소합니다
@@ -93,17 +77,14 @@ const Map: React.FC<Props> = () => {
       manager.select(kakao.maps.drawing.OverlayType[type]);
     };
   };
-
   const handleCreatePolyLine = () => {
     MapConfig.drawPolyLine(kakao, map);
   };
-
   const handleCreateRoadView = () => {
     const roadviewContainer = document.querySelector('#roadview');
     const roadview = new kakao.maps.Roadview(roadviewContainer);
     MapConfig.createRoadview(kakao, roadview);
   };
-
   return (
     <div
       style={{
@@ -120,7 +101,7 @@ const Map: React.FC<Props> = () => {
       />
       <div
         id="roadview"
-        style={{ width: '100%', height: '100%' }}
+        style={{ width: '100%', height: '100%', display: 'none' }}
         onClick={() => handleCreateRoadView()}
       />
       <div style={{ display: 'none' }}>
@@ -141,7 +122,6 @@ const Map: React.FC<Props> = () => {
   );
 };
 export default Map;
-
 const Wrap = styled.div`
   .info-title {
     display: block;

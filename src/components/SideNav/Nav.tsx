@@ -20,7 +20,7 @@ const Nav: React.FC<IProps> = ({ className }) => {
         <MenuWrap>
           <UserProfile>
             <Img src={profileImg} width="64px" height="64px" />
-            <ProfileName>가나다라마바사아자님</ProfileName>
+            <ProfileName>가나다라마바사아님</ProfileName>
           </UserProfile>
           <MenuList>
             <ListItem>IMG1</ListItem>
