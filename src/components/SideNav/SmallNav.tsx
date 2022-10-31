@@ -1,15 +1,9 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-<<<<<<< HEAD
-import smallNavLogo from "assets/img/smallNavLogo.svg";
-import profileImg from "assets/img/profileImg.svg";
-import Img from "components/Img/Img";
-=======
 import smallNavLogo from 'assets/img/smallNavLogo.svg';
 import profileImg from 'assets/img/profileImg.svg';
 import Img from 'components/Img/Img';
->>>>>>> 631676314e81e6a6f8f2e260bfb3d6855cd1bcd1
 
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
@@ -25,15 +19,6 @@ const SmallNav: React.FC<IProps> = ({ className }) => {
       </LogoWrap>
       <MenuWrap>
         <UserProfile>
-<<<<<<< HEAD
-          <Img src={profileImg} width="48px" height="44px" />
-        </UserProfile>
-        <ul>
-          <li>test1</li>
-          <li>test2</li>
-          <li>test3</li>
-        </ul>
-=======
           <Img
             src={profileImg}
             width="48px"
@@ -50,7 +35,6 @@ const SmallNav: React.FC<IProps> = ({ className }) => {
         <MenuList>
           <ListItem>img1</ListItem>
         </MenuList>
->>>>>>> 631676314e81e6a6f8f2e260bfb3d6855cd1bcd1
       </MenuWrap>
     </Wrap>
   );
