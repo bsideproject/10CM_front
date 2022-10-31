@@ -1,4 +1,5 @@
 import { fonts } from 'assets/fonts/fonts';
+
 import {
   MyPlaceCardImageWrap,
   MyPlaceCardWrap,

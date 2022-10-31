@@ -1,5 +1,7 @@
-import { fonts } from 'assets/fonts/fonts';
-import { colors } from 'constants/colors';
+
+import { fonts } from "assets/fonts/fonts";
+import { colors } from "constants/colors";
+
 import React, {
   ButtonHTMLAttributes,
   forwardRef,
@@ -10,6 +12,7 @@ import styled, { css } from 'styled-components';
 
 type ButtonType = 'filled' | 'outline';
 type ButtonSize = 'large' | 'medium' | 'small';
+
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonType?: ButtonType;
@@ -24,6 +27,7 @@ const Button = forwardRef<HTMLButtonElement, Props>((props, ref) => {
   );
 });
 export default Button;
+
 
 const getButtonStyle = (disabled?: boolean, type: ButtonType = 'filled') => {
   if (type === 'filled') {
@@ -50,6 +54,7 @@ const getButtonStyle = (disabled?: boolean, type: ButtonType = 'filled') => {
   // filled가 아니고 disabled 이면
   if (disabled) {
     console.log('good');
+
     return css`
       border: 1px solid ${colors.NEUTRAl_200};
       background-color: ${colors.WHITE};
@@ -71,6 +76,7 @@ const getButtonStyle = (disabled?: boolean, type: ButtonType = 'filled') => {
     }
   `;
 };
+
 const getButtonSize = (size: ButtonSize = 'medium') => {
   switch (size) {
     case 'large':
@@ -78,11 +84,13 @@ const getButtonSize = (size: ButtonSize = 'medium') => {
         height: 56px;
         padding: 0 24px;
       `;
+
     case 'medium':
       return css`
         height: 48px;
         padding: 0 24px;
       `;
+
     case 'small':
       return css`
         height: 36px;
