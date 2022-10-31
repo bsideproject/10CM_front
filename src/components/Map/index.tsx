@@ -8,22 +8,15 @@ const Map: React.FC<Props> = () => {
   const map = useRef<any>(null);
   let manager: any;
   const { kakao } = window;
-  const [test, setTest] = useState<boolean>(false);
   useEffect(() => {
     const kakaoMap = document.getElementById('map');
-    // const options = MapConfig.initMapOption(kakao); // 좌표, 레벨 설정 필요
-    const options = {
-      // 지도를 생성할 때 필요한 기본 옵션
-      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표.
-      level: 3, // 지도의 레벨(확대, 축소 정도)
-    };
+    const options = MapConfig.initMapOption(kakao); // 좌표, 레벨 설정 필요
     map.current = new kakao.maps.Map(kakaoMap, options); // 지도 생성 및 객체 리턴
-    // const managerOptions = MapConfig.managerOptions(kakao, map);
-    // manager = new kakao.maps.drawing.DrawingManager(managerOptions);
-    // if (map.current) {
-    //   MapConfig.confirmMapLog(kakao, map);
-    //   // console.log
-    // }
+
+    const managerOptions = MapConfig.managerOptions(kakao, map);
+    manager = new kakao.maps.drawing.DrawingManager(managerOptions);
+    console.log(map.current);
+    MapConfig.confirmMapLog(kakao, map);
   }, []);
   // 지도 생성
   // 맵 이벤트 등록
@@ -94,9 +87,8 @@ const Map: React.FC<Props> = () => {
       <Wrap
         id="map"
         style={{
-          width: '100%',
-          height: '100%',
-          display: 'none',
+          width: '1000px',
+          height: '1000px',
         }}
       />
       <div
