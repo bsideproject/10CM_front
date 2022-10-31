@@ -2,6 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 
 import smallNavLogo from "assets/img/smallNavLogo.svg";
+import profileImg from "assets/img/profileImg.svg";
 import Img from "components/Img/Img";
 
 const SmallNav: React.FC = () => {
@@ -16,7 +17,9 @@ const SmallNav: React.FC = () => {
         />
       </LogoWrap>
       <MenuWrap>
-        <UserProfile></UserProfile>
+        <UserProfile>
+          <Img src={profileImg} width="48px" height="44px" />
+        </UserProfile>
         <ul>
           <li>test1</li>
           <li>test2</li>
