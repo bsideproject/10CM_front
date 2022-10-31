@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 interface IProps {
   nav: React.ReactElement;
   side: React.ReactElement;
@@ -17,9 +17,9 @@ const MapLayout: React.FC<IProps> = ({ nav, side, map }) => {
 };
 
 const Layout = styled.div`
-  display: flex;
   height: 100vh;
   width: 100vw;
+  display: flex;
 `;
 
 export default MapLayout;

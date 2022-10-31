@@ -214,15 +214,20 @@ class MapConfig {
     content += '</div>';
 
     kakao.maps.event.addListener(roadview, 'init', function () {
+      const rMarker = new kakao.maps.Marker({
+        position,
+        map: roadview,
+      });
       const rvCustomOverlay = new kakao.maps.CustomOverlay({
         position,
         content,
         // https://devtalk.kakao.com/t/topic/105513/5  html 문자열만 가능
         xAnchor: 0.5,
-        yAnchor: 0.5,
+        yAnchor: 1.3,
       });
 
       rvCustomOverlay.setMap(roadview);
+      rvCustomOverlay.open(roadview, rMarker);
 
       const projection = roadview.getProjection();
 

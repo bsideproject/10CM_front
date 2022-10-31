@@ -1,0 +1,15 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  
+  "eslint.alwaysShowStatus": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
+// prettierrc에 정의된 룰에 따라 자동으로 코드 세팅
+
+// eslint.alwaysShowStatus, editor.codeActionsOnSave 의미 확인하기.
+
+//  codeActionsOnSave: eslint에 의한 자동 수정 기능을 활성화
+// alwaysShowStatus: vscode 하단 바에 eslint도 표시되기 위해 설정

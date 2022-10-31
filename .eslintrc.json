@@ -28,6 +28,12 @@
       {
         "useTabs": false,
         "endOfLine": "auto"
+      },
+      {
+        "printWidth": 120
+      },
+      {
+        "singleQuote": true
       }
     ],
     // 확인 필요
