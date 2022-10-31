@@ -1,38 +1,39 @@
 import { fonts } from 'assets/fonts/fonts';
 import DayNumber from 'components/DayNumber';
 import { colors } from 'constants/colors';
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
+import {
+  DraggableProvidedDraggableProps,
+  DraggableProvidedDragHandleProps,
+} from 'react-beautiful-dnd';
 import styled from 'styled-components';
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   number: number;
   phone: string;
   address: string;
   title: string;
   onDeleteClick?: () => void;
+  dndProps: any;
 }
 
-const TripDayCard: React.FC<Props> = ({
-  number,
-  phone,
-  address,
-  title,
-  onDeleteClick,
-}) => {
-  return (
-    <TripDayCardWrap>
-      <TripDayCardTop>
-        <DayNumber color="green">{number}</DayNumber>
-        <div onClick={onDeleteClick}>휴지통</div>
-      </TripDayCardTop>
-      <TripDayCardContent>
-        <TripDayCardContentTitle>{title}</TripDayCardContentTitle>
-        <TripDayCardContentAddress>{address}</TripDayCardContentAddress>
-        <TripDayCardContentPhone>{phone}</TripDayCardContentPhone>
-      </TripDayCardContent>
-    </TripDayCardWrap>
-  );
-};
+const TripDayCard = React.forwardRef<HTMLElement, Props>(
+  ({ number, phone, address, title, style, onDeleteClick, dndProps }, ref) => {
+    return (
+      <TripDayCardWrap ref={ref} {...dndProps} style={style}>
+        <TripDayCardTop>
+          <DayNumber color="green">{number}</DayNumber>
+          <div onClick={onDeleteClick}>휴지통</div>
+        </TripDayCardTop>
+        <TripDayCardContent>
+          <TripDayCardContentTitle>{title}</TripDayCardContentTitle>
+          <TripDayCardContentAddress>{address}</TripDayCardContentAddress>
+          <TripDayCardContentPhone>{phone}</TripDayCardContentPhone>
+        </TripDayCardContent>
+      </TripDayCardWrap>
+    );
+  },
+);
 export default TripDayCard;
 
 const TripDayCardWrap = styled.article`
