@@ -87,8 +87,8 @@ const Map: React.FC<Props> = () => {
       <Wrap
         id="map"
         style={{
-          width: '1000px',
-          height: '1000px',
+          width: '100%',
+          height: '100%',
         }}
       />
       <div
