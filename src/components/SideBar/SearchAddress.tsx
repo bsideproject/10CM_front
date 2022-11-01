@@ -3,9 +3,10 @@ import Input from 'components/Input';
 import { colors } from 'constants/colors';
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
+import SearchAddressCard from 'components/SearchAddressCard';
+import MyPlaceGroup from 'components/MyPlaceGroup';
 import { ReactComponent as AddressSearchIcon } from '../../assets/svg/nav-search.svg';
 import { ReactComponent as AddressBookMark } from '../../assets/svg/nav-bookmark.svg';
-import SearchAddressCard from 'components/SearchAddressCard';
 import { SearchWrap } from './styles';
 
 interface Props {}
@@ -42,11 +43,17 @@ const SearchAddress: React.FC<Props> = () => {
           </li>
         </ul>
       </SearchAddressNav>
-      <AddressListWrap>
-        <SearchAddressCard />
-        <SearchAddressCard />
-        <SearchAddressCard />
-      </AddressListWrap>
+      {selectedMenu === 'myPlace' ? (
+        <GroupWrap>
+          <MyPlaceGroup />
+        </GroupWrap>
+      ) : (
+        <div>
+          <SearchAddressCard />
+          <SearchAddressCard />
+          <SearchAddressCard />
+        </div>
+      )}
     </SearchAddressWrap>
   );
 };
@@ -56,6 +63,7 @@ const SearchAddressWrap = styled.div`
   width: 390px;
 `;
 const SearchAddressNav = styled.nav`
+  border-bottom: 1px solid ${colors.NEUTRAl_100};
   ul {
     display: flex;
     padding: 4px 8px;
@@ -71,6 +79,6 @@ const SearchAddressNav = styled.nav`
     }
   }
 `;
-const AddressListWrap = styled.div`
-  border-top: 1px solid ${colors.NEUTRAl_100};
+const GroupWrap = styled.div`
+  height: calc(100vh - 154px);
 `;
