@@ -1,56 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   DragDropContext,
   Draggable,
-  DraggableProvided,
-  DraggableStateSnapshot,
   DraggingStyle,
   Droppable,
   DropResult,
   NotDraggingStyle,
 } from 'react-beautiful-dnd';
-import styled, { css } from 'styled-components';
-import Hamberger from 'assets/image/Icon/24/move.svg';
-import { colors } from 'constants/colors';
-import { fonts } from 'assets/fonts/fonts';
+import styled from 'styled-components';
 import TripDayCard from 'components/TripDayCard';
 
-interface Props {}
+interface Props {
+  // TODO 백엔드 연동시 타입 지정 필수!!
+  itemList: Item[];
+  onChangeList: (itemList: Item[]) => void;
+}
 
-interface Item {
+export interface Item {
   number: number;
   phone: string;
   address: string;
   title: string;
 }
 
-const DraggableItem: React.FC<Props> = ({}) => {
-  const [itemList, setItemList] = useState<Item[]>([
-    {
-      number: 1,
-      phone: '010-9002-4823',
-      address: '양평역 1번출구',
-      title: '끝',
-    },
-    {
-      number: 2,
-      phone: '010-9002-4822',
-      address: '양평역 2번출구',
-      title: '입',
-    },
-    {
-      number: 3,
-      phone: '010-9002-4833',
-      address: '양평역 3번출구',
-      title: '니',
-    },
-    {
-      number: 4,
-      phone: '010-9002-4844',
-      address: '양평역 4번출구',
-      title: '다',
-    },
-  ]);
+const DraggableItem: React.FC<Props> = ({ itemList, onChangeList }) => {
   const reorder = <T,>(
     list: T[],
     startIndex: number,
@@ -63,14 +36,15 @@ const DraggableItem: React.FC<Props> = ({}) => {
     return result;
   };
   const onDragEndAction = (items: any[]) => {
-    setItemList(items);
-    console.log(items);
+    onChangeList(items);
   };
   const getItemStyle = (
     isDragging: boolean,
     draggableStyle: DraggingStyle | NotDraggingStyle | undefined,
   ) => ({
-    background: isDragging ? colors.BLUE_DARK : colors.BLUE_BASE,
+    boxShadow: isDragging
+      ? '0px 2px 20px rgba(0, 0, 0, 0.4)'
+      : '0px 2px 8px rgba(0, 0, 0, 0.12)',
     ...draggableStyle,
   });
 
@@ -130,53 +104,7 @@ const DraggableItem: React.FC<Props> = ({}) => {
 export default DraggableItem;
 
 const DndWrap = styled.div`
-  > div > article + article {
+  > div > article {
     margin-top: 20px;
   }
-`;
-const CategoryBody = styled.div`
-  margin-top: 24px;
-`;
-const CategoryItem = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 0 12px;
-  height: 48px;
-  cursor: pointer;
-  &:hover {
-    background-color: ${colors.BLUE_BASE};
-  }
-`;
-const DragButton = styled.img`
-  width: 30px;
-  height: 30px;
-`;
-const ItemName = styled.div`
-  flex: 1;
-  margin-left: 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: ${colors.BLUE_LIGHT};
-`;
-const ItemInfoWrap = styled.div`
-  display: flex;
-  gap: 0 8px;
-  align-items: center;
-  flex-grow: 0;
-`;
-const Viewable = styled.div<{ viewable: boolean }>`
-  padding: 2px 10px;
-  border-radius: 100px;
-  flex-shrink: 0;
-  ${({ viewable }) =>
-    viewable
-      ? css`
-          color: ${colors.BLUE_LIGHT};
-          background-color: ${colors.BLUE_LIGHT};
-        `
-      : css`
-          color: ${colors.BLUE_DARK};
-          background-color: ${colors.BLUE_DARK};
-        `};
 `;
