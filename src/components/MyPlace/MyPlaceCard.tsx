@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { fonts } from 'assets/fonts/fonts';
+import { colors } from 'constants/colors';
 import {
   MyPlaceCardImageWrap,
   MyPlaceCardWrap,
   MyPlaceInfoWrap,
-} from './styles';
+} from 'components/common/MyPlaceCard/styles';
 import Image from '../../assets/png/thumbnail-area.png';
-import styled from 'styled-components';
-import { fonts } from 'assets/fonts/fonts';
 import { ReactComponent as OptionIcon } from '../../assets/svg/my-place-option.svg';
-import { colors } from 'constants/colors';
 
 interface Props {}
 

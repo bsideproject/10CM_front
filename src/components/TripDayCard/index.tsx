@@ -1,5 +1,5 @@
 import { fonts } from 'assets/fonts/fonts';
-import DayNumber from 'components/DayNumber';
+import DayNumber from 'components/common/DayNumber';
 import { colors } from 'constants/colors';
 import React, { HTMLAttributes } from 'react';
 import {
@@ -22,7 +22,9 @@ const TripDayCard = React.forwardRef<HTMLElement, Props>(
     return (
       <TripDayCardWrap ref={ref} {...dndProps} style={style}>
         <TripDayCardTop>
-          <DayNumber color="green">{number}</DayNumber>
+          <DayNumber color={number % 2 === 0 ? 'blue' : 'green'}>
+            {number}
+          </DayNumber>
           <div onClick={onDeleteClick}>휴지통</div>
         </TripDayCardTop>
         <TripDayCardContent>
@@ -39,8 +41,8 @@ export default TripDayCard;
 const TripDayCardWrap = styled.article`
   width: 310px;
   padding: 16px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12);
   border-radius: 12px;
+  background-color: white;
 `;
 const TripDayCardTop = styled.div`
   display: flex;
