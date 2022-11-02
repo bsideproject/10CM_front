@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import Nav from './Nav';
 import SmallNav from './SmallNav';
 
-const SideNav = () => {
+const SideNav: React.FC = () => {
   return (
     <Wrap>
       <SmallNav className="hover-hidden" />
@@ -23,15 +23,19 @@ const Wrap = styled.div`
   flex-direction: column;
 
   .hover-open {
+    display: block;
+  }
+
+  .hover-hidden {
     display: none;
   }
 
   &:hover {
     .hover-hidden {
-      display: none;
+      /* display: none; */
     }
     .hover-open {
-      display: block;
+      /* display: block; */
     }
   }
 `;

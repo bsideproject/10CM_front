@@ -4,8 +4,10 @@ import styled, { css } from 'styled-components';
 import { colors } from 'constants/colors';
 import Img from 'components/Img/Img';
 import { fonts } from 'assets/fonts/fonts';
+import * as CFG from 'services/config.js';
 import profileImg from 'assets/img/profileImg.svg';
 import navLogo from 'assets/img/navLogo.svg';
+import ImgLists from './ImgLists';
 interface IProps {
   className: string;
 }
@@ -22,11 +24,7 @@ const Nav: React.FC<IProps> = ({ className }) => {
             <Img src={profileImg} width="64px" height="64px" />
             <ProfileName>가나다라마바사아님</ProfileName>
           </UserProfile>
-          <MenuList>
-            <ListItem>IMG1</ListItem>
-            <ListItem>IMG2</ListItem>
-            <ListItem>IMG3</ListItem>
-          </MenuList>
+          <ImgLists imgs={CFG.NAV_IMGS_L1} isNav />
           <LogoutList>
             <ListItem>IMG1</ListItem>
           </LogoutList>
@@ -100,7 +98,7 @@ const MenuList = styled.ul`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  border-top: 1px solid black;
+  border-top: 1px solid ${colors.NEUTRAl_100};
   padding: 16px 0;
 `;
 
@@ -111,7 +109,7 @@ const LogoutList = styled.ul`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  border-top: 1px solid black;
+  border-top: 1px solid ${colors.NEUTRAl_100};
   padding: 16px 0;
 `;
 

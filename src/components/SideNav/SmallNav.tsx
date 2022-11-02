@@ -3,11 +3,14 @@ import styled, { css } from 'styled-components';
 
 import smallNavLogo from 'assets/img/smallNavLogo.svg';
 import profileImg from 'assets/img/profileImg.svg';
+
 import Img from 'components/Img/Img';
 
+import * as CFG from 'services/config.js';
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
 
+import ImgLists from './ImgLists';
 interface IProps {
   className: string;
 }
@@ -27,19 +30,13 @@ const SmallNav: React.FC<IProps> = ({ className }) => {
           />
           <ProfileName>가나...님</ProfileName>
         </UserProfile>
-        <MenuList>
-          <ListItem>img1</ListItem>
-          <ListItem>img2</ListItem>
-          <ListItem>img3</ListItem>
-        </MenuList>
-        <MenuList>
-          <ListItem>img1</ListItem>
-        </MenuList>
+        <ImgLists imgs={CFG.NAV_IMGS_L1} />
+        <ImgLists imgs={CFG.NAV_IMGS_L2} />
       </MenuWrap>
     </Wrap>
   );
 };
-
+// 따로 빼고 시작
 const defaultStyle = css`
   width: 80px;
 `;
@@ -85,28 +82,6 @@ const ProfileName = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const MenuList = styled.ul`
-  width: 64px;
-  height: 176px;
-  padding: 16px 0px;
-  gap: 16px;
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  border-top: 1px solid black;
-`;
-
-const ListItem = styled.li`
-  width: 64px;
-  height: 48px;
-  // padding은 이미지 내부에서 12px 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: lightblue;
-  border-radius: 12px;
 `;
 
 export default SmallNav;
