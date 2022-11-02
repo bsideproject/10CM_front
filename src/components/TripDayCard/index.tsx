@@ -1,5 +1,5 @@
 import { fonts } from 'assets/fonts/fonts';
-import DayNumber from 'components/DayNumber';
+import DayNumber from 'components/common/DayNumber';
 import { colors } from 'constants/colors';
 import React, { HTMLAttributes } from 'react';
 import {

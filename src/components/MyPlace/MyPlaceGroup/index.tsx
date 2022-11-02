@@ -1,21 +1,15 @@
-import Input from 'components/common/Input';
+import { fonts } from 'assets/fonts/fonts';
+import MyPlaceCard from 'components/CreateTrip/MyPlaceCard';
+import { colors } from 'constants/colors';
 import React from 'react';
 import styled from 'styled-components';
-import { fonts } from 'assets/fonts/fonts';
-import { colors } from 'constants/colors';
-import SkeletonMyPlaceCard from 'components/common/Skeleton/MyPlaceCard';
-import MyPlaceCard from 'components/CreateTrip/MyPlaceCard';
-import { SearchWrap } from './styles';
 import { ReactComponent as SortIcon } from '../../assets/svg/my-place-sort.svg';
 
 interface Props {}
 
-const MyPlaces: React.FC<Props> = () => {
+const MyPlaceGroup: React.FC<Props> = () => {
   return (
     <MyPlacesWrap>
-      <SearchWrap>
-        <Input />
-      </SearchWrap>
       <MyPlacesTop>
         <MyPlacesTitle>나의 관심장소</MyPlacesTitle>
         <SortButton>
@@ -25,17 +19,17 @@ const MyPlaces: React.FC<Props> = () => {
       </MyPlacesTop>
       <MyPlacesListWrap>
         <MyPlaceCard />
-        <SkeletonMyPlaceCard />
-        <SkeletonMyPlaceCard />
-        <SkeletonMyPlaceCard />
+        <MyPlaceCard />
+        <MyPlaceCard />
+        <MyPlaceCard />
       </MyPlacesListWrap>
     </MyPlacesWrap>
   );
 };
-export default MyPlaces;
+export default MyPlaceGroup;
 
 const MyPlacesWrap = styled.div`
-  width: 390px;
+  height: 100%;
 `;
 const MyPlacesTop = styled.div`
   display: flex;
@@ -58,8 +52,8 @@ const SortButton = styled.div`
   cursor: pointer;
 `;
 const MyPlacesListWrap = styled.div`
-  height: calc(100vh - 188px);
-  padding: 0 20px;
+  height: calc(100% - 78px);
+  padding: 0 20px 20px 20px;
   overflow-y: auto;
   overflow-x: hidden;
   /* > div + div {

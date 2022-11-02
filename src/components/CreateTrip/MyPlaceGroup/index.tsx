@@ -1,10 +1,9 @@
 import { fonts } from 'assets/fonts/fonts';
-import MyPlaceCard from 'components/MyPlaceCard';
+import MyPlaceCard from 'components/CreateTrip/MyPlaceCard';
 import { colors } from 'constants/colors';
 import React from 'react';
 import styled from 'styled-components';
-import SkeletonMyPlaceCard from 'components/Skeleton/MyPlaceCard';
-import { ReactComponent as SortIcon } from '../../assets/svg/my-place-sort.svg';
+import { ReactComponent as SortIcon } from '../../../assets/svg/my-place-sort.svg';
 
 interface Props {}
 

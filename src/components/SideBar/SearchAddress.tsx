@@ -1,10 +1,10 @@
 import { fonts } from 'assets/fonts/fonts';
-import Input from 'components/Input';
+import Input from 'components/common/Input';
 import { colors } from 'constants/colors';
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import SearchAddressCard from 'components/SearchAddressCard';
-import MyPlaceGroup from 'components/MyPlaceGroup';
+import MyPlaceGroup from 'components/CreateTrip/MyPlaceGroup';
 import { ReactComponent as AddressSearchIcon } from '../../assets/svg/nav-search.svg';
 import { ReactComponent as AddressBookMark } from '../../assets/svg/nav-bookmark.svg';
 import { SearchWrap } from './styles';

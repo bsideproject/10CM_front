@@ -7,8 +7,8 @@ import {
   MyPlaceCardWrap,
   MyPlaceInfoWrap,
 } from './styles';
-import Image from '../../assets/png/thumbnail-area.png';
-import { ReactComponent as OptionIcon } from '../../assets/svg/my-place-option.svg';
+import Image from '../../../assets/png/thumbnail-area.png';
+import { ReactComponent as OptionIcon } from '../../../assets/svg/my-place-option.svg';
 
 interface Props {}
 
