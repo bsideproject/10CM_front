@@ -4,7 +4,7 @@ import {
   MyPlaceCardImageWrap,
   MyPlaceCardWrap,
   MyPlaceInfoWrap,
-} from 'components/CreateTrip/MyPlaceCard/styles';
+} from 'components/common/MyPlaceCard/styles';
 import React from 'react';
 import styled from 'styled-components';
 import Skeleton from '..';

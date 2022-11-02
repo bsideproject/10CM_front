@@ -2,7 +2,7 @@ import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
 import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as AddressAddIcon } from '../../assets/svg/address-add.svg';
+import { ReactComponent as AddressAddIcon } from '../../assets/svg/plus.svg';
 
 interface Props {}
 
@@ -14,7 +14,10 @@ const SearchAddressCard: React.FC<Props> = () => {
           경복궁
           <SearchAddressCardCategory>장소 구분</SearchAddressCardCategory>
         </SearchAddressCardTitle>
-        <AddressAddIcon style={{ cursor: 'pointer' }} />
+        <AddressAddIcon
+          style={{ cursor: 'pointer' }}
+          fill={colors.NEUTRAl_600}
+        />
       </SearchAddressCardHeader>
       <SearchAddressCardBody>
         <SearchAddressCardAddress>
@@ -24,7 +27,11 @@ const SearchAddressCard: React.FC<Props> = () => {
       </SearchAddressCardBody>
       <SearchAddressCardFooter>
         <div>000-0000-0000</div>
-        <a href="https://www.naver.com/" target="_blank">
+        <a
+          href="https://www.naver.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           홈페이지
         </a>
       </SearchAddressCardFooter>

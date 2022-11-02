@@ -3,7 +3,7 @@ import MyPlaceCard from 'components/CreateTrip/MyPlaceCard';
 import { colors } from 'constants/colors';
 import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as SortIcon } from '../../../assets/svg/my-place-sort.svg';
+import { ReactComponent as SortIcon } from '../../assets/svg/my-place-sort.svg';
 
 interface Props {}
 
@@ -56,7 +56,4 @@ const MyPlacesListWrap = styled.div`
   padding: 0 20px 20px 20px;
   overflow-y: auto;
   overflow-x: hidden;
-  /* > div + div {
-    margin-top: 16px;
-  } */
 `;

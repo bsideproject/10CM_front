@@ -1,8 +1,8 @@
 import { fonts } from 'assets/fonts/fonts';
-import MyPlaceCard from 'components/CreateTrip/MyPlaceCard';
 import { colors } from 'constants/colors';
 import React from 'react';
 import styled from 'styled-components';
+import MyPlaceCard from './MyPlaceCard';
 import { ReactComponent as SortIcon } from '../../assets/svg/my-place-sort.svg';
 
 interface Props {}
@@ -18,6 +18,8 @@ const MyPlaceGroup: React.FC<Props> = () => {
         </SortButton>
       </MyPlacesTop>
       <MyPlacesListWrap>
+        <MyPlaceCard />
+        <MyPlaceCard />
         <MyPlaceCard />
         <MyPlaceCard />
         <MyPlaceCard />

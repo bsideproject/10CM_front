@@ -1,5 +1,5 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import MyPlaceGroup from '.';
+import MyPlaceGroup from './MyPlaceGroup';
 
 export default {
   title: 'Component/MyPlaceGroup',
