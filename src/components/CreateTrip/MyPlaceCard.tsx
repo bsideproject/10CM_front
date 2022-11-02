@@ -2,28 +2,19 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
-import Image from '../../assets/png/thumbnail-area.png';
-import { ReactComponent as OptionIcon } from '../../assets/svg/my-place-option.svg';
 import {
   MyPlaceCardImageWrap,
   MyPlaceCardWrap,
   MyPlaceInfoWrap,
-} from 'components/CreateTrip/MyPlaceCard/styles';
+} from '../common/MyPlaceCard/styles';
+import Image from '../../assets/png/thumbnail-area.png';
+import { ReactComponent as AddIcon } from '../../assets/svg/plus.svg';
 
-interface Props {}
+interface Props {
+  onClickAdd?: () => void;
+}
 
-const MyPlaceCard: React.FC<Props> = () => {
-  const [isShowOption, setIsShowOption] = useState<boolean>(false);
-  const optionRef = useRef<HTMLDivElement | null>(null);
-  const handleOptionOpen = () => {
-    setIsShowOption(true);
-  };
-  const handleOptionClose = () => {
-    setIsShowOption(false);
-  };
-  useEffect(() => {
-    window.addEventListener('click', () => {});
-  }, []);
+const MyPlaceCard: React.FC<Props> = ({ onClickAdd }) => {
   return (
     <MyPlaceCardWrap>
       <MyPlaceCardImageWrap>
@@ -36,14 +27,7 @@ const MyPlaceCard: React.FC<Props> = () => {
         </MyPlaceAddress>
         <MyPlaceHashTag>#카페 #맥주 #태그</MyPlaceHashTag>
         <MyPlaceDate>2022년 9월 29일</MyPlaceDate>
-        <MyPlaceOptionButton onClick={handleOptionOpen} />
-        {isShowOption && (
-          <MyPlaceOptionBox ref={optionRef}>
-            <MyPlaceOptionItem>상세보기</MyPlaceOptionItem>
-            <MyPlaceOptionItem>수정하기</MyPlaceOptionItem>
-            <MyPlaceOptionItem>삭제하기</MyPlaceOptionItem>
-          </MyPlaceOptionBox>
-        )}
+        <MyPlaceOptionButton onClick={onClickAdd} fill={colors.NEUTRAl_600} />
       </MyPlaceInfoWrap>
     </MyPlaceCardWrap>
   );
@@ -64,7 +48,7 @@ const MyPlaceDate = styled.div`
   margin-top: 6px;
   ${fonts('caption')};
 `;
-const MyPlaceOptionButton = styled(OptionIcon)`
+const MyPlaceOptionButton = styled(AddIcon)`
   position: absolute;
   top: 12px;
   right: 4px;

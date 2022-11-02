@@ -1,12 +1,8 @@
 import Input from 'components/common/Input';
 import React from 'react';
 import styled from 'styled-components';
-import { fonts } from 'assets/fonts/fonts';
-import { colors } from 'constants/colors';
-import SkeletonMyPlaceCard from 'components/common/Skeleton/MyPlaceCard';
-import MyPlaceCard from 'components/CreateTrip/MyPlaceCard';
+import MyPlaceGroup from 'components/MyPlace/MyPlaceGroup';
 import { SearchWrap } from './styles';
-import { ReactComponent as SortIcon } from '../../assets/svg/my-place-sort.svg';
 
 interface Props {}
 
@@ -16,19 +12,9 @@ const MyPlaces: React.FC<Props> = () => {
       <SearchWrap>
         <Input />
       </SearchWrap>
-      <MyPlacesTop>
-        <MyPlacesTitle>나의 관심장소</MyPlacesTitle>
-        <SortButton>
-          <SortIcon />
-          최근 수정 순
-        </SortButton>
-      </MyPlacesTop>
-      <MyPlacesListWrap>
-        <MyPlaceCard />
-        <SkeletonMyPlaceCard />
-        <SkeletonMyPlaceCard />
-        <SkeletonMyPlaceCard />
-      </MyPlacesListWrap>
+      <GroupWrap>
+        <MyPlaceGroup />
+      </GroupWrap>
     </MyPlacesWrap>
   );
 };
@@ -37,32 +23,6 @@ export default MyPlaces;
 const MyPlacesWrap = styled.div`
   width: 390px;
 `;
-const MyPlacesTop = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 20px 12px 20px;
-`;
-const MyPlacesTitle = styled.h3`
-  ${fonts('title-lg-bold')}
-  color:${colors.NEUTRAl_800};
-`;
-const SortButton = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0 6px;
-  height: 36px;
-  ${fonts('text-xs')};
-  color: ${colors.NEUTRAl_500};
-  padding: 5px 16px 5px 11px;
-  cursor: pointer;
-`;
-const MyPlacesListWrap = styled.div`
-  height: calc(100vh - 188px);
-  padding: 0 20px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  /* > div + div {
-    margin-top: 16px;
-  } */
+const GroupWrap = styled.div`
+  height: calc(100vh - 96px);
 `;
