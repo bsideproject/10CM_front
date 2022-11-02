@@ -6,6 +6,9 @@ const GlobalStyle = createGlobalStyle`
         ${reset};
         font-family: 'Pretendard' sans-serif ;
     }
+    div {
+        box-sizing: border-box;
+    }
 `;
 
 export default GlobalStyle;
