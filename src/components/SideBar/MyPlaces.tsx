@@ -4,13 +4,17 @@ import styled from 'styled-components';
 import MyPlaceGroup from 'components/MyPlace/MyPlaceGroup';
 import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
+import { KeywordAddress } from 'dtos/kakao';
+import KakaoAddressCard from 'components/KakaoAddressCard';
 import { SearchWrap } from './styles';
 
 interface Props {}
 
 const MyPlaces: React.FC<Props> = () => {
   const [keyword, setKeyword] = useState<string>('');
-  const [searchAddressList, setSearchAddressList] = useState([]);
+  const [searchAddressList, setSearchAddressList] = useState<KeywordAddress[]>(
+    [],
+  );
   const ps = new window.kakao.maps.services.Places();
 
   const handleChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,22 +59,11 @@ const MyPlaces: React.FC<Props> = () => {
           <MyPlaceGroup />
         </GroupWrap>
       ) : (
-        <KakaoAddressWrap>
-          <KakaoAddressHeader>
-            <KakaoAddressName>타이틀</KakaoAddressName>
-            <KakaoAddressCategory>카테고리</KakaoAddressCategory>
-          </KakaoAddressHeader>
-          <KakaoAddressBody>
-            <KakaoAddressStreet>주소</KakaoAddressStreet>
-            <KakaoAddressZibun>추가주소</KakaoAddressZibun>
-          </KakaoAddressBody>
-          <KakaoAddressFooter>
-            <KakaoAddressTel>010101010</KakaoAddressTel>
-            <a href="#!" rel="noopener noreferrer" target="_blank">
-              홈페이지
-            </a>
-          </KakaoAddressFooter>
-        </KakaoAddressWrap>
+        <KakaoAddressListWrap>
+          {searchAddressList.map(data => {
+            return <KakaoAddressCard addressData={data} />;
+          })}
+        </KakaoAddressListWrap>
       )}
     </MyPlacesWrap>
   );
@@ -83,41 +76,8 @@ const MyPlacesWrap = styled.article`
 const GroupWrap = styled.div`
   height: calc(100vh - 96px);
 `;
-
-const KakaoAddressWrap = styled.div`
-  padding: 20px;
-  &:hover {
-    background-color: ${colors.NEUTRAl_50};
-  }
-`;
-const KakaoAddressHeader = styled.div`
-  display: flex;
-`;
-const KakaoAddressName = styled.div`
-  ${fonts('text-ms-medium')};
-  color: ${colors.NEUTRAl_900};
-`;
-const KakaoAddressCategory = styled.div`
-  margin-left: 8px;
-  ${fonts('text-ms-medium')};
-  color: ${colors.NEUTRAl_300};
-`;
-const KakaoAddressBody = styled.div`
-  margin-top: 4px;
-`;
-const KakaoAddressStreet = styled.div`
-  ${fonts('text-xxs-regular')};
-  color: ${colors.NEUTRAl_500};
-`;
-const KakaoAddressZibun = styled.div`
-  ${fonts('caption')};
-  color: ${colors.NEUTRAl_400};
-`;
-const KakaoAddressFooter = styled.div`
-  margin-top: 16px;
-  display: flex;
-`;
-const KakaoAddressTel = styled.div`
-  width: 124px;
-  margin-right: 12px;
+const KakaoAddressListWrap = styled.div`
+  height: calc(100vh - 108px);
+  padding: 12px 0;
+  overflow: auto;
 `;
