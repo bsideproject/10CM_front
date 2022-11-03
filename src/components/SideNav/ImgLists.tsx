@@ -3,15 +3,15 @@ import styled from 'styled-components';
 import { colors } from 'constants/colors';
 import ImgItem from './ImgItem';
 interface IProps {
-  imgs: string[];
+  listsData: { img: string; text: string }[];
   isNav?: boolean;
 }
 
-const ImgLists: React.FC<IProps> = ({ imgs, isNav }) => {
+const ImgLists: React.FC<IProps> = ({ listsData, isNav }) => {
   return (
     <MenuList isNav={isNav}>
-      {imgs.map(img => (
-        <ImgItem src={img} />
+      {listsData.map(data => (
+        <ImgItem img={data.img} text={data.text} isNav={isNav} />
       ))}
     </MenuList>
   );

@@ -24,7 +24,7 @@ const Nav: React.FC<IProps> = ({ className }) => {
             <Img src={profileImg} width="64px" height="64px" />
             <ProfileName>가나다라마바사아님</ProfileName>
           </UserProfile>
-          <ImgLists imgs={CFG.NAV_IMGS_L1} isNav />
+          <ImgLists listsData={CFG.NAV_DESC} isNav />
           <LogoutList>
             <ListItem>IMG1</ListItem>
           </LogoutList>

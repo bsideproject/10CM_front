@@ -1,4 +1,5 @@
-import styled, { css } from 'styled-components';
+import React from 'react';
+import styled, { css, keyframes } from 'styled-components';
 import Nav from './Nav';
 import SmallNav from './SmallNav';
 
@@ -22,19 +23,19 @@ const Wrap = styled.div`
   flex-direction: column;
 
   .hover-open {
-    display: block;
+    display: none;
   }
 
   .hover-hidden {
-    display: none;
+    /* display: none; */
   }
 
   &:hover {
     .hover-hidden {
-      /* display: none; */
+      display: none;
     }
     .hover-open {
-      /* display: block; */
+      display: block;
     }
   }
 `;

@@ -30,8 +30,8 @@ const SmallNav: React.FC<IProps> = ({ className }) => {
           />
           <ProfileName>가나...님</ProfileName>
         </UserProfile>
-        <ImgLists imgs={CFG.NAV_IMGS_L1} />
-        <ImgLists imgs={CFG.NAV_IMGS_L2} />
+        <ImgLists listsData={CFG.NAV_DESC} />
+        <ImgLists listsData={CFG.NAV_DESC_SEC} />
       </MenuWrap>
     </Wrap>
   );
