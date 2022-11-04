@@ -1,6 +1,5 @@
-
-import { fonts } from "assets/fonts/fonts";
-import { colors } from "constants/colors";
+import { fonts } from 'assets/fonts/fonts';
+import { colors } from 'constants/colors';
 
 import React, {
   ButtonHTMLAttributes,
@@ -13,7 +12,6 @@ import styled, { css } from 'styled-components';
 type ButtonType = 'filled' | 'outline';
 type ButtonSize = 'large' | 'medium' | 'small';
 
-
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonType?: ButtonType;
   buttonSize?: ButtonSize;
@@ -21,13 +19,12 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button = forwardRef<HTMLButtonElement, Props>((props, ref) => {
   return (
-    <MyButton ref={ref} {...props} disabled>
+    <MyButton ref={ref} disabled {...props}>
       {props.children}
     </MyButton>
   );
 });
 export default Button;
-
 
 const getButtonStyle = (disabled?: boolean, type: ButtonType = 'filled') => {
   if (type === 'filled') {
@@ -78,17 +75,20 @@ const getButtonStyle = (disabled?: boolean, type: ButtonType = 'filled') => {
 };
 
 const getButtonSize = (size: ButtonSize = 'medium') => {
+  // Todo : width 정리
   switch (size) {
     case 'large':
       return css`
         height: 56px;
         padding: 0 24px;
+        width: 212px;
       `;
 
     case 'medium':
       return css`
         height: 48px;
         padding: 0 24px;
+        width: 76px;
       `;
 
     case 'small':
@@ -110,6 +110,7 @@ const defaultButtonStyle = css`
   transition: 0.1s;
   ${fonts('text-sm-bold')};
   box-sizing: border-box;
+  cursor: pointer;
 `;
 // button 스타일
 const MyButton = styled.button<{

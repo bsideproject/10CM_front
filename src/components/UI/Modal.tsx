@@ -1,19 +1,21 @@
 /* eslint-disable react/require-default-props */
 import React, { ReactNode } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { colors } from 'constants/colors';
+import { modalCss } from 'assets/modalcss';
 import ModalPortal from './ModalPortal';
 
 interface IProps {
   children: ReactNode;
+  bodyStyle: string;
   onClose: () => void;
 }
 
-const Modal: React.FC<IProps> = ({ children, onClose }) => {
+const Modal: React.FC<IProps> = ({ children, onClose, bodyStyle }) => {
   return (
     <ModalPortal>
       <ModalBackground onClick={onClose}>
-        <ModalContent>{children}</ModalContent>
+        <ModalBody styleType={bodyStyle}>{children}</ModalBody>
       </ModalBackground>
     </ModalPortal>
   );
@@ -27,16 +29,19 @@ const ModalBackground = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.5);
   width: 100vw;
   height: 100vh;
   z-index: 100;
 `;
 
-const ModalContent = styled.div`
+const ModalBody = styled.div<{ styleType: string }>`
   position: relative;
   margin: 0 auto;
   z-index: 1000;
   background-color: ${colors.WHITE};
-  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  ${props => modalCss(props.styleType)};
 `;

@@ -2,7 +2,6 @@ import introduceImg from 'assets/img/introduceImg.svg';
 import interestPlaceImg from 'assets/img/interestPlaceImg.svg';
 import myPlaceTripImg from 'assets/img/myPlaceTripImg.svg';
 import logoutImg from 'assets/img/logoutImg.svg';
-import modalCloseImg from 'assets/img/modalCloseImg.svg';
 
 export const FILTERBOX_TEXT = '나의 관심장소';
 
@@ -28,15 +27,21 @@ export const NAV_DESC_SEC = [
   },
 ];
 
-export const MODAL_MYPLACE = [
-  {
+export const MODAL_MYPLACE = {
+  ADD: {
     headerText: '나의 관심장소 추가하기',
     btnText: '저장',
-    closeImg: modalCloseImg,
   },
-  {
+  UPDATE: {
     headerText: '포스팅 수정하기',
     btnText: '수정 완료',
-    closeImg: modalCloseImg,
   },
-];
+  DELETE: {
+    headerText: '나의 관심장소 삭제하기',
+    btnText: '삭제',
+  },
+  TRIP: {
+    headerText: '나의 여행',
+    btnText: '저장하기',
+  },
+};
