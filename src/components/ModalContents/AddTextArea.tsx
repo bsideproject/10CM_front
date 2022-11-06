@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
 
-const MemoText: React.FC = () => {
+const AddTextArea: React.FC = () => {
   const exampleText = '장소에 대한 생각, 간략한 설명을 입력해주세요.';
   return (
     <Wrap>
       <span>메모</span>
-      <Textarea placeholder={exampleText} />
+      <Textarea placeholder={exampleText} maxLength={500} count />
     </Wrap>
   );
 };
@@ -28,4 +28,4 @@ const Wrap = styled.div`
   }
 `;
 
-export default MemoText;
+export default AddTextArea;

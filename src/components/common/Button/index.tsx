@@ -10,7 +10,7 @@ import React, {
 import styled, { css } from 'styled-components';
 
 type ButtonType = 'filled' | 'outline';
-type ButtonSize = 'large' | 'medium' | 'small';
+type ButtonSize = 'full' | 'large' | 'medium' | 'small';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonType?: ButtonType;
@@ -77,29 +77,35 @@ const getButtonStyle = (disabled?: boolean, type: ButtonType = 'filled') => {
 const getButtonSize = (size: ButtonSize = 'medium') => {
   // Todo : width 정리
   switch (size) {
+    case 'full':
+      return css`
+        height: 56px;
+        width: 100%;
+      `;
+
     case 'large':
       return css`
         height: 56px;
-        padding: 0 24px;
+        // padding: 0 24px;
         width: 212px;
       `;
 
     case 'medium':
       return css`
         height: 48px;
-        padding: 0 24px;
+        // padding: 0 24px;
         width: 76px;
       `;
 
     case 'small':
       return css`
         height: 36px;
-        padding: 0 20px;
+        // padding: 0 20px;
       `;
     default:
       return css`
         height: 48px;
-        padding: 0 24px;
+        // padding: 0 24px;
       `;
   }
 };

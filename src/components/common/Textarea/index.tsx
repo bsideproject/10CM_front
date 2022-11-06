@@ -23,9 +23,9 @@ const Textarea = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
         <OptionsWrap error={!!error}>
           <div>{error}</div>
           {count && (
-            <div>
+            <CountWrap>
               {value.toString().length} / {maxLength}
-            </div>
+            </CountWrap>
           )}
         </OptionsWrap>
       )}
@@ -90,4 +90,10 @@ const OptionsWrap = styled.div<{ error: boolean }>`
       : css`
           ${colors.NEUTRAl_400}
         `}
+`;
+
+const CountWrap = styled.div`
+  ${fonts('caption')};
+  letter-spacing: 0.013em;
+  color: ${colors.NEUTRAl_400};
 `;

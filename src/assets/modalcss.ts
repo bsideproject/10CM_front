@@ -26,7 +26,7 @@ export const modalCss = (type: ModalType): FlattenSimpleInterpolation => {
     case 'MY_PLACE':
       return css`
         ${defaultStyle};
-        height: 567px;
+        height: 717px;
         border-radius: 8px;
         padding: 32px 24px;
         gap: 8px;

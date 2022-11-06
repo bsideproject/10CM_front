@@ -3,25 +3,38 @@ import React from 'react';
 import styled from 'styled-components';
 import * as CFG from 'services/config.js';
 import AddImgBtn from './AddImgBtn';
-import MemoText from './MemoText';
+import AddTextArea from './AddTextArea';
 import ModalButton from './ModalButton';
 import ModalTitle from './ModalTitle';
 import SearchLocation from './SearchLocation';
-import TagInput from './TagInput';
+import AddInput from './AddInput';
 import DeletePlaceContainer from './DeletePlaceContainer';
 
 const ModalForm: React.FC = () => {
   const { ADD, UPDATE, DELETE, TRIP } = CFG.MODAL_MYPLACE;
-  const addUpdatePlace = (
+  const addPlace = (
     <Modal onClose={() => {}} bodyStyle="ADD_UPDATE_PLACE">
       <ModalTitle headerText={ADD.headerText} />
       <OverFlowWrap>
         <SearchLocation />
         <AddImgBtn />
-        <TagInput />
-        <MemoText />
+        <AddInput purpose="TAG" />
+        <AddTextArea />
       </OverFlowWrap>
       <ModalButton btnText={ADD.btnText} btnSize="large" />
+    </Modal>
+  );
+
+  const updatePlace = (
+    <Modal onClose={() => {}} bodyStyle="ADD_UPDATE_PLACE">
+      <ModalTitle headerText={UPDATE.headerText} />
+      <OverFlowWrap>
+        <SearchLocation />
+        <AddImgBtn />
+        <AddInput purpose="TAG" />
+        <AddTextArea />
+      </OverFlowWrap>
+      <ModalButton btnText={UPDATE.btnText} btnSize="large" />
     </Modal>
   );
 
@@ -31,7 +44,17 @@ const ModalForm: React.FC = () => {
       <ModalButton btnText={DELETE.btnText} btnSize="medium" />
     </Modal>
   );
-  return addUpdatePlace;
+
+  const myTripPlace = (
+    <Modal onClose={() => {}} bodyStyle="MY_PLACE">
+      <ModalTitle headerText={TRIP.headerText} />
+      <AddInput purpose="TRIP" />
+      <AddImgBtn />
+      <AddTextArea />
+      <ModalButton btnText="저장하기" btnSize="full" />
+    </Modal>
+  );
+  return myTripPlace;
 };
 
 const OverFlowWrap = styled.div`

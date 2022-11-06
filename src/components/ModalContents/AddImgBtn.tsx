@@ -16,7 +16,7 @@ const AddImgBtn = () => {
 };
 // Todo: 사진 추가 시, inputlable 텍스트 변경해야 함.
 const defaultStyle = css`
-  width: 432px;
+  width: 100%;
 `;
 const Wrap = styled.div`
   ${defaultStyle};

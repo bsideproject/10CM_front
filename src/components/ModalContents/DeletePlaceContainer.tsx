@@ -9,7 +9,7 @@ const DeletePlaceContainer: React.FC<IProps> = ({ headerText }) => {
   return (
     <Wrap>
       <Header>{headerText}</Header>
-      <DeleteText>props로 정보 받아오는 곳</DeleteText>
+      <DeleteText>‘삭제할장소인데정말로긴이이이이이이인이름’</DeleteText>
       <NoticeText>을 정말로 삭제하시겠습니까?</NoticeText>
     </Wrap>
   );
@@ -18,6 +18,7 @@ const DeletePlaceContainer: React.FC<IProps> = ({ headerText }) => {
 const Wrap = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const Header = styled.span`
@@ -28,12 +29,15 @@ const Header = styled.span`
 
 const DeleteText = styled.span`
   color: ${colors.BLUE_BASE};
+  margin-top: 8px;
   ${fonts('text-sm-regular')};
 `;
 
 const NoticeText = styled.span`
   color: ${colors.NEUTRAl_600};
   ${fonts('text-sm-regular')};
+  letter-spacing: 0.013em;
+  padding-bottom: 16px;
 `;
 
 export default DeletePlaceContainer;

@@ -3,13 +3,18 @@ import React from 'react';
 import styled from 'styled-components';
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
-const TagInput: React.FC = () => {
-  const exampleText = '태그를 입력해주세요. (ex. #비건 #카페 #재즈바)';
+import * as CFG from 'services/config.js';
+type Purpose = 'TAG' | 'TRIP';
+interface IProps {
+  purpose: Purpose;
+}
+const AddInput: React.FC<IProps> = ({ purpose }) => {
+  const content = CFG.INPUT_DESC[purpose];
 
   return (
     <Wrap>
-      <span>태그</span>
-      <Input placeholder={exampleText} />
+      <span>{content.text}</span>
+      <Input placeholder={content.placeholder} />
     </Wrap>
   );
 };
@@ -17,7 +22,7 @@ const TagInput: React.FC = () => {
 const Wrap = styled.div`
   padding-top: 8px;
   gap: 4px;
-  width: 432px;
+  width: 100%;
   display: flex;
   flex-direction: column;
 
@@ -28,4 +33,4 @@ const Wrap = styled.div`
   }
 `;
 
-export default TagInput;
+export default AddInput;

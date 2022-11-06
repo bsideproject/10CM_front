@@ -45,3 +45,14 @@ export const MODAL_MYPLACE = {
     btnText: '저장하기',
   },
 };
+
+export const INPUT_DESC = {
+  TAG: {
+    text: '태그',
+    placeholder: '태그를 입력해주세요. (ex. #비건 #카페 #재즈바)',
+  },
+  TRIP: {
+    text: '여행 제목*',
+    placeholder: '글자수 20자 이내, 개행 불가',
+  },
+};
