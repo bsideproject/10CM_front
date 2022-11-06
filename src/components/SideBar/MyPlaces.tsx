@@ -2,10 +2,9 @@ import Input from 'components/common/Input';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import MyPlaceGroup from 'components/MyPlace/MyPlaceGroup';
-import { colors } from 'constants/colors';
-import { fonts } from 'assets/fonts/fonts';
 import { KeywordAddress } from 'dtos/kakao';
 import KakaoAddressCard from 'components/KakaoAddressCard';
+import MapConfig from 'services/map-config.js';
 import { SearchWrap } from './styles';
 
 interface Props {}
@@ -15,6 +14,7 @@ const MyPlaces: React.FC<Props> = () => {
   const [searchAddressList, setSearchAddressList] = useState<KeywordAddress[]>(
     [],
   );
+  // TODO 클래스나 훅으로 빼기
   const ps = new window.kakao.maps.services.Places();
 
   const handleChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,6 +42,12 @@ const MyPlaces: React.FC<Props> = () => {
       alert('검색 결과 중 오류가 발생했습니다.');
     }
   };
+
+  const handleClickCard = (lat: string, lng: string) => {
+    return () => {
+      const marker = MapConfig.createMarker(lat, lng);
+    };
+  };
   return (
     <MyPlacesWrap>
       <SearchWrap>
@@ -61,7 +67,12 @@ const MyPlaces: React.FC<Props> = () => {
       ) : (
         <KakaoAddressListWrap>
           {searchAddressList.map(data => {
-            return <KakaoAddressCard addressData={data} />;
+            return (
+              <KakaoAddressCard
+                addressData={data}
+                onClick={handleClickCard(data.x, data.y)}
+              />
+            );
           })}
         </KakaoAddressListWrap>
       )}

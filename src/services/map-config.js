@@ -1,4 +1,10 @@
+// 이거 ts로 수정부탁드립니다.
+
 class MapConfig {
+  constructor() {
+    this.kakao = window.kakao;
+  }
+
   static initMapOption(kakao) {
     const options = {
       // 지도를 생성할 때 필요한 기본 옵션
@@ -82,14 +88,17 @@ class MapConfig {
     };
   }
 
-  static createMarker(kakao, map, locationY, locationX) {
+  // TODO 카카오를 굳이 안받아도 될 것 같음. 이 함수롤 실행 시에 마커만 리턴해서 밖에서 current에 직접 넣는게 나을 것 같음.
+  static createMarker(locationY, locationX) {
     // 마커 생성
-    const markerPosition = new kakao.maps.LatLng(locationY, locationX);
 
-    const marker = new kakao.maps.Marker({
+    const markerPosition = new this.kakao.maps.LatLng(locationY, locationX);
+
+    const marker = new this.kakao.maps.Marker({
       position: markerPosition,
     });
-    marker.setMap(map.current);
+    // marker.setMap(map.current);
+    return marker;
   }
 
   static createCluster(kakao, map, locations) {

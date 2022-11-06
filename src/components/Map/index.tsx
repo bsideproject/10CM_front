@@ -3,8 +3,10 @@ import * as ReactDOMServer from 'react-dom/server';
 import styled from 'styled-components';
 import { Address } from 'types/dtos/address';
 import MapConfig from 'services/map-config.js';
+
 interface Props {}
-const Map: React.FC<Props> = () => {
+
+const Map = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
   const map = useRef<any>(null);
   let manager: any;
   const { kakao } = window;
@@ -12,7 +14,6 @@ const Map: React.FC<Props> = () => {
     const kakaoMap = document.getElementById('map');
     const options = MapConfig.initMapOption(kakao); // 좌표, 레벨 설정 필요
     map.current = new kakao.maps.Map(kakaoMap, options); // 지도 생성 및 객체 리턴
-
     const managerOptions = MapConfig.managerOptions(kakao, map);
     manager = new kakao.maps.drawing.DrawingManager(managerOptions);
     console.log(map.current);
@@ -22,7 +23,7 @@ const Map: React.FC<Props> = () => {
   // 맵 이벤트 등록
   const createMarker = () => {
     // locationY, locationX 예시s
-    MapConfig.createMarker(kakao, map, 33.450258, 126.570513);
+    MapConfig.createMarker(33.450258, 126.570513);
   };
   const createCluster = () => {
     const locations = {};
@@ -86,6 +87,7 @@ const Map: React.FC<Props> = () => {
     >
       <Wrap
         id="map"
+        ref={ref}
         style={{
           width: '100%',
           height: '100%',
@@ -112,7 +114,7 @@ const Map: React.FC<Props> = () => {
       </div>
     </div>
   );
-};
+});
 export default Map;
 const Wrap = styled.div`
   .info-title {

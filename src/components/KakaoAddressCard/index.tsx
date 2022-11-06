@@ -6,11 +6,12 @@ import styled from 'styled-components';
 
 interface Props {
   addressData: KeywordAddress;
+  onClick: () => void;
 }
 
-const KakaoAddressCard: React.FC<Props> = ({ addressData }) => {
+const KakaoAddressCard: React.FC<Props> = ({ addressData, onClick }) => {
   return (
-    <KakaoAddressWrap>
+    <KakaoAddressWrap onClick={onClick}>
       <KakaoAddressHeader>
         <KakaoAddressName>{addressData.place_name}</KakaoAddressName>
         <KakaoAddressCategory>{addressData.category_name}</KakaoAddressCategory>
