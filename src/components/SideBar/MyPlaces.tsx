@@ -7,9 +7,11 @@ import KakaoAddressCard from 'components/KakaoAddressCard';
 import MapConfig from 'services/map-config.js';
 import { SearchWrap } from './styles';
 
-interface Props {}
+interface Props {
+  mapRef: any;
+}
 
-const MyPlaces: React.FC<Props> = () => {
+const MyPlaces: React.FC<Props> = ({ mapRef }) => {
   const [keyword, setKeyword] = useState<string>('');
   const [searchAddressList, setSearchAddressList] = useState<KeywordAddress[]>(
     [],
@@ -44,8 +46,13 @@ const MyPlaces: React.FC<Props> = () => {
   };
 
   const handleClickCard = (lat: string, lng: string) => {
+    const { kakao } = window;
+
     return () => {
-      const marker = MapConfig.createMarker(lat, lng);
+      const marker = MapConfig.createMarker(kakao, lat, lng);
+      console.log(marker);
+
+      marker.setMap(mapRef.current);
     };
   };
   return (

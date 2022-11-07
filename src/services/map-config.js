@@ -1,10 +1,6 @@
 // 이거 ts로 수정부탁드립니다.
 
 class MapConfig {
-  constructor() {
-    this.kakao = window.kakao;
-  }
-
   static initMapOption(kakao) {
     const options = {
       // 지도를 생성할 때 필요한 기본 옵션
@@ -15,25 +11,21 @@ class MapConfig {
   }
 
   static confirmMapLog(kakao, map) {
-    kakao.maps.event.addListener(map.current, 'zoom_changed', function () {
+    kakao.maps.event.addListener(map, 'zoom_changed', function () {
       // 지도의 현재 레벨을 얻어옵니다
-      const level = map.current.getLevel();
+      const level = map.getLevel();
       console.log('현재 지도 레벨은 ', level, ' 입니다');
     });
-    kakao.maps.event.addListener(
-      map.current,
-      'click',
-      function event(mouseEvent) {
-        // 클릭한 위도, 경도 정보를 가져옵니다
-        const latlng = mouseEvent.latLng;
-        console.log('마커를 찍은 위치는? ', latlng);
-      },
-    );
+    kakao.maps.event.addListener(map, 'click', function event(mouseEvent) {
+      // 클릭한 위도, 경도 정보를 가져옵니다
+      const latlng = mouseEvent.latLng;
+      console.log('마커를 찍은 위치는? ', latlng);
+    });
   }
 
   static managerOptions(kakao, map) {
     return {
-      map: map.current, // Drawing Manager로 그리기 요소를 그릴 map 객체입니다
+      map, // Drawing Manager로 그리기 요소를 그릴 map 객체입니다
       drawingMode: [
         // drawing manager로 제공할 그리기 요소 모드입니다
         kakao.maps.drawing.OverlayType.MARKER,
@@ -89,12 +81,12 @@ class MapConfig {
   }
 
   // TODO 카카오를 굳이 안받아도 될 것 같음. 이 함수롤 실행 시에 마커만 리턴해서 밖에서 current에 직접 넣는게 나을 것 같음.
-  static createMarker(locationY, locationX) {
+  static createMarker(kakao, locationY, locationX) {
     // 마커 생성
 
-    const markerPosition = new this.kakao.maps.LatLng(locationY, locationX);
+    const markerPosition = new kakao.maps.LatLng(locationX, locationY);
 
-    const marker = new this.kakao.maps.Marker({
+    const marker = new kakao.maps.Marker({
       position: markerPosition,
     });
     // marker.setMap(map.current);
