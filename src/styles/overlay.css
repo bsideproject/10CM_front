@@ -1,0 +1,131 @@
+.overay-wrap {
+  position: absolute;
+  bottom: 65px;
+  left: 0;
+  transform: translateX(-50%);
+  width: 380px;
+  box-shadow: 0px 1px 8px 4px rgba(0, 0, 0, 0.08),
+    0px 1px 6px 2px rgba(0, 0, 0, 0.4);
+  background-color: white;
+  border-radius: 12px;
+}
+.overay-header {
+  width: 100%;
+  position: relative;
+  padding: 14px 8px 2px 16px;
+}
+.overay-header-wrap {
+  width: 312px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.overay-header-title {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 32px;
+  color: #0d0f11;
+}
+.overay-header-category {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 26px;
+  color: #b8c0cc;
+  margin-left: 8px;
+}
+.overay-header-close {
+  position: absolute;
+  right: 8px;
+  top: 12px;
+}
+.overay-body {
+  display: flex;
+  gap: 0 10px;
+  padding: 4px 16px 12px 16px;
+}
+.overay-body-text-wrap {
+  flex: 1;
+  white-space: pre-wrap;
+}
+.overay-body-text-street {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 26px;
+  color: #4b5768;
+}
+.overay-body-text-zibun {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 21px;
+  color: #64748b;
+}
+.overay-body-text-additional {
+  margin-top: 16px;
+}
+.overay-body-text-tel {
+  width: 120px;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 26px;
+  color: #4b5768;
+}
+.overay-body-text-link {
+  margin-left: 12px;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 26px;
+}
+.overay-body-image-wrap {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  background-color: red;
+}
+.overay-footer {
+  display: flex;
+  padding: 0 16px 16px 16px;
+}
+.overay-footer-pin-button {
+  width: 92px;
+  height: 36px;
+  border: 1px solid #d0d5dd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.overay-footer-pin-button:hover {
+  background-color: #f5f6fa;
+}
+.overay-footer-pin-button:active {
+  border: 1px solid #b8c0cc;
+  background-color: #f5f6fa;
+}
+.overay-footer-post-button {
+  width: 248px;
+  height: 36px;
+  border: 0;
+  border-radius: 4px;
+  margin-left: 8px;
+  background-color: #436ddb;
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 26px;
+  cursor: pointer;
+}
+.overay-footer-post-button:hover {
+  background-color: #698ae2;
+}
+.overay-footer-post-button:active {
+  background-color: #3657af;
+}
+.overay-triangle {
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0px;
+  border-bottom: 10px solid transparent;
+  border-top: 18px solid white;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+}

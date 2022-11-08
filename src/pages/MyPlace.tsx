@@ -13,14 +13,11 @@ const CreateTrip: React.FC<Props> = () => {
     mapRef.current = map;
   };
   return (
-    <>
-      <button onClick={() => console.log(mapRef)}>클릭</button>
-      <MapLayout
-        nav={<SideNav />}
-        side={<MyPlaces mapRef={mapRef} />}
-        map={<Map mapRef={mapRef} setMapRef={handleChangeRef} />}
-      />
-    </>
+    <MapLayout
+      nav={<SideNav />}
+      side={<MyPlaces map={mapRef} />}
+      map={<Map mapRef={mapRef} setMapRef={handleChangeRef} />}
+    />
   );
 };
 export default CreateTrip;

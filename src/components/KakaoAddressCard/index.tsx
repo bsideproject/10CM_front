@@ -1,11 +1,11 @@
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
-import { KeywordAddress } from 'dtos/kakao';
+import { KakaoAddress } from 'dtos/kakao';
 import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
-  addressData: KeywordAddress;
+  addressData: KakaoAddress;
   onClick: () => void;
 }
 

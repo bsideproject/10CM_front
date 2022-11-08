@@ -1,4 +1,4 @@
-export interface KeywordAddress {
+export interface KakaoAddress {
   // 지번 주소
   address_name: '대구 중구 동성로2가 56';
 

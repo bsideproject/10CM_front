@@ -114,7 +114,7 @@ const Map: React.FC<Props> = ({ mapRef, setMapRef = () => {} }) => {
         style={{ width: '100%', height: '100%', display: 'none' }}
         onClick={() => handleCreateRoadView()}
       />
-      <div>
+      <div style={{ display: 'none' }}>
         <button onClick={createMarker}>마커생성</button>
         <button onClick={createCluster}>클러스터생성</button>
         <button onClick={currentLocation}>내 위치 찾기</button>
