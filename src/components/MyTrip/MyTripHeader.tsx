@@ -27,6 +27,7 @@ const Wrap = styled.div`
   height: 64px;
   background: ${colors.WHITE};
   border-bottom: 1px solid ${colors.NEUTRAl_50};
+  padding: 0 20px;
 `;
 
 const ButtonWrap = styled.div`

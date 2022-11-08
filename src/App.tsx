@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MyPlace from 'pages/MyPlace';
 import { routePath } from 'constants/route';
 import CreateTrip from 'pages/CreateTrip';
+import MyTrip from 'pages/MyTrip';
 
 const App = () => {
   return (
@@ -12,7 +13,7 @@ const App = () => {
       <GlobalStyle />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<MyTrip />} />
           <Route path={routePath.MY_PLACE} element={<MyPlace />} />
           <Route path={routePath.CREATE_TRIP} element={<CreateTrip />} />
         </Routes>

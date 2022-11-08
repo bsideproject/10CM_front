@@ -11,7 +11,12 @@ const ImgLists: React.FC<IProps> = ({ listsData, isNav }) => {
   return (
     <MenuList isNav={isNav}>
       {listsData.map(data => (
-        <ImgItem img={data.img} text={data.text} isNav={isNav} />
+        <ImgItem
+          key={data.text}
+          img={data.img}
+          text={data.text}
+          isNav={isNav}
+        />
       ))}
     </MenuList>
   );
