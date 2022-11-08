@@ -19,7 +19,7 @@ const ModalForm: React.FC = () => {
         <SearchLocation />
         <AddImgBtn />
         <AddInput purpose="TAG" />
-        <AddTextArea />
+        <AddTextArea purpose="TAG" />
       </OverFlowWrap>
       <ModalButton btnText={ADD.btnText} btnSize="large" />
     </Modal>
@@ -32,7 +32,7 @@ const ModalForm: React.FC = () => {
         <SearchLocation />
         <AddImgBtn />
         <AddInput purpose="TAG" />
-        <AddTextArea />
+        <AddTextArea purpose="TAG" />
       </OverFlowWrap>
       <ModalButton btnText={UPDATE.btnText} btnSize="large" />
     </Modal>
@@ -50,8 +50,17 @@ const ModalForm: React.FC = () => {
       <ModalTitle headerText={TRIP.headerText} />
       <AddInput purpose="TRIP" />
       <AddImgBtn />
-      <AddTextArea />
+      <AddTextArea purpose="TRIP" />
       <ModalButton btnText="저장하기" btnSize="full" />
+    </Modal>
+  );
+
+  const makeNewPlace = (
+    <Modal onClose={() => {}} bodyStyle="MAKE_NEW_PLACE">
+      <ModalTitle headerText={TRIP.headerText} />
+      <AddInput purpose="TRIP" />
+      <AddImgBtn />
+      <ModalButton btnText="상세 일정 만들기" btnSize="full" />
     </Modal>
   );
   return myTripPlace;

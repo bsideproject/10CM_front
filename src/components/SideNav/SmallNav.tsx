@@ -9,6 +9,7 @@ import Img from 'components/Img/Img';
 import * as CFG from 'services/config.js';
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
+import { sizes } from 'constants/sizes';
 
 import ImgLists from './ImgLists';
 interface IProps {
@@ -18,7 +19,11 @@ const SmallNav: React.FC<IProps> = ({ className }) => {
   return (
     <Wrap className={className}>
       <LogoWrap>
-        <Img src={smallNavLogo} width="44px" height="44px" />
+        <Img
+          src={smallNavLogo}
+          width={sizes.SMALL_LOGO_SIZE}
+          height={sizes.SMALL_LOGO_SIZE}
+        />
       </LogoWrap>
       <MenuWrap>
         <UserProfile>

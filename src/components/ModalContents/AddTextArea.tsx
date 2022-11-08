@@ -3,13 +3,21 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
+import * as CFG from 'services/config.js';
 
-const AddTextArea: React.FC = () => {
-  const exampleText = '장소에 대한 생각, 간략한 설명을 입력해주세요.';
+type Purpose = 'TAG' | 'TRIP';
+
+interface IProps {
+  purpose: Purpose;
+}
+const AddTextArea: React.FC<IProps> = ({ purpose }) => {
+  const content = CFG.TEXTAREA_DESC[purpose];
+
+  // const exampleText = '장소에 대한 생각, 간략한 설명을 입력해주세요.';
   return (
     <Wrap>
       <span>메모</span>
-      <Textarea placeholder={exampleText} maxLength={500} count />
+      <Textarea placeholder={content.placeholder} maxLength={500} count />
     </Wrap>
   );
 };

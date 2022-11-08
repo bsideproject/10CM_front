@@ -31,6 +31,14 @@ export const modalCss = (type: ModalType): FlattenSimpleInterpolation => {
         padding: 32px 24px;
         gap: 8px;
       `;
+    case 'MAKE_NEW_PLACE':
+      return css`
+        ${defaultStyle};
+        height: 547px;
+        width: 480px;
+        padding: 32px 24px;
+        gap: 8px;
+      `;
     default:
       return css``;
   }

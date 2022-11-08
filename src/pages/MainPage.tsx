@@ -8,8 +8,8 @@ import MapLayout from 'components/UI/MapLayout';
 import ModalForm from 'components/ModalContents/ModalForm';
 
 const MainPage: React.FC = () => {
-  // return <MapLayout nav={<SideNav />} side={<SearchPlace />} map={<Map />} />;
-  return <ModalForm />;
+  return <MapLayout nav={<SideNav />} side={<SearchPlace />} map={<Map />} />;
+  // return <ModalForm />;
 };
 
 export default MainPage;

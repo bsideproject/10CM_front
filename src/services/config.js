@@ -56,3 +56,14 @@ export const INPUT_DESC = {
     placeholder: '글자수 20자 이내, 개행 불가',
   },
 };
+
+export const TEXTAREA_DESC = {
+  TAG: {
+    text: '메모',
+    placeholder: '장소에 대한 생각, 간략한 설명을 입력해주세요.',
+  },
+  TRIP: {
+    text: '상세 설명',
+    placeholder: '500자 이내 작성',
+  },
+};

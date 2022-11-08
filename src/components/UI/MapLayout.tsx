@@ -9,6 +9,7 @@ interface IProps {
 const MapLayout: React.FC<IProps> = ({ nav, side, map }) => {
   return (
     <Layout>
+      <TestHeader />
       {nav}
       {side}
       {map}
@@ -22,4 +23,15 @@ const Layout = styled.div`
   display: flex;
 `;
 
+const TestHeader = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 72px;
+  width: 100%;
+  background-color: black;
+`;
+
 export default MapLayout;
+
+// 1. fixed로 header설정
