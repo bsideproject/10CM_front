@@ -1,13 +1,14 @@
 import Input from 'components/common/Input';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MyPlaceGroup from 'components/MyPlace/MyPlaceGroup';
 import { KakaoAddress } from 'dtos/kakao';
 import KakaoAddressCard from 'components/KakaoAddressCard';
 import MapConfig from 'services/map-config.js';
+import CloseIcon from 'assets/svg/close.svg';
+import PinIcon from 'assets/svg/overay-pin.svg';
+import CreatePost from '../Modals/CreatePost';
 import { SearchWrap } from './styles';
-import CloseIcon from '../../assets/svg/overay-close.svg';
-import PinIcon from '../../assets/svg/overay-pin.svg';
 
 interface Props {
   map: any;
@@ -18,13 +19,20 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   const [searchAddressList, setSearchAddressList] = useState<KakaoAddress[]>(
     [],
   );
+  const [selectedAddress, setSelectedAddress] = useState<KakaoAddress | null>(
+    null,
+  );
+  const [isOpenModal, setIsOpenModal] = useState(false);
   // TODO 클래스나 훅으로 빼기
   const ps = new window.kakao.maps.services.Places();
 
   const handleChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
   };
-
+  const handleCloseClick = () => {
+    setIsOpenModal(false);
+    setSelectedAddress(null);
+  };
   const searchAddress = () => {
     ps.keywordSearch(keyword, placesSearchCB);
   };
@@ -72,7 +80,6 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
       });
 
       kakao.maps.event.addListener(marker, 'click', function () {
-        console.log('good');
         overlay.setMap(map.current);
       });
     };
@@ -93,7 +100,6 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     placeName.className = 'overay-header-title';
     placeName.appendChild(placeNameContent);
     const placeCategory = document.createElement('span');
-    console.log(addressInfo.category_name);
     const placeCategoryContent = document.createTextNode(
       addressInfo.category_name.split(' > ')[1],
     );
@@ -165,6 +171,9 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     const postContent = document.createTextNode('포스팅 추가하기');
     post.appendChild(postContent);
     post.className = 'overay-footer-post-button';
+    post.onclick = () => {
+      setSelectedAddress(addressInfo);
+    };
     footer.appendChild(pin);
     footer.appendChild(post);
     // 닫기 이벤트 추가
@@ -183,6 +192,12 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     return wrap;
   };
 
+  useEffect(() => {
+    if (selectedAddress) {
+      setIsOpenModal(true);
+    }
+  }, [selectedAddress]);
+
   return (
     <MyPlacesWrap>
       <SearchWrap>
@@ -192,7 +207,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
             searchAddress();
           }}
         >
-          <Input type="text" onChange={handleChangeKeyword} />
+          <Input type="text" onChange={handleChangeKeyword} value={keyword} />
         </form>
       </SearchWrap>
       {searchAddressList.length === 0 ? (
@@ -202,15 +217,18 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
       ) : (
         <KakaoAddressListWrap>
           {searchAddressList.map(data => {
-            console.log(data);
             return (
               <KakaoAddressCard
+                key={data.id}
                 addressData={data}
                 onClick={handleClickCard(data)}
               />
             );
           })}
         </KakaoAddressListWrap>
+      )}
+      {isOpenModal && (
+        <CreatePost addressInfo={selectedAddress!} onClose={handleCloseClick} />
       )}
     </MyPlacesWrap>
   );

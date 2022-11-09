@@ -18,7 +18,13 @@ const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
   } = props;
   return (
     <div>
-      <MyInput ref={ref} {...rest} error={!!error} maxLength={maxLength} />
+      <MyInput
+        ref={ref}
+        {...rest}
+        error={!!error}
+        maxLength={maxLength}
+        value={value}
+      />
       {(!!error || count) && (
         <OptionsWrap error={!!error}>
           <div>{error}</div>
