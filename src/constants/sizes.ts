@@ -4,4 +4,5 @@ export const sizes = {
   CLOSE_BTN_SIZE: '24px',
   EMPTY_IMG_SIZE: '80px',
   EMPTY_DND_SIZE: '48px',
+  TRIP_SUMMARY_SIZE: '64px',
 };

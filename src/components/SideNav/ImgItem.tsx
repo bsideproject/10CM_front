@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 import Img from 'components/Img/Img';
 
-import { colors } from 'constants/colors';
 import { sizes } from 'constants/sizes';
+import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
 interface IProps {
   img: string;

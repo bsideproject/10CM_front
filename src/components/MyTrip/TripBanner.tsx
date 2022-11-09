@@ -1,13 +1,8 @@
-import EmptyDnd from 'components/common/EmptyContent/EmptyDnd';
 import React from 'react';
 import styled from 'styled-components';
 
-const TripBanner = () => {
-  return (
-    <Wrap>
-      <EmptyDnd />
-    </Wrap>
-  );
+const TripBanner: React.FC = () => {
+  return <Wrap />;
 };
 
 const Wrap = styled.div`

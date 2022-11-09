@@ -2,9 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
-
-const DayBox = () => {
-  return <Wrap />;
+interface IProps {
+  dayNum: number;
+}
+const DayNumBox: React.FC<IProps> = ({ dayNum }) => {
+  return <Wrap>{`Day${dayNum}`}</Wrap>;
 };
 
 const Wrap = styled.div`
@@ -12,9 +14,9 @@ const Wrap = styled.div`
   justify-content: center;
   align-items: center;
   width: 58px;
-  padding: 4px 12px;
   border-radius: 4px;
   ${fonts('text-xs-regular')};
+  background-color: ${colors.WHITE};
 `;
 
-export default DayBox;
+export default DayNumBox;

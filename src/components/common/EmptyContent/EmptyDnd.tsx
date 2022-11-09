@@ -17,7 +17,7 @@ const EmptyDnd = () => {
     </Wrap>
   );
 };
-
+// TODO: 여기 컴포넌트에 DND작업
 const Wrap = styled.div`
   display: flex;
   justify-content: center;

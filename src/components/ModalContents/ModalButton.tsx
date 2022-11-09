@@ -7,22 +7,38 @@ type BtnSize = 'full' | 'small' | 'medium' | 'large';
 interface IProps {
   btnText: string;
   btnSize: BtnSize;
+  btnWidth: string;
 }
-const ModalButton: React.FC<IProps> = ({ btnText, btnSize }) => {
+const ModalButton: React.FC<IProps> = ({ btnText, btnSize, btnWidth }) => {
   const isFullSize = btnSize === 'full';
   return (
     <Wrap btnSize={btnSize}>
       {isFullSize && (
-        <Button buttonType="filled" buttonSize={btnSize} disabled={false}>
+        <Button
+          buttonType="filled"
+          buttonSize={btnSize}
+          buttonWidth={btnWidth}
+          disabled={false}
+        >
           <ButtonText isCancel={false}>{btnText}</ButtonText>
         </Button>
       )}
       {!isFullSize && (
         <>
-          <Button buttonType="outline" buttonSize={btnSize} disabled={false}>
+          <Button
+            buttonType="outline"
+            buttonSize={btnSize}
+            buttonWidth={btnWidth}
+            disabled={false}
+          >
             <ButtonText isCancel>취소</ButtonText>
           </Button>
-          <Button buttonType="filled" buttonSize={btnSize} disabled={false}>
+          <Button
+            buttonType="filled"
+            buttonSize={btnSize}
+            buttonWidth={btnWidth}
+            disabled={false}
+          >
             <ButtonText isCancel={false}>{btnText}</ButtonText>
           </Button>
         </>

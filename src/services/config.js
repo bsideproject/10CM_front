@@ -44,6 +44,9 @@ export const MODAL_MYPLACE = {
     headerText: '나의 여행',
     btnText: '저장하기',
   },
+  PLACE_DETAIL: {
+    headerText: '나의 여행 상세',
+  },
 };
 
 export const INPUT_DESC = {

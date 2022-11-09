@@ -15,6 +15,7 @@ type ButtonSize = 'full' | 'large' | 'medium' | 'small';
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonType?: ButtonType;
   buttonSize?: ButtonSize;
+  buttonWidth: string;
 }
 
 const Button = forwardRef<HTMLButtonElement, Props>((props, ref) => {
@@ -74,33 +75,34 @@ const getButtonStyle = (disabled?: boolean, type: ButtonType = 'filled') => {
   `;
 };
 
-const getButtonSize = (size: ButtonSize = 'medium') => {
+const getButtonSize = (width: string, size: ButtonSize = 'medium') => {
   // Todo : width 정리
   switch (size) {
     case 'full':
       return css`
         height: 56px;
-        width: 100%;
+        width: ${width};
       `;
 
     case 'large':
       return css`
         height: 56px;
         // padding: 0 24px;
-        width: 212px;
+        width: ${width};
       `;
 
     case 'medium':
       return css`
         height: 48px;
         // padding: 0 24px;
-        width: 76px;
+        width: ${width};
       `;
 
     case 'small':
       return css`
         height: 36px;
         // padding: 0 20px;
+        width: ${width};
       `;
     default:
       return css`
@@ -122,8 +124,9 @@ const defaultButtonStyle = css`
 const MyButton = styled.button<{
   buttonType?: ButtonType;
   buttonSize?: ButtonSize;
+  buttonWidth: string;
 }>`
   ${defaultButtonStyle};
   ${({ buttonType, disabled }) => getButtonStyle(disabled, buttonType)};
-  ${({ buttonSize }) => getButtonSize(buttonSize)}
+  ${({ buttonWidth, buttonSize }) => getButtonSize(buttonWidth, buttonSize)}
 `;
