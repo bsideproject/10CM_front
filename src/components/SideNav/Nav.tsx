@@ -25,9 +25,10 @@ const Nav: React.FC<IProps> = ({ className }) => {
             <ProfileName>가나다라마바사아님</ProfileName>
           </UserProfile>
           <ImgLists listsData={CFG.NAV_DESC} isNav />
-          <LogoutList>
+          {/* <LogoutList>
             <ListItem>IMG1</ListItem>
-          </LogoutList>
+          </LogoutList> */}
+          <ImgLists listsData={CFG.NAV_DESC_SEC} isNav />
         </MenuWrap>
       </NavContent>
     </Wrap>

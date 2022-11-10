@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css } from 'styled-components';
 import Nav from './Nav';
 import SmallNav from './SmallNav';
 
@@ -23,7 +23,9 @@ const Wrap = styled.div`
   flex-direction: column;
 
   .hover-open {
-    display: none;
+    position: fixed;
+    opacity: 0;
+    pointer-events: none;
   }
 
   .hover-hidden {
@@ -35,13 +37,16 @@ const Wrap = styled.div`
       display: none;
     }
     .hover-open {
-      display: block;
+      position: static;
+      pointer-events: auto;
+      opacity: 1;
+      transition: 0.6s;
     }
   }
 `;
 
 export default SideNav;
 
-// width: 220px;
-// transition: 0.4s;
-// hover로 처리
+// ref: https://songsong.dev/entry/css-display-none-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98-%EC%88%98%EC%A0%95%ED%95%98%EA%B8%B0
+
+// width: 220px

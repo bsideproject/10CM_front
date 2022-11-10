@@ -105,7 +105,10 @@ const OverFlowWrap = styled.div`
 const SummaryWrap = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 32px 24px 0 24px;
+  padding: 0 24px;
+  align-self: flex-start;
+  width: 100%;
+  gap: 24px;
 `;
 
 export default ModalForm;

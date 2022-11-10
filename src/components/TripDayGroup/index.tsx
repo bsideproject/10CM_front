@@ -49,19 +49,27 @@ const DraggableItem: React.FC<Props> = ({ itemList, onChangeList }) => {
   });
 
   const onDragEnd = (result: DropResult) => {
-    if (!result.destination) {
+    const { destination, source, draggableId } = result;
+    if (!destination) {
+      // drag 영역이 아닐 경우
       return;
     }
-    const items = reorder(
-      itemList,
-      result.source.index,
-      result.destination.index,
-    );
+
+    if (
+      destination.droppableId === source.droppableId &&
+      source.index === destination.index
+    ) {
+      // 출발지와 도착지가 같을 경우
+      return;
+    }
+
+    const items = reorder(itemList, source.index, destination.index);
     if (onDragEndAction) {
+      //  return값이 X
       onDragEndAction(items);
     }
   };
-  ``;
+
   return (
     <DndWrap>
       <DragDropContext onDragEnd={onDragEnd}>
@@ -108,3 +116,5 @@ const DndWrap = styled.div`
     margin-top: 20px;
   }
 `;
+
+// ref: https://kasterra.github.io/react-beautiful-dnd-1/ (설명 정확)

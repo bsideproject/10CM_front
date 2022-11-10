@@ -10,7 +10,7 @@ interface Props {}
 
 const MyTrip: React.FC<Props> = () => {
   return (
-    <ModalForm />
+    // <ModalForm />
 
     // <div
     //   style={{
@@ -24,11 +24,11 @@ const MyTrip: React.FC<Props> = () => {
     //   <DayListBar />
     // </div>
 
-    // <HomeLayout
-    //   nav={<Nav className="hover-open" />}
-    //   banner={<TripBanner />}
-    //   content={<MyTripContent />}
-    // />
+    <HomeLayout
+      nav={<Nav className="hover-open" />}
+      banner={<TripBanner />}
+      content={<MyTripContent />}
+    />
   );
 };
 export default MyTrip;

@@ -13,7 +13,7 @@ const App = () => {
       <GlobalStyle />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<MyTrip />} />
+          <Route path="/" element={<MainPage />} />
           <Route path={routePath.MY_PLACE} element={<MyPlace />} />
           <Route path={routePath.CREATE_TRIP} element={<CreateTrip />} />
         </Routes>
