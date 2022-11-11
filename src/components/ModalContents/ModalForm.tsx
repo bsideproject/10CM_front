@@ -88,7 +88,7 @@ const ModalForm: React.FC = () => {
     </Modal>
   );
   // Todo: 레이아웃 재구성 필요
-  return myPlaceDetail;
+  return myTripPlace;
 };
 
 const OverFlowWrap = styled.div`

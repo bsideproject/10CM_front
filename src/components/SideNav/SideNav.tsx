@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import Nav from './Nav';
 import SmallNav from './SmallNav';
 
@@ -14,6 +14,15 @@ const SideNav: React.FC = () => {
 
 const defaultStyle = css`
   width: 80px;
+`;
+
+const navSlide = keyframes`
+  0% {
+    width: 0px;
+  }
+  100% {
+    width: 220px;
+  }
 `;
 
 const Wrap = styled.div`
@@ -40,7 +49,8 @@ const Wrap = styled.div`
       position: static;
       pointer-events: auto;
       opacity: 1;
-      transition: 0.6s;
+      animation-duration: 0.5s;
+      animation-name: ${navSlide};
     }
   }
 `;

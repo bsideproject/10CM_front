@@ -56,7 +56,7 @@ export const INPUT_DESC = {
   },
   TRIP: {
     text: '여행 제목*',
-    placeholder: '글자수 20자 이내, 개행 불가',
+    placeholder: '글자수 20자 이내',
   },
 };
 
