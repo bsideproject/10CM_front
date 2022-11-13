@@ -1,12 +1,17 @@
 import Img from 'components/Img/Img';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import emptyImg from 'assets/img/emptyContent.svg';
 import { sizes } from 'constants/sizes';
 import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
 import Button from 'components/common/Button';
+import MakeNewPlace from '../ModalContents/MakeNewPlace';
 const EmptyContent = () => {
+  const [onModal, setOnModal] = useState(false);
+  const handleControlModal = () => {
+    setOnModal(!onModal);
+  };
   return (
     <Wrap>
       <Img
@@ -19,10 +24,12 @@ const EmptyContent = () => {
         buttonType="outline"
         buttonSize="medium"
         buttonWidth="122px"
+        onClick={handleControlModal}
         disabled={false}
       >
         여행 만들기
       </Button>
+      {onModal && <MakeNewPlace onClose={handleControlModal} />}
     </Wrap>
   );
 };
@@ -35,7 +42,7 @@ const Wrap = styled.div`
   padding: 39px 0;
   gap: 16px;
   white-space: pre-wrap;
-
+  margin-top: 56px;
   > p {
     ${fonts('text-sm')};
     color: ${colors.NEUTRAl_400};

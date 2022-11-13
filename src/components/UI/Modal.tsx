@@ -1,5 +1,5 @@
 /* eslint-disable react/require-default-props */
-import React, { ReactNode } from 'react';
+import React, { ReactNode, MouseEvent } from 'react';
 import styled, { css } from 'styled-components';
 import { colors } from 'constants/colors';
 import { modalCss } from 'assets/modalcss';
@@ -12,10 +12,16 @@ interface IProps {
 }
 
 const Modal: React.FC<IProps> = ({ children, onClose, bodyStyle }) => {
+  const handleClickInnerModal = (e: MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  };
+
   return (
     <ModalPortal>
       <ModalBackground onClick={onClose}>
-        <ModalBody styleType={bodyStyle}>{children}</ModalBody>
+        <ModalBody styleType={bodyStyle} onClick={handleClickInnerModal}>
+          {children}
+        </ModalBody>
       </ModalBackground>
     </ModalPortal>
   );

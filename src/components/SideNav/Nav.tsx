@@ -25,9 +25,6 @@ const Nav: React.FC<IProps> = ({ className }) => {
             <ProfileName>가나다라마바사아님</ProfileName>
           </UserProfile>
           <ImgLists listsData={CFG.NAV_DESC} isNav />
-          {/* <LogoutList>
-            <ListItem>IMG1</ListItem>
-          </LogoutList> */}
           <ImgLists listsData={CFG.NAV_DESC_SEC} isNav />
         </MenuWrap>
       </NavContent>
@@ -42,9 +39,6 @@ const defaultStyle = css`
 const Wrap = styled.div`
   ${defaultStyle}
   height: 100%;
-  // position: fixed;
-  // top: 0;
-  // left: 0;
   z-index: 10;
   background: ${colors.WHITE};
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3),
@@ -92,34 +86,4 @@ const ProfileName = styled.div`
   align-items: center;
 `;
 
-const MenuList = styled.ul`
-  width: 188px;
-  height: 176px;
-  gap: 16px;
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  border-top: 1px solid ${colors.NEUTRAl_100};
-  padding: 16px 0;
-`;
-
-const LogoutList = styled.ul`
-  width: 188px;
-  height: 48px;
-  gap: 16px;
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  border-top: 1px solid ${colors.NEUTRAl_100};
-  padding: 16px 0;
-`;
-
-const ListItem = styled.li`
-  width: calc(100% - 32px);
-  height: 48px;
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  border-radius: 12px;
-`;
 export default Nav;

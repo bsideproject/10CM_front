@@ -82,20 +82,20 @@ const DraggableItem: React.FC<Props> = ({ itemList, onChangeList }) => {
                   draggableId={item.number.toString()}
                   index={index}
                 >
-                  {(provided, snapshot) => (
+                  {(provided2, snapshot2) => (
                     <TripDayCard
                       number={index + 1}
                       phone={item.phone}
                       address={item.address}
                       title={item.title}
-                      ref={provided.innerRef}
+                      ref={provided2.innerRef}
                       dndProps={{
-                        ...provided.draggableProps,
-                        ...provided.dragHandleProps,
+                        ...provided2.draggableProps,
+                        ...provided2.dragHandleProps,
                       }}
                       style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style,
+                        snapshot2.isDragging,
+                        provided2.draggableProps.style,
                       )}
                     />
                   )}

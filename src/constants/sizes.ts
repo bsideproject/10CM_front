@@ -5,4 +5,5 @@ export const sizes = {
   EMPTY_IMG_SIZE: '80px',
   EMPTY_DND_SIZE: '48px',
   TRIP_SUMMARY_SIZE: '64px',
+  TRASH_ICON_SIZE: '24px',
 };

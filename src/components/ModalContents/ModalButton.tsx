@@ -8,8 +8,14 @@ interface IProps {
   btnText: string;
   btnSize: BtnSize;
   btnWidth: string;
+  onClick?: () => void;
 }
-const ModalButton: React.FC<IProps> = ({ btnText, btnSize, btnWidth }) => {
+const ModalButton: React.FC<IProps> = ({
+  btnText,
+  btnSize,
+  btnWidth,
+  onClick,
+}) => {
   const isFullSize = btnSize === 'full';
   return (
     <Wrap btnSize={btnSize}>
@@ -19,6 +25,7 @@ const ModalButton: React.FC<IProps> = ({ btnText, btnSize, btnWidth }) => {
           buttonSize={btnSize}
           buttonWidth={btnWidth}
           disabled={false}
+          onClick={onClick}
         >
           <ButtonText isCancel={false}>{btnText}</ButtonText>
         </Button>

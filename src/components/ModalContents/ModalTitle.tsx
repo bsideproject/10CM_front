@@ -7,9 +7,10 @@ import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
 interface IProps {
   headerText: string;
+  onClose?: () => void;
 }
 
-const ModalTitle: React.FC<IProps> = ({ headerText }) => {
+const ModalTitle: React.FC<IProps> = ({ headerText, onClose }) => {
   return (
     <Wrap>
       <span>{headerText}</span>
@@ -17,6 +18,7 @@ const ModalTitle: React.FC<IProps> = ({ headerText }) => {
         src={closeButton}
         width={sizes.CLOSE_BTN_SIZE}
         height={sizes.CLOSE_BTN_SIZE}
+        onClick={onClose}
       />
     </Wrap>
   );

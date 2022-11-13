@@ -20,6 +20,7 @@ const navSlide = keyframes`
   0% {
     width: 0px;
   }
+
   100% {
     width: 220px;
   }
@@ -49,7 +50,7 @@ const Wrap = styled.div`
       position: static;
       pointer-events: auto;
       opacity: 1;
-      animation-duration: 0.5s;
+      animation-duration: 0.2s;
       animation-name: ${navSlide};
     }
   }

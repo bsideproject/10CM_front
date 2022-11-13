@@ -16,11 +16,12 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonType?: ButtonType;
   buttonSize?: ButtonSize;
   buttonWidth: string;
+  onClick?: () => void;
 }
 
 const Button = forwardRef<HTMLButtonElement, Props>((props, ref) => {
   return (
-    <MyButton ref={ref} disabled {...props}>
+    <MyButton ref={ref} onClick={props.onClick} disabled {...props}>
       {props.children}
     </MyButton>
   );

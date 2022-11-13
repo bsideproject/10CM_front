@@ -1,5 +1,6 @@
 import { fonts } from 'assets/fonts/fonts';
 import DayNumber from 'components/common/DayNumber';
+import Img from 'components/Img/Img';
 import { colors } from 'constants/colors';
 import React, { HTMLAttributes } from 'react';
 import {
@@ -7,6 +8,8 @@ import {
   DraggableProvidedDragHandleProps,
 } from 'react-beautiful-dnd';
 import styled from 'styled-components';
+import trashIcon from 'assets/img/trashIcon.svg';
+import { sizes } from '../../constants/sizes';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   number: number;
@@ -25,7 +28,13 @@ const TripDayCard = React.forwardRef<HTMLElement, Props>(
           <DayNumber color={number % 2 === 0 ? 'blue' : 'green'}>
             {number}
           </DayNumber>
-          <div onClick={onDeleteClick}>휴지통</div>
+          <div onClick={onDeleteClick}>
+            <Img
+              src={trashIcon}
+              width={sizes.TRASH_ICON_SIZE}
+              height={sizes.TRASH_ICON_SIZE}
+            />
+          </div>
         </TripDayCardTop>
         <TripDayCardContent>
           <TripDayCardContentTitle>{title}</TripDayCardContentTitle>
