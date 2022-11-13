@@ -10,7 +10,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   count?: boolean;
   onClear?: () => void;
   isClear?: boolean;
-  type?: 'primary' | 'search';
+  isSearch?: boolean;
 }
 
 // 48
@@ -20,7 +20,7 @@ const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
     count = false,
     value = '',
     maxLength = 50,
-    type = 'search',
+    isSearch,
     isClear,
     onClear,
     ...rest
@@ -28,13 +28,13 @@ const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
   return (
     <div>
       <InputWrap>
-        {type === 'search' && <SearchIcon />}
+        {isSearch && <SearchIcon />}
         <MyInput
           ref={ref}
           {...rest}
           error={!!error}
           maxLength={maxLength}
-          isSearch={type === 'search'}
+          isSearch={!!isSearch}
           isClear={!!isClear}
         />
         {isClear && <CancelIcon />}
