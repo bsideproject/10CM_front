@@ -1,5 +1,4 @@
-import React, { ReactNode, useRef, useState, useEffect } from 'react';
-import * as ReactDOMServer from 'react-dom/server';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Address } from 'types/dtos/address';
 import MapConfig from 'services/map-config.js';
@@ -18,7 +17,9 @@ const Map: React.FC<Props> = ({ mapRef, setMapRef = () => {} }) => {
     const map = new kakao.maps.Map(kakaoMap, options);
     const managerOptions = MapConfig.managerOptions(kakao, map);
     manager = new kakao.maps.drawing.DrawingManager(managerOptions);
-    MapConfig.confirmMapLog(kakao, map);
+
+    // 현재 로그보는 것이 굳이 필요 없음
+    // MapConfig.confirmMapLog(kakao, map);
     setMapRef(map);
   }, []);
   // 지도 생성
@@ -118,7 +119,7 @@ const Map: React.FC<Props> = ({ mapRef, setMapRef = () => {} }) => {
         <button onClick={createMarker}>마커생성</button>
         <button onClick={createCluster}>클러스터생성</button>
         <button onClick={currentLocation}>내 위치 찾기</button>
-        {/* <button onClick={createOveray}>마커찍기</button> */}
+        {/* <button onClick={createOverlay}>마커찍기</button> */}
         <button onClick={getMapLevel}>줌 레벨</button>
         <button onClick={handleClickSearchAddress}>주소검색</button>
         <button onClick={handleClear}>초기화</button>

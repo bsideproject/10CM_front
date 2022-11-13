@@ -2,6 +2,12 @@
  * 장소 생성
  */
 export interface CreatePlaceBody {
+  // 주소
+  address: string;
+
+  // 상세주소
+  addressDetail?: string;
+
   // 위도
   latitude: string;
 

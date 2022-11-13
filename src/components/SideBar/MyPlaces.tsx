@@ -1,12 +1,13 @@
 import Input from 'components/common/Input';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import MyPlaceGroup from 'components/MyPlace/MyPlaceGroup';
 import { KakaoAddress } from 'dtos/kakao';
 import KakaoAddressCard from 'components/KakaoAddressCard';
 import MapConfig from 'services/map-config.js';
-import { createOveray } from 'utils/overay';
+import { createOverlay } from 'utils/overlay';
 import { getPlaces } from 'apis/place';
+import { MyPlace } from 'dtos/place';
 import CreatePost from '../Modals/CreatePost';
 import { SearchWrap } from './styles';
 
@@ -15,9 +16,13 @@ interface Props {
 }
 
 const MyPlaces: React.FC<Props> = ({ map }) => {
+  let currentMarker: any | undefined;
+  let currentOverlay: any | undefined;
+
   const [isFetching, setIsFetching] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [keyword, setKeyword] = useState('');
+  const [myPlaceList, setMyPlaceList] = useState<MyPlace[]>([]);
   const [searchAddressList, setSearchAddressList] = useState<KakaoAddress[]>(
     [],
   );
@@ -38,32 +43,43 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     ps.keywordSearch(keyword, placesSearchCB);
   };
   const handleClickCard = (addressInfo: KakaoAddress) => {
-    const { kakao } = window;
-
     return () => {
-      const marker = MapConfig.createMarker(
-        kakao,
-        addressInfo.x,
-        addressInfo.y,
-      );
+      const { kakao } = window;
 
-      marker.setMap(map.current);
-      kakao.maps.event.addListener(marker, 'click', function () {
+      if (currentMarker) {
+        const closeOverlay = () => {
+          currentOverlay.setMap(null);
+        };
+        console.log(addressInfo);
+        console.log(currentOverlay);
+        MapConfig.moveMarker(currentMarker, addressInfo.y, addressInfo.x);
+        MapConfig.moveOverlay(currentOverlay, addressInfo.y, addressInfo.x);
+        MapConfig.changeOverlayContent(
+          currentOverlay,
+          createOverlay(addressInfo, closeOverlay, handleCreateClick),
+        );
+      } else {
+        const marker = MapConfig.createMarker(
+          kakao,
+          addressInfo.x,
+          addressInfo.y,
+        );
+        const closeOverlay = () => {
+          overlay.setMap(null);
+        };
+        const overlay = new kakao.maps.CustomOverlay({
+          content: createOverlay(addressInfo, closeOverlay, handleCreateClick),
+          map: map.current,
+          position: marker.getPosition(),
+        });
+
+        currentMarker = marker;
         marker.setMap(map.current);
-      });
-      const closeOverlay = () => {
-        overlay.setMap(null);
-      };
-
-      const overlay = new kakao.maps.CustomOverlay({
-        content: createOveray(addressInfo, closeOverlay, handleCreateClick),
-        map: map.current,
-        position: marker.getPosition(),
-      });
-
-      kakao.maps.event.addListener(marker, 'click', function () {
-        overlay.setMap(map.current);
-      });
+        currentOverlay = overlay;
+        kakao.maps.event.addListener(marker, 'click', function () {
+          overlay.setMap(map.current);
+        });
+      }
     };
   };
   const handleCreateClick = (addressInfo: KakaoAddress) => {
@@ -74,6 +90,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     try {
       const data = await getPlaces();
       console.log('data', data.placeList);
+      setMyPlaceList(data.placeList);
     } catch (e) {
       setIsFetching(false);
       console.log(e);
@@ -124,7 +141,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
       </SearchWrap>
       {searchAddressList.length === 0 ? (
         <GroupWrap>
-          <MyPlaceGroup />
+          <MyPlaceGroup placeList={myPlaceList} />
         </GroupWrap>
       ) : (
         <KakaoAddressListWrap>

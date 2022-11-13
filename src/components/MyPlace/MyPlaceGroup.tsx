@@ -2,12 +2,15 @@ import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
 import React from 'react';
 import styled from 'styled-components';
+import { MyPlace } from 'dtos/place';
 import MyPlaceCard from './MyPlaceCard';
 import { ReactComponent as SortIcon } from '../../assets/svg/my-place-sort.svg';
 
-interface Props {}
+interface Props {
+  placeList: MyPlace[];
+}
 
-const MyPlaceGroup: React.FC<Props> = () => {
+const MyPlaceGroup: React.FC<Props> = ({ placeList }) => {
   return (
     <MyPlacesWrap>
       <MyPlacesTop>
@@ -18,12 +21,9 @@ const MyPlaceGroup: React.FC<Props> = () => {
         </SortButton>
       </MyPlacesTop>
       <MyPlacesListWrap>
-        <MyPlaceCard />
-        <MyPlaceCard />
-        <MyPlaceCard />
-        <MyPlaceCard />
-        <MyPlaceCard />
-        <MyPlaceCard />
+        {placeList.map(place => (
+          <MyPlaceCard key={place.address} place={place} />
+        ))}
       </MyPlacesListWrap>
     </MyPlacesWrap>
   );

@@ -1,4 +1,4 @@
-.overay-wrap {
+.overlay-wrap {
   position: absolute;
   bottom: 65px;
   left: 0;
@@ -9,97 +9,97 @@
   background-color: white;
   border-radius: 12px;
 }
-.overay-header {
+.overlay-header {
   width: 100%;
   position: relative;
   padding: 14px 8px 2px 16px;
 }
-.overay-header-wrap {
+.overlay-header-wrap {
   width: 312px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.overay-header-title {
+.overlay-header-title {
   font-weight: 500;
   font-size: 18px;
   line-height: 32px;
   color: #0d0f11;
 }
-.overay-header-category {
+.overlay-header-category {
   font-weight: 400;
   font-size: 15px;
   line-height: 26px;
   color: #b8c0cc;
   margin-left: 8px;
 }
-.overay-header-close {
+.overlay-header-close {
   position: absolute;
   right: 8px;
   top: 12px;
 }
-.overay-body {
+.overlay-body {
   display: flex;
   gap: 0 10px;
   padding: 4px 16px 12px 16px;
 }
-.overay-body-text-wrap {
+.overlay-body-text-wrap {
   flex: 1;
   white-space: pre-wrap;
 }
-.overay-body-text-street {
+.overlay-body-text-street {
   font-weight: 400;
   font-size: 15px;
   line-height: 26px;
   color: #4b5768;
 }
-.overay-body-text-zibun {
+.overlay-body-text-zibun {
   font-weight: 400;
   font-size: 12px;
   line-height: 21px;
   color: #64748b;
 }
-.overay-body-text-additional {
+.overlay-body-text-additional {
   margin-top: 16px;
 }
-.overay-body-text-tel {
+.overlay-body-text-tel {
   width: 120px;
   font-weight: 400;
   font-size: 15px;
   line-height: 26px;
   color: #4b5768;
 }
-.overay-body-text-link {
+.overlay-body-text-link {
   margin-left: 12px;
   font-weight: 400;
   font-size: 15px;
   line-height: 26px;
 }
-.overay-body-image-wrap {
+.overlay-body-image-wrap {
   flex-shrink: 0;
   width: 80px;
   height: 80px;
   background-color: red;
 }
-.overay-footer {
+.overlay-footer {
   display: flex;
   padding: 0 16px 16px 16px;
 }
-.overay-footer-pin-button {
+.overlay-footer-pin-button {
   width: 92px;
   height: 36px;
   border: 1px solid #d0d5dd;
   border-radius: 4px;
   cursor: pointer;
 }
-.overay-footer-pin-button:hover {
+.overlay-footer-pin-button:hover {
   background-color: #f5f6fa;
 }
-.overay-footer-pin-button:active {
+.overlay-footer-pin-button:active {
   border: 1px solid #b8c0cc;
   background-color: #f5f6fa;
 }
-.overay-footer-post-button {
+.overlay-footer-post-button {
   width: 248px;
   height: 36px;
   border: 0;
@@ -112,13 +112,13 @@
   line-height: 26px;
   cursor: pointer;
 }
-.overay-footer-post-button:hover {
+.overlay-footer-post-button:hover {
   background-color: #698ae2;
 }
-.overay-footer-post-button:active {
+.overlay-footer-post-button:active {
   background-color: #3657af;
 }
-.overay-triangle {
+.overlay-triangle {
   position: absolute;
   bottom: -28px;
   left: 50%;

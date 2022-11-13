@@ -42,13 +42,15 @@ const KakaoAddressWrap = styled.div`
   }
 `;
 const KakaoAddressHeader = styled.div`
-  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
-const KakaoAddressName = styled.div`
+const KakaoAddressName = styled.span`
   ${fonts('text-ms-medium')};
   color: ${colors.NEUTRAl_900};
 `;
-const KakaoAddressCategory = styled.div`
+const KakaoAddressCategory = styled.span`
   margin-left: 8px;
   ${fonts('text-ms-medium')};
   color: ${colors.NEUTRAl_300};

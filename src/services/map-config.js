@@ -81,7 +81,6 @@ class MapConfig {
     };
   }
 
-  // TODO 카카오를 굳이 안받아도 될 것 같음. 이 함수롤 실행 시에 마커만 리턴해서 밖에서 current에 직접 넣는게 나을 것 같음.
   static createMarker(kakao, locationY, locationX) {
     // 마커 생성
 
@@ -116,6 +115,43 @@ class MapConfig {
       }),
     ];
     clusterer.addMarkers(markers);
+  }
+
+  static getPos(lat, long) {
+    const { kakao } = window;
+    const pos = new kakao.maps.LatLng(lat, long);
+
+    return pos;
+  }
+
+  // 마커 지우기
+  static removeMarker(map, marker) {
+    console.log(marker);
+  }
+
+  // 마커 이동
+  static moveMarker(marker, lat, long) {
+    const pos = this.getPos(lat, long);
+    marker.setPosition(pos);
+  }
+
+  // 오버레이 이동
+  static moveOverlay(overlay, lat, long) {
+    const pos = this.getPos(lat, long);
+    overlay.setPosition(pos);
+  }
+
+  // 오버레이 제거
+  static removeOverlay(overlay) {
+    overlay.setMap(null);
+  }
+
+  // 마커 이벤트 제거
+  static removeMarkerEvent = (marker, d) => {};
+
+  static changeOverlayContent(overlay, content) {
+    console.log(overlay, content);
+    overlay.setContent(content);
   }
 
   static displayMarker(kakao, map, locPosition, msg) {

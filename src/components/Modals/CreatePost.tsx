@@ -1,7 +1,7 @@
 import Modal from 'components/UI/Modal';
 import { colors } from 'constants/colors';
 import { KakaoAddress } from 'dtos/kakao';
-import React, { useCallback, useState } from 'react';
+import React, { ChangeEvent, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from 'assets/svg/close.svg';
 import { fonts } from 'assets/fonts/fonts';
@@ -24,6 +24,8 @@ interface Test {
 const CreatePost: React.FC<Props> = ({ addressInfo, onClose }) => {
   const [test, setTest] = useState<Test>({ memo: '', tag: '' });
 
+  const [addressDetail, setAddressDetail] = useState('');
+
   const handleMemoChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setTest(prev => ({ ...prev, memo: e.target.value }));
@@ -36,16 +38,21 @@ const CreatePost: React.FC<Props> = ({ addressInfo, onClose }) => {
     },
     [],
   );
+  const handleAddressDetailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setAddressDetail(e.target.value);
+  };
   const buttonStyle = useCallback((): React.CSSProperties => {
     return { width: '100%' };
   }, []);
   const handleSaveClick = () => {
     createPlace({
+      address: addressInfo.road_address_name,
       longitude: addressInfo.x.toString(),
       latitude: addressInfo.y.toString(),
       name: '네임은 없어도 되지 않을까요??',
     });
   };
+
   return (
     <Modal>
       <CreatePostWrap>
@@ -57,7 +64,7 @@ const CreatePost: React.FC<Props> = ({ addressInfo, onClose }) => {
           <CreatePostLabel>위치</CreatePostLabel>
           <AddressInputWrap>
             <Input disabled value={addressInfo.road_address_name} readOnly />
-            <Input readOnly />
+            <Input value={addressDetail} onChange={handleAddressDetailChange} />
           </AddressInputWrap>
           <AddImageWrap>
             <CreatePostLabel>사진 첨부</CreatePostLabel>
