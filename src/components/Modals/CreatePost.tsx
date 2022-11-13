@@ -9,6 +9,7 @@ import Input from 'components/common/Input';
 import AddImage from 'components/common/Input/addImage';
 import Textarea from 'components/common/Textarea';
 import Button from 'components/common/Button';
+import { createPlace } from 'apis/place';
 
 interface Props {
   addressInfo: KakaoAddress;
@@ -35,11 +36,16 @@ const CreatePost: React.FC<Props> = ({ addressInfo, onClose }) => {
     },
     [],
   );
-
   const buttonStyle = useCallback((): React.CSSProperties => {
     return { width: '100%' };
   }, []);
-
+  const handleSaveClick = () => {
+    createPlace({
+      longitude: addressInfo.x.toString(),
+      latitude: addressInfo.y.toString(),
+      name: '네임은 없어도 되지 않을까요??',
+    });
+  };
   return (
     <Modal>
       <CreatePostWrap>
@@ -80,7 +86,9 @@ const CreatePost: React.FC<Props> = ({ addressInfo, onClose }) => {
           <Button buttonType="outline" style={buttonStyle()} onClick={onClose}>
             취소
           </Button>
-          <Button style={buttonStyle()}>저장</Button>
+          <Button style={buttonStyle()} onClick={handleSaveClick}>
+            저장
+          </Button>
         </CreatePostFooter>
       </CreatePostWrap>
     </Modal>
