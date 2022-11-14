@@ -41,14 +41,17 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   const handleChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
   };
+  // 닫기 버튼 클릭
   const handleCloseClick = () => {
     setIsOpenModal(false);
     setSelectedAddress(null);
   };
+  // 장소 등록 후 리패치,오버레이 변경 함수
   const handleRefetchAfterCreateData = async () => {
     await fetchMyPlaces();
     setIsOpenModal(false);
   };
+  // 주소 검색
   const handleSearchAddress = () => {
     ps.keywordSearch(keyword, placesSearchCB);
   };
@@ -111,8 +114,10 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   };
   // 상세보기 닫기 클릭
   const handleCloseDetailClick = () => {
-    console.log('good');
     setSelectedPlaceDetail(null);
+  };
+  const handleKeywordClearClick = () => {
+    setKeyword('');
   };
 
   // 내가 저장한 장소 목록 페치함수
@@ -165,7 +170,14 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
             handleSearchAddress();
           }}
         >
-          <Input type="text" onChange={handleChangeKeyword} value={keyword} />
+          <Input
+            type="text"
+            onChange={handleChangeKeyword}
+            value={keyword}
+            isClear
+            isSearch
+            onClear={handleKeywordClearClick}
+          />
         </form>
       </SearchWrap>
       {searchAddressList.length === 0 ? (
