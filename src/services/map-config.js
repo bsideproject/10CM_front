@@ -150,8 +150,13 @@ class MapConfig {
   static removeMarkerEvent = (marker, d) => {};
 
   static changeOverlayContent(overlay, content) {
-    console.log(overlay, content);
     overlay.setContent(content);
+  }
+
+  // 지드 이동
+  static moveMap(map, lat, long) {
+    const pos = this.getPos(lat, long);
+    map.current.panTo(pos);
   }
 
   static displayMarker(kakao, map, locPosition, msg) {

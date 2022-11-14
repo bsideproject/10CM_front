@@ -80,6 +80,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
           currentOverlay.current,
           createOverlay(addressInfo, closeOverlay, handleCreateClick),
         );
+        MapConfig.moveMap(map, addressInfo.y, addressInfo.x);
       } else {
         const marker = MapConfig.createMarker(
           kakao,
@@ -101,6 +102,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
         kakao.maps.event.addListener(marker, 'click', function () {
           overlay.setMap(map.current);
         });
+        MapConfig.moveMap(map, addressInfo.y, addressInfo.x);
       }
     };
   };
@@ -119,7 +121,6 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   const handleKeywordClearClick = () => {
     setKeyword('');
   };
-
   // 내가 저장한 장소 목록 페치함수
   const fetchMyPlaces = async () => {
     setIsFetching(true);
@@ -180,7 +181,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
           />
         </form>
       </SearchWrap>
-      {searchAddressList.length === 0 ? (
+      {keyword.length === 0 ? (
         <GroupWrap>
           <MyPlaceGroup
             placeList={myPlaceList}
