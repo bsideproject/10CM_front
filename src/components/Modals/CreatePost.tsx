@@ -13,7 +13,9 @@ import { createPlace } from 'apis/place';
 
 interface Props {
   addressInfo: KakaoAddress;
+  keyword: string;
   onClose: () => void;
+  onRefetch: () => void;
 }
 
 interface Test {
@@ -21,7 +23,13 @@ interface Test {
   tag: string;
 }
 
-const CreatePost: React.FC<Props> = ({ addressInfo, onClose }) => {
+const CreatePost: React.FC<Props> = ({
+  addressInfo,
+  keyword,
+  onClose,
+  onRefetch,
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [test, setTest] = useState<Test>({ memo: '', tag: '' });
 
   const [addressDetail, setAddressDetail] = useState('');
@@ -44,13 +52,20 @@ const CreatePost: React.FC<Props> = ({ addressInfo, onClose }) => {
   const buttonStyle = useCallback((): React.CSSProperties => {
     return { width: '100%' };
   }, []);
-  const handleSaveClick = () => {
-    createPlace({
-      address: addressInfo.road_address_name,
-      longitude: addressInfo.x.toString(),
-      latitude: addressInfo.y.toString(),
-      name: '네임은 없어도 되지 않을까요??',
-    });
+  const handleSaveClick = async () => {
+    setIsLoading(true);
+    try {
+      await createPlace({
+        name: keyword,
+        address: addressInfo.road_address_name,
+        longitude: addressInfo.x.toString(),
+        latitude: addressInfo.y.toString(),
+      });
+      onRefetch();
+    } catch (e) {
+      console.log(e);
+    }
+    setIsLoading(true);
   };
 
   return (
@@ -58,7 +73,7 @@ const CreatePost: React.FC<Props> = ({ addressInfo, onClose }) => {
       <CreatePostWrap>
         <CreatePostHeader>
           <div>나의 관심장소 추가하기</div>
-          <CloseIcon width={32} height={32} onClick={onClose} />
+          <CloseIcon width={32} height={32} onClick={onClose} fill="black" />
         </CreatePostHeader>
         <CreatePostBody>
           <CreatePostLabel>위치</CreatePostLabel>

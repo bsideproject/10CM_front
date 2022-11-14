@@ -6,8 +6,10 @@ import { KakaoAddress } from 'dtos/kakao';
 import KakaoAddressCard from 'components/KakaoAddressCard';
 import MapConfig from 'services/map-config.js';
 import { createOverlay } from 'utils/overlay';
-import { getPlaces } from 'apis/place';
+import { getPlaceList } from 'apis/place';
 import { MyPlace } from 'dtos/place';
+import { colors } from 'constants/colors';
+import DetailPlace from 'components/MyPlace/DetailPlace';
 import CreatePost from '../Modals/CreatePost';
 import { SearchWrap } from './styles';
 
@@ -16,13 +18,16 @@ interface Props {
 }
 
 const MyPlaces: React.FC<Props> = ({ map }) => {
-  let currentMarker: any | undefined;
-  let currentOverlay: any | undefined;
+  const currentMarker = useRef<any>();
+  const currentOverlay = useRef<any>();
 
   const [isFetching, setIsFetching] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [keyword, setKeyword] = useState('');
   const [myPlaceList, setMyPlaceList] = useState<MyPlace[]>([]);
+  const [selectedPlaceDetail, setSelectedPlaceDetail] = useState<number | null>(
+    null,
+  );
   const [searchAddressList, setSearchAddressList] = useState<KakaoAddress[]>(
     [],
   );
@@ -32,6 +37,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   // TODO 클래스나 훅으로 빼기
   const ps = new window.kakao.maps.services.Places();
 
+  // 핸들러 함수
   const handleChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
   };
@@ -39,23 +45,36 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     setIsOpenModal(false);
     setSelectedAddress(null);
   };
-  const searchAddress = () => {
+  const handleRefetchAfterCreateData = async () => {
+    await fetchMyPlaces();
+    setIsOpenModal(false);
+  };
+  const handleSearchAddress = () => {
     ps.keywordSearch(keyword, placesSearchCB);
   };
+  // 주소 카드 클릭
   const handleClickCard = (addressInfo: KakaoAddress) => {
     return () => {
       const { kakao } = window;
 
-      if (currentMarker) {
+      if (currentMarker.current) {
         const closeOverlay = () => {
-          currentOverlay.setMap(null);
+          if (currentOverlay.current) {
+            currentOverlay.current.setMap(null);
+          }
         };
-        console.log(addressInfo);
-        console.log(currentOverlay);
-        MapConfig.moveMarker(currentMarker, addressInfo.y, addressInfo.x);
-        MapConfig.moveOverlay(currentOverlay, addressInfo.y, addressInfo.x);
+        MapConfig.moveMarker(
+          currentMarker.current,
+          addressInfo.y,
+          addressInfo.x,
+        );
+        MapConfig.moveOverlay(
+          currentOverlay.current,
+          addressInfo.y,
+          addressInfo.x,
+        );
         MapConfig.changeOverlayContent(
-          currentOverlay,
+          currentOverlay.current,
           createOverlay(addressInfo, closeOverlay, handleCreateClick),
         );
       } else {
@@ -73,26 +92,36 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
           position: marker.getPosition(),
         });
 
-        currentMarker = marker;
+        currentMarker.current = marker;
         marker.setMap(map.current);
-        currentOverlay = overlay;
+        currentOverlay.current = overlay;
         kakao.maps.event.addListener(marker, 'click', function () {
           overlay.setMap(map.current);
         });
       }
     };
   };
+  // 포스팅 추가하기 클릭
   const handleCreateClick = (addressInfo: KakaoAddress) => {
     setSelectedAddress(addressInfo);
   };
+  // 상세보기 클릭
+  const handleMyPlaceDetailClick = (id: number) => {
+    setSelectedPlaceDetail(id);
+  };
+  // 상세보기 닫기 클릭
+  const handleCloseDetailClick = () => {
+    console.log('good');
+    setSelectedPlaceDetail(null);
+  };
+
+  // 내가 저장한 장소 목록 페치함수
   const fetchMyPlaces = async () => {
     setIsFetching(true);
     try {
-      const data = await getPlaces();
-      console.log('data', data.placeList);
+      const data = await getPlaceList();
       setMyPlaceList(data.placeList);
     } catch (e) {
-      setIsFetching(false);
       console.log(e);
     }
     setIsFetching(false);
@@ -133,7 +162,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
         <form
           onSubmit={e => {
             e.preventDefault();
-            searchAddress();
+            handleSearchAddress();
           }}
         >
           <Input type="text" onChange={handleChangeKeyword} value={keyword} />
@@ -141,7 +170,10 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
       </SearchWrap>
       {searchAddressList.length === 0 ? (
         <GroupWrap>
-          <MyPlaceGroup placeList={myPlaceList} />
+          <MyPlaceGroup
+            placeList={myPlaceList}
+            onDetailClick={handleMyPlaceDetailClick}
+          />
         </GroupWrap>
       ) : (
         <KakaoAddressListWrap>
@@ -157,7 +189,18 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
         </KakaoAddressListWrap>
       )}
       {isOpenModal && (
-        <CreatePost addressInfo={selectedAddress!} onClose={handleCloseClick} />
+        <CreatePost
+          addressInfo={selectedAddress!}
+          keyword={keyword}
+          onClose={handleCloseClick}
+          onRefetch={handleRefetchAfterCreateData}
+        />
+      )}
+      {selectedPlaceDetail && (
+        <DetailPlace
+          myPlaceDetailId={selectedPlaceDetail}
+          onClose={handleCloseDetailClick}
+        />
       )}
     </MyPlacesWrap>
   );
@@ -165,6 +208,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
 export default MyPlaces;
 
 const MyPlacesWrap = styled.article`
+  position: relative;
   width: 390px;
 `;
 const GroupWrap = styled.div`
@@ -174,4 +218,12 @@ const KakaoAddressListWrap = styled.div`
   height: calc(100vh - 108px);
   padding: 12px 0;
   overflow: auto;
+`;
+const MyPlaceDetailWrap = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: ${colors.WHITE};
 `;

@@ -17,6 +17,13 @@ const GlobalStyle = createGlobalStyle`
             color:${colors.BLUE_BASE};
         }
     }
+    hr { 
+        margin: 0;
+    }
+    button {
+        border: 0;
+        outline: 0;
+    }
 `;
 
 export default GlobalStyle;

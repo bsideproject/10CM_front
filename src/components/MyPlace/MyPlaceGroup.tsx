@@ -8,9 +8,10 @@ import { ReactComponent as SortIcon } from '../../assets/svg/my-place-sort.svg';
 
 interface Props {
   placeList: MyPlace[];
+  onDetailClick: (id: number) => void;
 }
 
-const MyPlaceGroup: React.FC<Props> = ({ placeList }) => {
+const MyPlaceGroup: React.FC<Props> = ({ placeList, onDetailClick }) => {
   return (
     <MyPlacesWrap>
       <MyPlacesTop>
@@ -22,7 +23,11 @@ const MyPlaceGroup: React.FC<Props> = ({ placeList }) => {
       </MyPlacesTop>
       <MyPlacesListWrap>
         {placeList.map(place => (
-          <MyPlaceCard key={place.address} place={place} />
+          <MyPlaceCard
+            key={place.id}
+            place={place}
+            onDetailClick={onDetailClick}
+          />
         ))}
       </MyPlacesListWrap>
     </MyPlacesWrap>

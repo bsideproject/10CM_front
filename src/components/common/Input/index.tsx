@@ -25,7 +25,6 @@ const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
     onClear,
     ...rest
   } = props;
-  console.log(value);
   return (
     <div>
       <InputWrap>

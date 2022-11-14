@@ -36,6 +36,7 @@ export const createOverlay: CreateOverlay = (
   const closeButton = document.createElement('img');
   closeButton.className = 'overlay-header-close';
   closeButton.src = CloseIcon;
+  closeButton.style.fill = 'black';
   closeButton.alt = '닫기버튼';
   headerContentWrap.appendChild(placeName);
   headerContentWrap.appendChild(placeCategory);
@@ -78,11 +79,11 @@ export const createOverlay: CreateOverlay = (
   textWrap.appendChild(zibun);
   textWrap.appendChild(additionalInfo);
 
-  const imageWrap = document.createElement('div');
-  imageWrap.className = 'overlay-body-image-wrap';
-  const Image = document.createElement('img');
+  // const imageWrap = document.createElement('div');
+  // imageWrap.className = 'overlay-body-image-wrap';
+  // const Image = document.createElement('img');
   body.appendChild(textWrap);
-  body.appendChild(imageWrap);
+  // body.appendChild(imageWrap);
 
   // footer
   const footer = document.createElement('div');

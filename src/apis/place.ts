@@ -1,4 +1,8 @@
-import { CreatePlaceBody, MyPlacesResponse } from 'dtos/place';
+import {
+  CreatePlaceBody,
+  MyPlaceListResponse,
+  MyPlaceResponse,
+} from 'dtos/place';
 import api from './common';
 
 /**
@@ -12,7 +16,15 @@ export const createPlace = async (body: CreatePlaceBody) => {
 /**
  * 내가 등록한 모든 장소
  */
-export const getPlaces = async () => {
-  const { data } = await api.get<MyPlacesResponse>(url);
+export const getPlaceList = async () => {
+  const { data } = await api.get<MyPlaceListResponse>(url);
+  return data;
+};
+
+/**
+ * 내가 등록한 장소 상세
+ */
+export const getPlace = async (id: number) => {
+  const { data } = await api.get<MyPlaceResponse>(`${url}/${id}`);
   return data;
 };
