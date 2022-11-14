@@ -34,6 +34,7 @@ const Wrap = styled.div`
 
   .hover-open {
     position: fixed;
+    left: 0;
     opacity: 0;
     pointer-events: none;
   }
@@ -46,6 +47,7 @@ const Wrap = styled.div`
     .hover-hidden {
       display: none;
     }
+
     .hover-open {
       position: static;
       pointer-events: auto;

@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-
+import placeInfo from './modules/placeInfo';
 const store = configureStore({
   reducer: {
-    // reducers
+    placeInfo,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

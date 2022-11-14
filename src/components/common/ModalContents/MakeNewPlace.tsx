@@ -7,6 +7,13 @@ import Modal from 'components/UI/Modal';
 import React from 'react';
 import * as CFG from 'services/config.js';
 import { useNavigate } from 'react-router-dom';
+import {
+  setTitle,
+  setDate,
+  setDuration,
+  setImg,
+} from 'store/modules/placeInfo';
+import { useAppDispatch, useAppSelect } from 'store/configureStore.hooks';
 
 interface IProps {
   onClose: () => void;
@@ -14,8 +21,11 @@ interface IProps {
 const MakeNewPlace: React.FC<IProps> = ({ onClose }) => {
   const { TRIP } = CFG.MODAL_MYPLACE;
   const navigate = useNavigate();
+  const dispatch = useAppDispatch;
 
   const handleClickBtn = () => {
+    // ref를 걸어서 정보 가져오기
+    // 정보 가져와서 리덕스툴킷 이용
     navigate('/make-my-trip');
   };
 
