@@ -1,16 +1,11 @@
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
 
-import React, {
-  ButtonHTMLAttributes,
-  forwardRef,
-  HTMLProps,
-  useEffect,
-} from 'react';
+import React, { ButtonHTMLAttributes, forwardRef } from 'react';
 import styled, { css } from 'styled-components';
 
 type ButtonType = 'filled' | 'outline';
-type ButtonSize = 'full' | 'large' | 'medium' | 'small';
+type ButtonSize = 'large' | 'medium' | 'small';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonType?: ButtonType;
@@ -52,8 +47,6 @@ const getButtonStyle = (disabled?: boolean, type: ButtonType = 'filled') => {
   }
   // filled가 아니고 disabled 이면
   if (disabled) {
-    console.log('good');
-
     return css`
       border: 1px solid ${colors.NEUTRAl_200};
       background-color: ${colors.WHITE};
@@ -79,12 +72,6 @@ const getButtonStyle = (disabled?: boolean, type: ButtonType = 'filled') => {
 const getButtonSize = (width: string, size: ButtonSize = 'medium') => {
   // Todo : width 정리
   switch (size) {
-    case 'full':
-      return css`
-        height: 56px;
-        width: ${width};
-      `;
-
     case 'large':
       return css`
         height: 56px;

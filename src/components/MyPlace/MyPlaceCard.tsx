@@ -7,39 +7,72 @@ import {
   MyPlaceCardWrap,
   MyPlaceInfoWrap,
 } from 'components/common/MyPlaceCard/styles';
+import { MyPlace } from 'dtos/place';
+import dayjs from 'dayjs';
+import { dateFormat } from 'constants/common';
 import Image from '../../assets/png/thumbnail-area.png';
 import { ReactComponent as OptionIcon } from '../../assets/svg/my-place-option.svg';
 
-interface Props {}
+interface Props {
+  place: MyPlace;
+  onDetailClick: (id: number) => void;
+}
 
-const MyPlaceCard: React.FC<Props> = () => {
+const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick }) => {
   const [isShowOption, setIsShowOption] = useState<boolean>(false);
   const optionRef = useRef<HTMLDivElement | null>(null);
+  const optionButtonRef = useRef<SVGSVGElement | null>(null);
   const handleOptionOpen = () => {
-    setIsShowOption(true);
+    setIsShowOption(prev => !prev);
   };
   const handleOptionClose = () => {
     setIsShowOption(false);
   };
+  const handleDetailClick = (id: number) => {
+    return () => {
+      handleOptionClose();
+      onDetailClick(id);
+    };
+  };
+  const handleDidNotOptionClick = (e: MouseEvent) => {
+    if (
+      e.target !== optionButtonRef.current &&
+      !optionRef.current?.contains(e.target as Node)
+    ) {
+      setIsShowOption(false);
+    }
+  };
   useEffect(() => {
-    window.addEventListener('click', () => {});
-  }, []);
+    if (isShowOption) {
+      window.addEventListener('click', handleDidNotOptionClick);
+    }
+    if (!isShowOption) {
+      window.removeEventListener('click', handleDidNotOptionClick);
+    }
+    return () => {
+      window.removeEventListener('click', handleDidNotOptionClick);
+    };
+  }, [isShowOption]);
   return (
     <MyPlaceCardWrap>
       <MyPlaceCardImageWrap>
         <img src={Image} alt="더미" width="100%" />
       </MyPlaceCardImageWrap>
       <MyPlaceInfoWrap>
-        <MyPlaceName>장소명</MyPlaceName>
-        <MyPlaceAddress>
-          제주특별자치도 제주시 구좌읍 월정리 33-3
-        </MyPlaceAddress>
-        <MyPlaceHashTag>#카페 #맥주 #태그</MyPlaceHashTag>
-        <MyPlaceDate>2022년 9월 29일</MyPlaceDate>
-        <MyPlaceOptionButton onClick={handleOptionOpen} />
+        <MyPlaceName>{place.name}</MyPlaceName>
+        <MyPlaceAddress>{place.address}</MyPlaceAddress>
+        <MyPlaceHashTag>
+          {place.tag.map(tag => (
+            <span key={tag}>{tag}</span>
+          ))}
+        </MyPlaceHashTag>
+        <MyPlaceDate>{dayjs(place.createdDate).format(dateFormat)}</MyPlaceDate>
+        <MyPlaceOptionButton ref={optionButtonRef} onClick={handleOptionOpen} />
         {isShowOption && (
           <MyPlaceOptionBox ref={optionRef}>
-            <MyPlaceOptionItem>상세보기</MyPlaceOptionItem>
+            <MyPlaceOptionItem onClick={handleDetailClick(place.id)}>
+              상세보기
+            </MyPlaceOptionItem>
             <MyPlaceOptionItem>수정하기</MyPlaceOptionItem>
             <MyPlaceOptionItem>삭제하기</MyPlaceOptionItem>
           </MyPlaceOptionBox>
@@ -48,7 +81,7 @@ const MyPlaceCard: React.FC<Props> = () => {
     </MyPlaceCardWrap>
   );
 };
-export default MyPlaceCard;
+export default React.memo(MyPlaceCard);
 
 const MyPlaceName = styled.div`
   ${fonts('text-sm-bold')};

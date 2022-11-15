@@ -1,68 +1,83 @@
-import React, { ReactNode, useRef, useState, useEffect } from 'react';
-import * as ReactDOMServer from 'react-dom/server';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Address } from 'types/dtos/address';
 import MapConfig from 'services/map-config.js';
-interface Props {}
-const Map: React.FC<Props> = () => {
-  const map = useRef<any>(null);
+
+interface Props {
+  mapRef: React.MutableRefObject<any>;
+  setMapRef?: (map: any) => void;
+}
+
+const Map: React.FC<Props> = ({ mapRef, setMapRef = () => {} }) => {
   let manager: any;
-  const { kakao } = window;
   useEffect(() => {
+    const { kakao } = window;
     const kakaoMap = document.getElementById('map');
     const options = MapConfig.initMapOption(kakao); // 좌표, 레벨 설정 필요
-    map.current = new kakao.maps.Map(kakaoMap, options); // 지도 생성 및 객체 리턴
-
+    const map = new kakao.maps.Map(kakaoMap, options);
     const managerOptions = MapConfig.managerOptions(kakao, map);
     manager = new kakao.maps.drawing.DrawingManager(managerOptions);
-    console.log(map.current);
-    MapConfig.confirmMapLog(kakao, map);
+
+    // 현재 로그보는 것이 굳이 필요 없음
+    // MapConfig.confirmMapLog(kakao, map);
+    setMapRef(map);
   }, []);
   // 지도 생성
   // 맵 이벤트 등록
   const createMarker = () => {
     // locationY, locationX 예시s
-    MapConfig.createMarker(kakao, map, 33.450258, 126.570513);
+    MapConfig.createMarker(33.450258, 126.570513);
   };
   const createCluster = () => {
     const locations = {};
-    MapConfig.createCluster(kakao, map, locations);
+    const { kakao } = window;
+
+    MapConfig.createCluster(kakao, mapRef.current, locations);
   };
   // 마커 생성 : MapConfig.createMarker(kakao, map, locationY, locationX);
   // 클러스터 생성 : MapConfig.createCluster(kakao, map, locations);
   const currentLocation = () => {
+    const { kakao } = window;
+
     navigator.geolocation.getCurrentPosition(function (position) {
       const lat = position.coords.latitude; // 위도
       const lon = position.coords.longitude; // 경도
       const locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
       const message = '<div>하이</div>'; // 인포윈도우에 표시될 내용입니다
       // 마커와 인포윈도우를 표시합니다
-      MapConfig.displayMarker(kakao, map, locPosition, message);
+      MapConfig.displayMarker(kakao, mapRef.current, locPosition, message);
     });
   };
   // 내 위치에 마커 찍기
   const getMapLevel = () => {
-    alert(map.current.getLevel());
+    alert(mapRef.current.getLevel());
+    console.log(mapRef.current);
   };
   const handleClickSearchAddress = () => {
+    const { kakao } = window;
+
     const { daum } = window;
     new daum.Postcode({
       width: '500px',
       height: '500px',
       oncomplete: (data: Address) => {
-        MapConfig.completedAddress(kakao, map, data);
+        MapConfig.completedAddress(kakao, mapRef.current, data);
       },
     }).open();
   };
   const handleClear = () => {
+    const { kakao } = window;
+
     const kakaoMap = document.getElementById('map');
     const options = {
-      center: map.current.getCenter(),
-      level: map.current.getLevel(),
+      center: mapRef.current.getCenter(),
+      level: mapRef.current.getLevel(),
     };
-    map.current = new kakao.maps.Map(kakaoMap, options); // 지도 생성 및 객체 리턴
+    setMapRef(new kakao.maps.Map(kakaoMap, options)); // 지도 생성 및 객체 리턴
   };
   const handleCreateCursorMarker = (type: string) => {
+    const { kakao } = window;
+
     return () => {
       // 그리기 중이면 그리기를 취소합니다
       manager.cancel();
@@ -71,9 +86,13 @@ const Map: React.FC<Props> = () => {
     };
   };
   const handleCreatePolyLine = () => {
-    MapConfig.drawPolyLine(kakao, map);
+    const { kakao } = window;
+
+    MapConfig.drawPolyLine(kakao, mapRef.current);
   };
   const handleCreateRoadView = () => {
+    const { kakao } = window;
+
     const roadviewContainer = document.querySelector('#roadview');
     const roadview = new kakao.maps.Roadview(roadviewContainer);
     MapConfig.createRoadview(kakao, roadview);
@@ -100,7 +119,7 @@ const Map: React.FC<Props> = () => {
         <button onClick={createMarker}>마커생성</button>
         <button onClick={createCluster}>클러스터생성</button>
         <button onClick={currentLocation}>내 위치 찾기</button>
-        {/* <button onClick={createOveray}>마커찍기</button> */}
+        {/* <button onClick={createOverlay}>마커찍기</button> */}
         <button onClick={getMapLevel}>줌 레벨</button>
         <button onClick={handleClickSearchAddress}>주소검색</button>
         <button onClick={handleClear}>초기화</button>

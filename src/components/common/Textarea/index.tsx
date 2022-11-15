@@ -35,6 +35,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
 export default Textarea;
 
 const defaultTextareaStyle = css`
+  display: block;
   width: 100%;
   height: 128px;
   padding: 8px 12px;

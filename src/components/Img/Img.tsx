@@ -37,5 +37,4 @@ const MyImg = styled.img<ImgProps>`
   cursor: ${props => (props.cursor ? 'pointer' : undefined)};
 `;
 
-// padding은 수정되어야 함.
 export default Img;

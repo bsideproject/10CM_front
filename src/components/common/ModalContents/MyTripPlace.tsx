@@ -7,20 +7,34 @@ import ModalTitle from 'components/ModalContents/ModalTitle';
 import Modal from 'components/UI/Modal';
 import React from 'react';
 import * as CFG from 'services/config.js';
+import styled from 'styled-components';
+import { colors } from 'constants/colors';
 
 const MyTripPlace: React.FC = () => {
   const { TRIP } = CFG.MODAL_MYPLACE;
 
   return (
-    <Modal onClose={() => {}} bodyStyle="MY_PLACE">
-      <ModalTitle headerText={TRIP.headerText} />
-      <AddInput purpose="TRIP" />
-      <AddSchedule />
-      <AddImgBtn />
-      <AddTextArea purpose="TRIP" />
-      <ModalButton btnText="저장하기" btnSize="full" btnWidth="100%" />
+    <Modal onClose={() => {}}>
+      <Wrap>
+        <ModalTitle headerText={TRIP.headerText} />
+        <AddInput purpose="TRIP" />
+        <AddSchedule />
+        <AddImgBtn />
+        <AddTextArea purpose="TRIP" />
+        <ModalButton btnText="저장하기" btnSize="large" btnWidth="100%" isOne />
+      </Wrap>
     </Modal>
   );
 };
+
+const Wrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 480px;
+  border-radius: 8px;
+  padding: 32px 24px;
+  gap: 20px;
+  background-color: ${colors.WHITE};
+`;
 
 export default MyTripPlace;

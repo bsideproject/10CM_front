@@ -74,7 +74,7 @@ const DraggableItem: React.FC<Props> = ({ itemList, onChangeList }) => {
     <DndWrap>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
-          {(provided, snapshot) => (
+          {provided => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
               {itemList.map((item, index) => (
                 <Draggable

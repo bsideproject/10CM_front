@@ -1,6 +1,5 @@
 import './App.css';
-import MainPage from 'pages/MainPage';
-import GlobalStyle from 'assets/globalcss';
+import GlobalStyle from 'components/GlobalCss/globalcss';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MyPlace from 'pages/MyPlace';
 import { routePath } from 'constants/route';
@@ -18,6 +17,7 @@ const App = () => {
           <Route path={routePath.CREATE_TRIP} element={<CreateTrip />} />
           <Route path={routePath.MY_TRIP} element={<MyTrip />} />
           <Route path={routePath.MAKE_MY_TRIP} element={<MakeMyTrip />} />
+          <Route path="*" element={<div>없는 페이지임 ㅋㅋ</div>} />
         </Routes>
       </BrowserRouter>
     </div>

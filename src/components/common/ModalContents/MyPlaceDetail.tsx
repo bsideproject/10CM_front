@@ -5,20 +5,33 @@ import * as CFG from 'services/config.js';
 import TripSummary from 'components/MyTrip/TripSummary';
 import MyPlaceContainer from 'components/UI/MyPlaceContainer';
 import ModalTitle from 'components/ModalContents/ModalTitle';
+import { colors } from 'constants/colors';
 
 const MyPlaceDetail: React.FC = () => {
   const { PLACE_DETAIL } = CFG.MODAL_MYPLACE;
 
   return (
-    <Modal onClose={() => {}} bodyStyle="MY_PLACE_DETAIL">
-      <SummaryWrap>
-        <ModalTitle headerText={PLACE_DETAIL.headerText} />
-        <TripSummary />
-      </SummaryWrap>
-      <MyPlaceContainer />
+    <Modal onClose={() => {}}>
+      <Wrap>
+        <SummaryWrap>
+          <ModalTitle headerText={PLACE_DETAIL.headerText} />
+          <TripSummary />
+        </SummaryWrap>
+        <MyPlaceContainer />
+      </Wrap>
     </Modal>
   );
 };
+
+const Wrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 480px;
+  border-radius: 8px;
+  padding-top: 32px;
+  gap: 20px;
+  background-color: ${colors.WHITE};
+`;
 
 const SummaryWrap = styled.div`
   display: flex;

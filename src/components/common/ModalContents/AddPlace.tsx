@@ -8,23 +8,38 @@ import AddImgBtn from 'components/ModalContents/AddImgBtn';
 import AddInput from 'components/ModalContents/AddInput';
 import AddTextArea from 'components/ModalContents/AddTextArea';
 import ModalButton from 'components/ModalContents/ModalButton';
-
-const AddPlace: React.FC = () => {
+import { colors } from 'constants/colors';
+interface IProps {
+  onClose: () => void;
+}
+const AddPlace: React.FC<IProps> = ({ onClose }) => {
   const { ADD } = CFG.MODAL_MYPLACE;
 
   return (
-    <Modal onClose={() => {}} bodyStyle="ADD_UPDATE_PLACE">
-      <ModalTitle headerText={ADD.headerText} />
-      <OverFlowWrap>
-        <SearchLocation />
-        <AddImgBtn />
-        <AddInput purpose="TAG" />
-        <AddTextArea purpose="TAG" />
-      </OverFlowWrap>
-      <ModalButton btnText={ADD.btnText} btnSize="large" btnWidth="212px" />
+    <Modal onClose={onClose}>
+      <Wrap>
+        <ModalTitle headerText={ADD.headerText} />
+        <OverFlowWrap>
+          <SearchLocation />
+          <AddImgBtn />
+          <AddInput purpose="TAG" />
+          <AddTextArea purpose="TAG" />
+        </OverFlowWrap>
+        <ModalButton btnText={ADD.btnText} btnSize="large" btnWidth="212px" />
+      </Wrap>
     </Modal>
   );
 };
+
+const Wrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 480px;
+  border-radius: 8px;
+  padding: 24px;
+  gap: 24px;
+  background-color: ${colors.WHITE};
+`;
 
 const OverFlowWrap = styled.div`
   width: 100%;

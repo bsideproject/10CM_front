@@ -3,17 +3,21 @@ import Map from 'components/Map';
 import MyTripHeader from 'components/MyTrip/MyTripHeader';
 import MyPlaces from 'components/SideBar/MyPlaces';
 import SearchAddress from 'components/SideBar/SearchAddress';
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 
 const MakeMyTrip: React.FC = () => {
+  const mapRef = useRef<any>();
+  const handleChangeRef = (map: any) => {
+    mapRef.current = map;
+  };
   return (
     <Wrap>
       <MyTripHeader />
       <MainWrap>
         <DayListBar />
         <SearchAddress />
-        <Map />
+        <Map mapRef={mapRef} setMapRef={handleChangeRef} />
       </MainWrap>
     </Wrap>
   );

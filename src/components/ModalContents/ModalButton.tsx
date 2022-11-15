@@ -3,20 +3,22 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
-type BtnSize = 'full' | 'small' | 'medium' | 'large';
+type BtnSize = 'small' | 'medium' | 'large';
 interface IProps {
   btnText: string;
   btnSize: BtnSize;
   btnWidth: string;
+  isOne?: boolean;
   onClick?: () => void;
 }
 const ModalButton: React.FC<IProps> = ({
   btnText,
   btnSize,
   btnWidth,
+  isOne,
   onClick,
 }) => {
-  const isFullSize = btnSize === 'full';
+  const isFullSize = isOne;
   return (
     <Wrap btnSize={btnSize}>
       {isFullSize && (

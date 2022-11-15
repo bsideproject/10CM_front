@@ -16,7 +16,10 @@ type Size =
   | 'text-sm-regular'
   | 'text-sm'
   | 'text-sm-bold'
-  | 'text-sm-none';
+  | 'text-sm-none'
+  | 'text-ms-medium'
+  | 'text-ms-bold';
+
 export const fonts = (size: Size): FlattenSimpleInterpolation => {
   switch (size) {
     case 'title-md':
@@ -114,6 +117,18 @@ export const fonts = (size: Size): FlattenSimpleInterpolation => {
         font-weight: 500;
         font-size: 18px;
         line-height: 24px;
+      `;
+    case 'text-ms-medium':
+      return css`
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 32px;
+      `;
+    case 'text-ms-bold':
+      return css`
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 32px;
       `;
     default:
       return css`
