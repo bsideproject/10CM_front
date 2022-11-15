@@ -15,7 +15,7 @@ interface Props {
   addressInfo: KakaoAddress;
   keyword: string;
   onClose: () => void;
-  onRefetch: () => void;
+  onCreateComplete: () => void;
 }
 
 interface Test {
@@ -27,7 +27,7 @@ const CreatePost: React.FC<Props> = ({
   addressInfo,
   keyword,
   onClose,
-  onRefetch,
+  onCreateComplete,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [test, setTest] = useState<Test>({ memo: '', tag: '' });
@@ -61,7 +61,7 @@ const CreatePost: React.FC<Props> = ({
         longitude: addressInfo.x.toString(),
         latitude: addressInfo.y.toString(),
       });
-      onRefetch();
+      onCreateComplete();
     } catch (e) {
       console.log(e);
     }

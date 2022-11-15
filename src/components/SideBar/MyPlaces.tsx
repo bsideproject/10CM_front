@@ -25,6 +25,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [keyword, setKeyword] = useState('');
   const [myPlaceList, setMyPlaceList] = useState<MyPlace[]>([]);
+  const [createdPlace, setCreatePlace] = useState<number | null>(null);
   const [selectedPlaceDetail, setSelectedPlaceDetail] = useState<number | null>(
     null,
   );
@@ -47,25 +48,31 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     setSelectedAddress(null);
   };
   // 장소 등록 후 리패치,오버레이 변경 함수
-  const handleRefetchAfterCreateData = async () => {
-    await fetchMyPlaces();
-    setIsOpenModal(false);
+  const handleRefetchAfterCreateData = (id: number | null) => {
+    if (id) {
+      console.log(id);
+      return async () => {
+        await fetchMyPlaces();
+        setIsOpenModal(false);
+      };
+    }
+    return () => {};
   };
   // 주소 검색
   const handleSearchAddress = () => {
     ps.keywordSearch(keyword, placesSearchCB);
   };
   // 주소 카드 클릭
+  const handleOverayOverlayClose = () => {
+    if (currentOverlay.current) {
+      currentOverlay.current.setMap(null);
+    }
+  };
   const handleClickCard = (addressInfo: KakaoAddress) => {
     return () => {
       const { kakao } = window;
 
       if (currentMarker.current) {
-        const closeOverlay = () => {
-          if (currentOverlay.current) {
-            currentOverlay.current.setMap(null);
-          }
-        };
         MapConfig.moveMarker(
           currentMarker.current,
           addressInfo.y,
@@ -78,7 +85,11 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
         );
         MapConfig.changeOverlayContent(
           currentOverlay.current,
-          createOverlay(addressInfo, closeOverlay, handleCreateClick),
+          createOverlay(
+            addressInfo,
+            handleOverayOverlayClose,
+            handleCreateClick,
+          ),
         );
         MapConfig.moveMap(map, addressInfo.y, addressInfo.x);
       } else {
@@ -206,7 +217,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
           addressInfo={selectedAddress!}
           keyword={keyword}
           onClose={handleCloseClick}
-          onRefetch={handleRefetchAfterCreateData}
+          onCreateComplete={handleRefetchAfterCreateData(createdPlace)}
         />
       )}
       {selectedPlaceDetail && (
