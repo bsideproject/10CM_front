@@ -6,15 +6,17 @@ interface IProps {
   width: string;
   height: string;
   padding?: string;
+  onClick?: () => void;
 }
 
 interface ImgProps {
   width: string;
   height: string;
   padding: string;
+  cursor: boolean;
 }
 
-const Img: React.FC<IProps> = ({ src, width, height, padding }) => {
+const Img: React.FC<IProps> = ({ src, width, height, padding, onClick }) => {
   return (
     <MyImg
       src={src}
@@ -22,6 +24,8 @@ const Img: React.FC<IProps> = ({ src, width, height, padding }) => {
       width={width}
       height={height}
       padding={padding || '0'}
+      onClick={onClick}
+      cursor={typeof onClick === 'function'}
     />
   );
 };
@@ -30,7 +34,7 @@ const MyImg = styled.img<ImgProps>`
   width: ${props => props.width};
   height: ${props => props.height};
   padding: ${props => props.padding};
+  cursor: ${props => (props.cursor ? 'pointer' : undefined)};
 `;
 
-// padding은 수정되어야 함.
 export default Img;

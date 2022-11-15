@@ -1,18 +1,23 @@
 /* eslint-disable react/require-default-props */
-import React, { ReactNode } from 'react';
-import styled from 'styled-components';
+import React, { ReactNode, MouseEvent } from 'react';
+import styled, { css } from 'styled-components';
+import { colors } from 'constants/colors';
 import ModalPortal from './ModalPortal';
 
 interface IProps {
-  children?: ReactNode;
-  onClose?: () => void;
+  children: ReactNode;
+  onClose: () => void;
 }
 
 const Modal: React.FC<IProps> = ({ children, onClose }) => {
+  const handleClickInnerModal = (e: MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  };
+
   return (
     <ModalPortal>
       <ModalBackground onClick={onClose}>
-        <ModalContent>{children}</ModalContent>
+        <ModalContent onClick={handleClickInnerModal}>{children}</ModalContent>
       </ModalBackground>
     </ModalPortal>
   );
@@ -22,9 +27,9 @@ export default Modal;
 
 const ModalBackground = styled.div`
   position: absolute;
-  left: 0;
   top: 0;
-  background: rgba(0, 0, 0, 0.55);
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
   width: 100vw;
   height: 100vh;
   z-index: 100;

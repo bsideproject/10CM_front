@@ -5,7 +5,6 @@ interface IProps {
 }
 const ModalPortal: React.FC<IProps> = ({ children }) => {
   const el = document.querySelector('#modal')!;
-  // ! 혹은 as HTMLElement도 가능
   return reactDom.createPortal(children, el);
 };
 

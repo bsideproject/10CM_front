@@ -12,7 +12,7 @@ const AddImage: React.FC<Props> = () => {
   }, []);
   return (
     <Label htmlFor="addImage">
-      <Button buttonType="outline" style={buttonStyle()}>
+      <Button buttonType="outline" buttonWidth="100%" style={buttonStyle()}>
         사진 추가
       </Button>
       <Input id="addImage" type="file" />

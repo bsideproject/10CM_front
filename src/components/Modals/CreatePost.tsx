@@ -69,7 +69,7 @@ const CreatePost: React.FC<Props> = ({
   };
 
   return (
-    <Modal>
+    <Modal onClose={onClose}>
       <CreatePostWrap>
         <CreatePostHeader>
           <div>나의 관심장소 추가하기</div>
@@ -105,10 +105,19 @@ const CreatePost: React.FC<Props> = ({
           </MemoWrap>
         </CreatePostBody>
         <CreatePostFooter>
-          <Button buttonType="outline" style={buttonStyle()} onClick={onClose}>
+          <Button
+            buttonType="outline"
+            style={buttonStyle()}
+            onClick={onClose}
+            buttonWidth="100%"
+          >
             취소
           </Button>
-          <Button style={buttonStyle()} onClick={handleSaveClick}>
+          <Button
+            style={buttonStyle()}
+            onClick={handleSaveClick}
+            buttonWidth="100%"
+          >
             저장
           </Button>
         </CreatePostFooter>

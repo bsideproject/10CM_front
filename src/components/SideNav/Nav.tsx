@@ -4,8 +4,10 @@ import styled, { css } from 'styled-components';
 import { colors } from 'constants/colors';
 import Img from 'components/Img/Img';
 import { fonts } from 'assets/fonts/fonts';
+import * as CFG from 'services/config.js';
 import profileImg from 'assets/img/profileImg.svg';
 import navLogo from 'assets/img/navLogo.svg';
+import ImgLists from './ImgLists';
 interface IProps {
   className: string;
 }
@@ -22,14 +24,8 @@ const Nav: React.FC<IProps> = ({ className }) => {
             <Img src={profileImg} width="64px" height="64px" />
             <ProfileName>가나다라마바사아님</ProfileName>
           </UserProfile>
-          <MenuList>
-            <ListItem>IMG1</ListItem>
-            <ListItem>IMG2</ListItem>
-            <ListItem>IMG3</ListItem>
-          </MenuList>
-          <LogoutList>
-            <ListItem>IMG1</ListItem>
-          </LogoutList>
+          <ImgLists listsData={CFG.NAV_DESC} isNav />
+          <ImgLists listsData={CFG.NAV_DESC_SEC} isNav />
         </MenuWrap>
       </NavContent>
     </Wrap>
@@ -42,10 +38,7 @@ const defaultStyle = css`
 
 const Wrap = styled.div`
   ${defaultStyle}
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
+  height: 100vh;
   z-index: 10;
   background: ${colors.WHITE};
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3),
@@ -93,34 +86,4 @@ const ProfileName = styled.div`
   align-items: center;
 `;
 
-const MenuList = styled.ul`
-  width: 188px;
-  height: 176px;
-  gap: 16px;
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  border-top: 1px solid black;
-  padding: 16px 0;
-`;
-
-const LogoutList = styled.ul`
-  width: 188px;
-  height: 48px;
-  gap: 16px;
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  border-top: 1px solid black;
-  padding: 16px 0;
-`;
-
-const ListItem = styled.li`
-  width: calc(100% - 32px);
-  height: 48px;
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  border-radius: 12px;
-`;
 export default Nav;
