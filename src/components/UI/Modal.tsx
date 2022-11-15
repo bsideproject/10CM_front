@@ -21,14 +21,18 @@ const Modal: React.FC<IProps> = ({ children, onClose }) => {
 export default Modal;
 
 const ModalBackground = styled.div`
-  position: fixed;
-  top: 0;
+  position: absolute;
   left: 0;
+  top: 0;
   background: rgba(0, 0, 0, 0.55);
-  width: 100%;
+  width: 100vw;
   height: 100vh;
+  z-index: 100;
 `;
 
 const ModalContent = styled.div`
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;

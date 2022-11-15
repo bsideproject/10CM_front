@@ -31,13 +31,14 @@ const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
         {isSearch && <SearchIcon />}
         <MyInput
           ref={ref}
+          value={value}
           {...rest}
           error={!!error}
           maxLength={maxLength}
           isSearch={!!isSearch}
           isClear={!!isClear}
         />
-        {isClear && <CancelIcon />}
+        {isClear && <CancelIcon onClick={onClear} />}
       </InputWrap>
       {(!!error || count) && (
         <OptionsWrap error={!!error}>

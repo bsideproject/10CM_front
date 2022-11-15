@@ -1,18 +1,11 @@
+import { fonts } from 'assets/fonts/fonts';
+import { colors } from 'constants/colors';
 
-import { fonts } from "assets/fonts/fonts";
-import { colors } from "constants/colors";
-
-import React, {
-  ButtonHTMLAttributes,
-  forwardRef,
-  HTMLProps,
-  useEffect,
-} from 'react';
+import React, { ButtonHTMLAttributes, forwardRef } from 'react';
 import styled, { css } from 'styled-components';
 
 type ButtonType = 'filled' | 'outline';
 type ButtonSize = 'large' | 'medium' | 'small';
-
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonType?: ButtonType;
@@ -21,13 +14,12 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button = forwardRef<HTMLButtonElement, Props>((props, ref) => {
   return (
-    <MyButton ref={ref} {...props} disabled>
+    <MyButton ref={ref} {...props}>
       {props.children}
     </MyButton>
   );
 });
 export default Button;
-
 
 const getButtonStyle = (disabled?: boolean, type: ButtonType = 'filled') => {
   if (type === 'filled') {

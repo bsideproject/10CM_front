@@ -1,33 +1,32 @@
+// 이거 ts로 수정부탁드립니다.
+
 class MapConfig {
   static initMapOption(kakao) {
     const options = {
       // 지도를 생성할 때 필요한 기본 옵션
-      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표.
+      center: new kakao.maps.LatLng(37.499779332771375, 127.027978289709), // 지도의 중심좌표.
+      // center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표.
       level: 3, // 지도의 레벨(확대, 축소 정도)
     };
     return options;
   }
 
   static confirmMapLog(kakao, map) {
-    kakao.maps.event.addListener(map.current, 'zoom_changed', function () {
+    kakao.maps.event.addListener(map, 'zoom_changed', function () {
       // 지도의 현재 레벨을 얻어옵니다
-      const level = map.current.getLevel();
+      const level = map.getLevel();
       console.log('현재 지도 레벨은 ', level, ' 입니다');
     });
-    kakao.maps.event.addListener(
-      map.current,
-      'click',
-      function event(mouseEvent) {
-        // 클릭한 위도, 경도 정보를 가져옵니다
-        const latlng = mouseEvent.latLng;
-        console.log('마커를 찍은 위치는? ', latlng);
-      },
-    );
+    kakao.maps.event.addListener(map, 'click', function event(mouseEvent) {
+      // 클릭한 위도, 경도 정보를 가져옵니다
+      const latlng = mouseEvent.latLng;
+      console.log('마커를 찍은 위치는? ', latlng);
+    });
   }
 
   static managerOptions(kakao, map) {
     return {
-      map: map.current, // Drawing Manager로 그리기 요소를 그릴 map 객체입니다
+      map, // Drawing Manager로 그리기 요소를 그릴 map 객체입니다
       drawingMode: [
         // drawing manager로 제공할 그리기 요소 모드입니다
         kakao.maps.drawing.OverlayType.MARKER,
@@ -82,14 +81,16 @@ class MapConfig {
     };
   }
 
-  static createMarker(kakao, map, locationY, locationX) {
+  static createMarker(kakao, locationY, locationX) {
     // 마커 생성
-    const markerPosition = new kakao.maps.LatLng(locationY, locationX);
+
+    const markerPosition = new kakao.maps.LatLng(locationX, locationY);
 
     const marker = new kakao.maps.Marker({
       position: markerPosition,
     });
-    marker.setMap(map.current);
+    // marker.setMap(map.current);
+    return marker;
   }
 
   static createCluster(kakao, map, locations) {
@@ -114,6 +115,48 @@ class MapConfig {
       }),
     ];
     clusterer.addMarkers(markers);
+  }
+
+  static getPos(lat, long) {
+    const { kakao } = window;
+    const pos = new kakao.maps.LatLng(lat, long);
+
+    return pos;
+  }
+
+  // 마커 지우기
+  static removeMarker(map, marker) {
+    console.log(marker);
+  }
+
+  // 마커 이동
+  static moveMarker(marker, lat, long) {
+    const pos = this.getPos(lat, long);
+    marker.setPosition(pos);
+  }
+
+  // 오버레이 이동
+  static moveOverlay(overlay, lat, long) {
+    const pos = this.getPos(lat, long);
+    overlay.setPosition(pos);
+  }
+
+  // 오버레이 제거
+  static removeOverlay(overlay) {
+    overlay.setMap(null);
+  }
+
+  // 마커 이벤트 제거
+  static removeMarkerEvent = (marker, d) => {};
+
+  static changeOverlayContent(overlay, content) {
+    overlay.setContent(content);
+  }
+
+  // 지드 이동
+  static moveMap(map, lat, long) {
+    const pos = this.getPos(lat, long);
+    map.current.panTo(pos);
   }
 
   static displayMarker(kakao, map, locPosition, msg) {
