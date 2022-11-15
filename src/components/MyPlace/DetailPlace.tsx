@@ -8,31 +8,11 @@ import { fonts } from 'assets/fonts/fonts';
 import { ReactComponent as CloseIcon } from 'assets/svg/close.svg';
 
 interface Props {
-  myPlaceDetailId: number | null;
+  myPlaceDetail: MyPlaceResponse;
   onClose: () => void;
 }
 
-const DetailPlace: React.FC<Props> = ({ myPlaceDetailId, onClose }) => {
-  const [myPlaceDetail, setMyPlaceDetail] = useState<MyPlaceResponse>();
-  const [isLoading, setIsLoading] = useState(false);
-
-  const fetchMyPlace = async (id: number) => {
-    setIsLoading(true);
-    try {
-      const data = await getPlace(id);
-      setMyPlaceDetail(data);
-    } catch (e) {
-      console.log(e);
-    }
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    if (myPlaceDetailId) {
-      fetchMyPlace(myPlaceDetailId);
-    }
-  }, [myPlaceDetailId]);
-
+const DetailPlace: React.FC<Props> = ({ myPlaceDetail, onClose }) => {
   return (
     <MyPlaceDetailWrap>
       <CloseButton type="button" onClick={onClose}>

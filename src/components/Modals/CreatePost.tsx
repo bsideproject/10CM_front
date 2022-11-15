@@ -9,13 +9,14 @@ import Input from 'components/common/Input';
 import AddImage from 'components/common/Input/addImage';
 import Textarea from 'components/common/Textarea';
 import Button from 'components/common/Button';
-import { createPlace } from 'apis/place';
+import { createPlace, getPlace } from 'apis/place';
+import { MyPlaceResponse } from 'dtos/place';
 
 interface Props {
   addressInfo: KakaoAddress;
   keyword: string;
   onClose: () => void;
-  onCreateComplete: () => void;
+  onCreateComplete: (info: MyPlaceResponse) => void;
 }
 
 interface Test {
@@ -55,13 +56,14 @@ const CreatePost: React.FC<Props> = ({
   const handleSaveClick = async () => {
     setIsLoading(true);
     try {
-      await createPlace({
+      const data = await createPlace({
         name: keyword,
         address: addressInfo.road_address_name,
         longitude: addressInfo.x.toString(),
         latitude: addressInfo.y.toString(),
       });
-      onCreateComplete();
+      const createAddressInfo = await getPlace(data.id);
+      onCreateComplete(createAddressInfo);
     } catch (e) {
       console.log(e);
     }

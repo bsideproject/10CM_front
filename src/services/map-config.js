@@ -84,7 +84,7 @@ class MapConfig {
   static createMarker(kakao, locationY, locationX) {
     // 마커 생성
 
-    const markerPosition = new kakao.maps.LatLng(locationX, locationY);
+    const markerPosition = new kakao.maps.LatLng(locationY, locationX);
 
     const marker = new kakao.maps.Marker({
       position: markerPosition,

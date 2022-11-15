@@ -10,7 +10,8 @@ import api from './common';
  */
 const url = '/api/v1/place';
 export const createPlace = async (body: CreatePlaceBody) => {
-  await api.post(url, body);
+  const { data } = await api.post<{ id: number }>(url, body);
+  return data;
 };
 
 /**

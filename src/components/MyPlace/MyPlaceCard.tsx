@@ -7,14 +7,14 @@ import {
   MyPlaceCardWrap,
   MyPlaceInfoWrap,
 } from 'components/common/MyPlaceCard/styles';
-import { MyPlace } from 'dtos/place';
+import { MyPlaceResponse } from 'dtos/place';
 import dayjs from 'dayjs';
 import { dateFormat } from 'constants/common';
 import Image from '../../assets/png/thumbnail-area.png';
 import { ReactComponent as OptionIcon } from '../../assets/svg/my-place-option.svg';
 
 interface Props {
-  place: MyPlace;
+  place: MyPlaceResponse;
   onDetailClick: (id: number) => void;
 }
 
