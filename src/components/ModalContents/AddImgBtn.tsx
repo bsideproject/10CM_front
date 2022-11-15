@@ -32,22 +32,23 @@ const AddImgBtn = () => {
   };
 
   const handleInitText = () => {
-    setLableText('사진 추가');
+    setFile(undefined);
+    setLableText(CFG.INIT_ADD_IMG_LABEL);
   };
   return (
     <Wrap>
       <HeaderText>사진 첨부</HeaderText>
+      {showDeleteBtn && (
+        <Img
+          src={deleteIcon}
+          width={sizes.CLOSE_BTN_SIZE}
+          height={sizes.CLOSE_BTN_SIZE}
+          padding="0 9px 0 0"
+          onClick={handleInitText}
+        />
+      )}
       <InputLable htmlFor="input-file" showBtn={showDeleteBtn}>
         <span>{labelText}</span>
-        {showDeleteBtn && (
-          <Img
-            src={deleteIcon}
-            width={sizes.CLOSE_BTN_SIZE}
-            height={sizes.CLOSE_BTN_SIZE}
-            padding="0 9px 0 0"
-            onClick={handleInitText}
-          />
-        )}
       </InputLable>
       <InputFile
         id="input-file"
@@ -72,6 +73,12 @@ const Wrap = styled.div`
   gap: 4px;
   height: 107px;
   position: relative;
+
+  > img {
+    position: absolute;
+    top: 49px;
+    right: 0;
+  }
 `;
 
 const HeaderText = styled.span`
@@ -80,6 +87,7 @@ const HeaderText = styled.span`
 
 const InputLable = styled.label<{ showBtn: boolean }>`
   position: absolute;
+  // width: ${props => (props.showBtn ? '90%' : '99.5%')};
   width: 99.5%;
   border: 1px solid ${colors.BLUE_BASE};
   border-radius: 4px;
@@ -87,21 +95,21 @@ const InputLable = styled.label<{ showBtn: boolean }>`
   top: 38px;
   height: 44px;
   display: flex;
-  justify-content: ${props => (props.showBtn ? 'space-between' : 'center')};
+  justify-content: ${props => (props.showBtn ? 'flex-start' : 'center')};
   align-items: center;
+  pointer-events: ${props => (props.showBtn ? 'none' : 'auto')};
   > span {
-    pointer-events: ${props => (props.showBtn ? 'none' : 'auto')};
-    padding-left: 9px;
+    padding-left: ${props => (props.showBtn ? '9px' : undefined)};
   }
 `;
 
 const InputFile = styled.input<{ showBtn: boolean }>`
-  ${defaultStyle};
+  ${defaultStyle}
   opacity: 0;
   height: 44px;
   cursor: pointer;
-  /* pointer-events: ${props => (props.showBtn ? 'none' : 'auto')}; */
-  display: ${props => (props.showBtn ? 'none' : 'block')};
+  pointer-events: ${props => (props.showBtn ? 'none' : 'auto')};
+  width: ${props => (props.showBtn ? '90%' : '100%')};
 `;
 
 const WarningText = styled.span`
