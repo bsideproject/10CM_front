@@ -1,6 +1,6 @@
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
-import React, { forwardRef, InputHTMLAttributes } from 'react';
+import React, { useState, forwardRef, InputHTMLAttributes } from 'react';
 import styled, { css } from 'styled-components';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
@@ -16,15 +16,25 @@ const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
     maxLength = 50,
     ...rest
   } = props;
+  const [text, setText] = useState('');
+  const handleInputText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value);
+  };
   return (
     <div>
-      <MyInput ref={ref} {...rest} error={!!error} maxLength={maxLength} />
+      <MyInput
+        ref={ref}
+        {...rest}
+        error={!!error}
+        maxLength={maxLength}
+        onChange={handleInputText}
+      />
       {(!!error || count) && (
         <OptionsWrap error={!!error}>
           <div>{error}</div>
           {count && (
             <div>
-              {value.toString().length} / {maxLength}
+              {text.toString().length} / {maxLength}
             </div>
           )}
         </OptionsWrap>

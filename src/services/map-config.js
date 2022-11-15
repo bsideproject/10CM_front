@@ -212,19 +212,20 @@ class MapConfig {
     content += '    <button>포스팅 수정</button>';
     content += '  </div>';
     content += '</div>';
+    // html element로 수정
+    const rvCustomOverlay = new kakao.maps.CustomOverlay({
+      position,
+      content,
+      // https://devtalk.kakao.com/t/topic/105513/5  html 문자열만 가능
+      xAnchor: 0.5,
+      yAnchor: 1.3,
+      // removable: true,
+    });
 
     kakao.maps.event.addListener(roadview, 'init', function () {
       const rMarker = new kakao.maps.Marker({
         position,
         map: roadview,
-      });
-
-      const rvCustomOverlay = new kakao.maps.CustomOverlay({
-        position,
-        content,
-        // https://devtalk.kakao.com/t/topic/105513/5  html 문자열만 가능
-        xAnchor: 0.5,
-        yAnchor: 1.3,
       });
 
       rvCustomOverlay.setMap(roadview);

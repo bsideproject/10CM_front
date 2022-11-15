@@ -4,7 +4,7 @@ import AddSchedule from 'components/ModalContents/AddSchedule';
 import ModalButton from 'components/ModalContents/ModalButton';
 import ModalTitle from 'components/ModalContents/ModalTitle';
 import Modal from 'components/UI/Modal';
-import React from 'react';
+import React, { useRef } from 'react';
 import * as CFG from 'services/config.js';
 import { useNavigate } from 'react-router-dom';
 import {

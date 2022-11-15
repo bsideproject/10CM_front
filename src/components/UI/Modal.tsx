@@ -44,7 +44,7 @@ const ModalBackground = styled.div`
 const ModalBody = styled.div<{ styleType: string }>`
   position: relative;
   margin: 0 auto;
-  top: 10%;
+  top: 12%;
   z-index: 1000;
   background-color: ${colors.WHITE};
   display: flex;

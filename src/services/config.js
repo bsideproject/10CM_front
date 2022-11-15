@@ -3,7 +3,9 @@ import interestPlaceImg from 'assets/img/interestPlaceImg.svg';
 import myPlaceTripImg from 'assets/img/myPlaceTripImg.svg';
 import logoutImg from 'assets/img/logoutImg.svg';
 
+export const FILE_SIZE_MAX_LIMIT = 500 * 1024 * 1024;
 export const FILTERBOX_TEXT = '나의 관심장소';
+export const INIT_ADD_IMG_LABEL = '사진 추가';
 
 export const NAV_DESC = [
   {

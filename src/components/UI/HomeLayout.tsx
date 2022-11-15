@@ -19,7 +19,7 @@ const HomeLayout: React.FC<IProps> = ({ nav, banner, content }) => {
 };
 
 const Layout = styled.div`
-  height: 100vh;
+  height: 100%;
   width: 1200px;
   margin: 0 auto;
   display: flex;

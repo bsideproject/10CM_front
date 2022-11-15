@@ -19,10 +19,12 @@ const defaultStyle = css`
 const navSlide = keyframes`
   0% {
     width: 0px;
+    /* left: -50px; */
   }
 
   100% {
     width: 220px;
+    /* left: 50px; */
   }
 `;
 
