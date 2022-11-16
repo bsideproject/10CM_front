@@ -7,11 +7,17 @@ import styled, { css } from 'styled-components';
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
 import { sizes } from 'constants/sizes';
-
-const AddImgBtn = () => {
+import { useAppDispatch } from 'store/configureStore.hooks';
+import { setImg } from 'store/modules/placeInfo';
+interface IProps {
+  file: File | undefined;
+  setFile: React.Dispatch<React.SetStateAction<any>>;
+}
+const AddImgBtn: React.FC<IProps> = ({ file, setFile }) => {
   const [labelText, setLableText] = useState<string>(CFG.INIT_ADD_IMG_LABEL);
-  const [file, setFile] = useState<File>();
+  // const [file, setFile] = useState<File>();
   const showDeleteBtn = labelText !== CFG.INIT_ADD_IMG_LABEL;
+  const dispatch = useAppDispatch();
 
   const handleInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.currentTarget;
@@ -25,7 +31,6 @@ const AddImgBtn = () => {
     }
 
     setLableText(name);
-
     // 정상적으로 통과 한다면
     setFile(files);
     // ref: https://velog.io/@mjhyp88/ReactTypscript-%ED%8C%8C%EC%9D%BC%EC%97%85%EB%A1%9C%EB%93%9C-%EA%B8%B0%EB%8A%A5-%EA%B5%AC%ED%98%84With.-Springboot

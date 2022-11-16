@@ -33,6 +33,7 @@ const Wrap = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
 
   .hover-open {
     position: fixed;

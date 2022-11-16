@@ -1,12 +1,27 @@
 import Img from 'components/Img/Img';
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import logo from 'assets/img/smallNavLogo.svg';
 import { sizes } from 'constants/sizes';
 import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
+import { useAppDispatch, useAppSelect } from 'store/configureStore.hooks';
+import { useNavigate } from 'react-router-dom';
 
 const TripSummary = () => {
+  const { title, fromDate, toDate } = useAppSelect(state => state.placeInfo);
+  const navigate = useNavigate();
+  const sliceToDate = toDate.slice(5);
+  const dateText = `${fromDate.replaceAll('-', '.')} - ${sliceToDate.replaceAll(
+    '-',
+    '.',
+  )}`;
+  useEffect(() => {
+    if (title.length === 0) {
+      navigate('/my-trip');
+    }
+    // fix: 새로고침 시 돌아가기
+  }, [title]);
   return (
     <Wrap>
       <SummaryTitle>
@@ -16,8 +31,8 @@ const TripSummary = () => {
           height={sizes.TRIP_SUMMARY_SIZE}
         />
         <TripWrap>
-          <TripName>가나다라마바사</TripName>
-          <TripDate>2022-09-04</TripDate>
+          <TripName>{title}</TripName>
+          <TripDate>{dateText}</TripDate>
         </TripWrap>
       </SummaryTitle>
     </Wrap>

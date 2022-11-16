@@ -4,9 +4,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as AddressAddIcon } from '../../assets/svg/plus.svg';
 
-interface Props {}
+interface Props {
+  onClick?: () => void;
+}
 
-const SearchAddressCard: React.FC<Props> = () => {
+const SearchCard: React.FC<Props> = ({ onClick }) => {
   return (
     <SearchAddressCardWrap>
       <SearchAddressCardHeader>
@@ -38,7 +40,7 @@ const SearchAddressCard: React.FC<Props> = () => {
     </SearchAddressCardWrap>
   );
 };
-export default SearchAddressCard;
+export default SearchCard;
 
 const SearchAddressCardWrap = styled.div`
   padding: 22px 20px;

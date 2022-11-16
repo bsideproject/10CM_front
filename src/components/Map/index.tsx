@@ -110,11 +110,11 @@ const Map: React.FC<Props> = ({ mapRef, setMapRef = () => {} }) => {
           height: '100%',
         }}
       />
-      <div
+      {/* <div
         id="roadview"
         style={{ width: '100%', height: '100%' }}
         onClick={() => handleCreateRoadView()}
-      />
+      /> */}
       <div style={{ display: 'none' }}>
         <button onClick={createMarker}>마커생성</button>
         <button onClick={createCluster}>클러스터생성</button>

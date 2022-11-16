@@ -5,13 +5,14 @@ import AddTextArea from 'components/ModalContents/AddTextArea';
 import ModalButton from 'components/ModalContents/ModalButton';
 import ModalTitle from 'components/ModalContents/ModalTitle';
 import Modal from 'components/UI/Modal';
-import React from 'react';
+import React, { useState } from 'react';
 import * as CFG from 'services/config.js';
 import styled from 'styled-components';
 import { colors } from 'constants/colors';
 
 const MyTripPlace: React.FC = () => {
   const { TRIP } = CFG.MODAL_MYPLACE;
+  const [file, setFile] = useState<File | undefined>();
 
   return (
     <Modal onClose={() => {}}>
@@ -19,7 +20,7 @@ const MyTripPlace: React.FC = () => {
         <ModalTitle headerText={TRIP.headerText} />
         <AddInput purpose="TRIP" />
         <AddSchedule />
-        <AddImgBtn />
+        <AddImgBtn file={file} setFile={setFile} />
         <AddTextArea purpose="TRIP" />
         <ModalButton btnText="저장하기" btnSize="large" btnWidth="100%" isOne />
       </Wrap>

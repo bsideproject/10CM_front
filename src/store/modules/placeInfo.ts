@@ -1,16 +1,18 @@
+/* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
+import { initFromDate, initToDate } from 'services/misc';
 interface IState {
   title: string;
-  date: string;
-  duration: number;
-  img: string;
+  fromDate: string;
+  toDate: string;
+  img: any;
 }
+
 const initialState: IState = {
   title: '',
-  date: '',
-  duration: 0,
-  img: '',
+  fromDate: initFromDate,
+  toDate: initToDate,
+  img: {},
 };
 
 const placeInfoSlice = createSlice({
@@ -18,21 +20,21 @@ const placeInfoSlice = createSlice({
   initialState,
   reducers: {
     setTitle: (state, action: PayloadAction<string>) => {
-      // state.info = action.payload;
+      state.title = action.payload;
     },
-    setDate: (state, action: PayloadAction<string>) => {
-      // state.info = action.payload;
+    setFromDate: (state, action: PayloadAction<string>) => {
+      state.fromDate = action.payload;
     },
-    setDuration: (state, action: PayloadAction<number>) => {
-      // state.info = action.payload;
+    setToDate: (state, action: PayloadAction<string>) => {
+      state.toDate = action.payload;
     },
-    setImg: (state, action: PayloadAction<string>) => {
-      // state.info = action.payload;
+    setImg: (state, action: PayloadAction<any>) => {
+      state.img = action.payload;
     },
   },
 });
 
-export const { setTitle, setDate, setDuration, setImg } =
+export const { setTitle, setFromDate, setToDate, setImg } =
   placeInfoSlice.actions;
 export default placeInfoSlice.reducer;
 
