@@ -126,6 +126,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
           ),
           map: map.current,
           position: marker.getPosition(),
+          clickable: true,
         });
 
         currentMarker.current = marker;
