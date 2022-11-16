@@ -8,8 +8,8 @@ import MapConfig from 'services/map-config.js';
 import { createAddressDetailOverlay, createUpdateOverlay } from 'utils/overlay';
 import { getPlace, getPlaceList } from 'apis/place';
 import { MyPlaceResponse } from 'dtos/place';
-import { colors } from 'constants/colors';
 import DetailPlace from 'components/MyPlace/DetailPlace';
+import UpdatePost from 'components/Modals/UpdatePost';
 import CreatePost from '../Modals/CreatePost';
 import { SearchWrap } from './styles';
 
@@ -22,7 +22,8 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   const currentOverlay = useRef<any>();
 
   const [isFetching, setIsFetching] = useState(false);
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
+  const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
   const [isDetailLoading, setIsDetailLoading] = useState(false);
   const [keyword, setKeyword] = useState('');
   const [myPlaceList, setMyPlaceList] = useState<MyPlaceResponse[]>([]);
@@ -43,14 +44,14 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     setKeyword(e.target.value);
   };
   // 닫기 버튼 클릭
-  const handleCloseClick = () => {
-    setIsOpenModal(false);
+  const handleCloseCreateModalClick = () => {
+    setIsOpenCreateModal(false);
     setSelectedAddress(null);
   };
   // 장소 등록 후 리패치,오버레이 변경 함수
   const handleRefetchAfterCreateData = async (info: MyPlaceResponse) => {
     await fetchMyPlaces();
-    setIsOpenModal(false);
+    setIsOpenCreateModal(false);
     setCreatePlace(info);
   };
   // 주소 검색
@@ -82,6 +83,16 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   const handleCloseDetailClick = () => {
     setPlaceDetail(null);
   };
+  // 포스팅 수정 버튼 클릭
+  const handleClickUpdateClick = () => {
+    setIsOpenUpdateModal(true);
+  };
+  // 포스팅 수정 모달 닫기
+  const handleCloseUpdateModalClick = () => {
+    setIsOpenUpdateModal(false);
+  };
+
+  // 검색 내용 초기화 클릭
   const handleKeywordClearClick = () => {
     setKeyword('');
   };
@@ -177,7 +188,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   // 선택한 장소 등록 모달
   useEffect(() => {
     if (selectedAddress) {
-      setIsOpenModal(true);
+      setIsOpenCreateModal(true);
     }
   }, [selectedAddress]);
 
@@ -208,7 +219,11 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
         );
         MapConfig.changeOverlayContent(
           currentOverlay.current,
-          createUpdateOverlay(placeDetail, handleOverayOverlayClose, () => {}),
+          createUpdateOverlay(
+            placeDetail,
+            handleOverayOverlayClose,
+            handleClickUpdateClick,
+          ),
         );
         MapConfig.moveMap(map, placeDetail.latitude, placeDetail.longitude);
       } else {
@@ -221,7 +236,11 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
           overlay.setMap(null);
         };
         const overlay = new kakao.maps.CustomOverlay({
-          content: createUpdateOverlay(placeDetail, closeOverlay, () => {}),
+          content: createUpdateOverlay(
+            placeDetail,
+            closeOverlay,
+            handleClickUpdateClick,
+          ),
           map: map.current,
           position: marker.getPosition(),
         });
@@ -237,6 +256,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
       currentOverlay.current.setMap(map.current);
     }
   }, [placeDetail]);
+
   return (
     <MyPlacesWrap>
       <SearchWrap>
@@ -276,12 +296,18 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
           })}
         </KakaoAddressListWrap>
       )}
-      {isOpenModal && (
+      {isOpenCreateModal && (
         <CreatePost
           addressInfo={selectedAddress!}
           keyword={keyword}
-          onClose={handleCloseClick}
+          onClose={handleCloseCreateModalClick}
           onCreateComplete={handleRefetchAfterCreateData}
+        />
+      )}
+      {isOpenUpdateModal && placeDetail && (
+        <UpdatePost
+          addressInfo={placeDetail}
+          onClose={handleCloseUpdateModalClick}
         />
       )}
       {placeDetail && (

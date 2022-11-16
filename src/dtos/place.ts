@@ -23,6 +23,28 @@ export interface CreatePlaceBody {
   // 태그
   tag?: string[];
 }
+export interface UpdatePlaceBody {
+  // 장소 이름
+  name: string;
+
+  // 주소
+  address: string;
+
+  // 상세주소
+  addressDetail?: string;
+
+  // 위도
+  latitude: string;
+
+  // 경도
+  longitude: string;
+
+  // 메모
+  description?: string;
+
+  // 태그
+  tag?: string[];
+}
 
 /**
  * 내가 저장한 장소
@@ -33,19 +55,19 @@ export interface MyPlaceResponse {
   address: string;
 
   // 주소 상세
-  addressDetail: string;
+  addressDetail?: string;
 
   // 생성일
   createdDate: string;
 
   // 메모
-  description: string;
+  description?: string;
 
   // pk
   id: number;
 
   // 이미지
-  imageId: number;
+  imageId?: number;
 
   // 위도
   latitude: string;
@@ -60,10 +82,10 @@ export interface MyPlaceResponse {
   name: string;
 
   // 휴대폰 번호
-  phone: string;
+  phone?: string;
 
   // 태그 리스트
-  tag: string[];
+  tag?: string[];
 }
 
 /**

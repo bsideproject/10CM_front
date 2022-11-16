@@ -30,7 +30,7 @@ const DetailPlace: React.FC<Props> = ({ myPlaceDetail, onClose }) => {
             </MyPlaceDetailTitleWrap>
             <MyPlaceDetailAddress>{myPlaceDetail.address}</MyPlaceDetailAddress>
             <MyPlaceDetailTagWrap>
-              {myPlaceDetail.tag.map(tag => tag)}
+              {(myPlaceDetail.tag || []).map(tag => tag)}
             </MyPlaceDetailTagWrap>
             <Divider />
             <MyPlaceDetailMemo>{myPlaceDetail.description}</MyPlaceDetailMemo>

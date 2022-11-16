@@ -62,7 +62,7 @@ const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick }) => {
         <MyPlaceName>{place.name}</MyPlaceName>
         <MyPlaceAddress>{place.address}</MyPlaceAddress>
         <MyPlaceHashTag>
-          {place.tag.map(tag => (
+          {(place.tag || []).map(tag => (
             <span key={tag}>{tag}</span>
           ))}
         </MyPlaceHashTag>
