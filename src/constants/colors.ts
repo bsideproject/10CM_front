@@ -8,6 +8,7 @@ export const colors = {
   BLUE_PALE: '#F9FBFE',
   ALERT: '#DD4949',
   WHITE: '#ffffff',
+  BLACK: '#000000',
   NEUTRAl_50: '#F5F6FA',
   NEUTRAl_100: '#E7EAEE',
   NEUTRAl_200: '#D0D5DD',

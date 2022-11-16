@@ -10,11 +10,13 @@ type ButtonSize = 'large' | 'medium' | 'small';
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonType?: ButtonType;
   buttonSize?: ButtonSize;
+  buttonWidth: string;
+  onClick?: () => void;
 }
 
 const Button = forwardRef<HTMLButtonElement, Props>((props, ref) => {
   return (
-    <MyButton ref={ref} {...props}>
+    <MyButton ref={ref} onClick={props.onClick} disabled {...props}>
       {props.children}
     </MyButton>
   );
@@ -45,8 +47,6 @@ const getButtonStyle = (disabled?: boolean, type: ButtonType = 'filled') => {
   }
   // filled가 아니고 disabled 이면
   if (disabled) {
-    console.log('good');
-
     return css`
       border: 1px solid ${colors.NEUTRAl_200};
       background-color: ${colors.WHITE};
@@ -69,29 +69,33 @@ const getButtonStyle = (disabled?: boolean, type: ButtonType = 'filled') => {
   `;
 };
 
-const getButtonSize = (size: ButtonSize = 'medium') => {
+const getButtonSize = (width: string, size: ButtonSize = 'medium') => {
+  // Todo : width 정리
   switch (size) {
     case 'large':
       return css`
         height: 56px;
-        padding: 0 24px;
+        // padding: 0 24px;
+        width: ${width};
       `;
 
     case 'medium':
       return css`
         height: 48px;
-        padding: 0 24px;
+        // padding: 0 24px;
+        width: ${width};
       `;
 
     case 'small':
       return css`
         height: 36px;
-        padding: 0 20px;
+        // padding: 0 20px;
+        width: ${width};
       `;
     default:
       return css`
         height: 48px;
-        padding: 0 24px;
+        // padding: 0 24px;
       `;
   }
 };
@@ -102,13 +106,15 @@ const defaultButtonStyle = css`
   transition: 0.1s;
   ${fonts('text-sm-bold')};
   box-sizing: border-box;
+  cursor: pointer;
 `;
 // button 스타일
 const MyButton = styled.button<{
   buttonType?: ButtonType;
   buttonSize?: ButtonSize;
+  buttonWidth: string;
 }>`
   ${defaultButtonStyle};
   ${({ buttonType, disabled }) => getButtonStyle(disabled, buttonType)};
-  ${({ buttonSize }) => getButtonSize(buttonSize)}
+  ${({ buttonWidth, buttonSize }) => getButtonSize(buttonWidth, buttonSize)}
 `;

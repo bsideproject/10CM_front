@@ -1,3 +1,7 @@
+* {
+  font-family: 'Pretendard';
+}
+
 .rv-custom {
   background: #ffffff;
   width: 380px;
@@ -13,10 +17,15 @@
   width: 380px;
   height: 48px;
   align-items: center;
+  padding: 12px 8px 0 16px;
 }
 
 .rv-title > span {
-  padding-left: 16px;
+  font-size: 18px;
+  line-height: 32px;
+  letter-spacing: 0.013em;
+  font-weight: 500;
+  color: #0d0f11;
 }
 
 .rv-title > button {
@@ -25,7 +34,6 @@
   background-color: #ffffff;
   border-radius: 4px;
   border: none;
-  margin-right: 8px;
 }
 
 .rv-desc {
@@ -42,19 +50,31 @@
 .rv-desc-addr {
   font-size: 14px;
   line-height: 24px;
+  font-weight: 400;
+  color: #4b5768;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
+  width: 100%;
+  height: 24px;
 }
 
 .rv-desc-p {
-  height: 72px;
+  height: 66px;
+  width: 100%;
   white-space: normal;
   font-size: 12px;
+  word-break: break-all;
   letter-spacing: 0.013em;
   line-height: 21px;
   display: -webkit-box;
-  -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: #64748b;
 }
 
 .rv-desc > img {
@@ -75,7 +95,7 @@
 .rv-action > button {
   width: 348px;
   height: 36px;
-  radius: 4px;
+  border-radius: 4px;
   padding: 0 20px;
   color: #436ddb;
   font-size: 15px;

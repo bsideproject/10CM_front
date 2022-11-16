@@ -112,7 +112,7 @@ const Map: React.FC<Props> = ({ mapRef, setMapRef = () => {} }) => {
       />
       <div
         id="roadview"
-        style={{ width: '100%', height: '100%', display: 'none' }}
+        style={{ width: '100%', height: '100%' }}
         onClick={() => handleCreateRoadView()}
       />
       <div style={{ display: 'none' }}>
