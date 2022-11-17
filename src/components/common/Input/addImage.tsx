@@ -2,26 +2,23 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import Button from '../Button';
 
-interface Props {}
+interface Props {
+  onChange: (d: any) => void;
+}
 
-const AddImage: React.FC<Props> = () => {
-  const buttonStyle = useCallback((): React.CSSProperties => {
-    return {
-      width: '100%',
-    };
-  }, []);
+const AddImageButton: React.FC<Props> = () => {
   return (
     <Label htmlFor="addImage">
-      <Button buttonType="outline" buttonWidth="100%" style={buttonStyle()}>
+      <Button buttonType="outline" buttonWidth="100%" type="button">
         사진 추가
       </Button>
-      <Input id="addImage" type="file" />
+      <Input id="addImage" name="addImage" />
     </Label>
   );
 };
-export default AddImage;
+export default AddImageButton;
 
 const Label = styled.label``;
 const Input = styled.input`
-  display: none;
+  /* display: none; */
 `;

@@ -9,7 +9,7 @@ import Textarea from 'components/common/Textarea';
 import Button from 'components/common/Button';
 import { createPlace, getPlace } from 'apis/place';
 import { MyPlaceResponse } from 'dtos/place';
-import AddImage from 'components/common/Input/AddImage';
+import AddImageButton from 'components/common/Input/AddImage';
 import {
   AddImageTip,
   AddressInputWrap,
@@ -90,7 +90,7 @@ const CreatePost: React.FC<Props> = ({
           </AddressInputWrap>
           <AddImageWrap>
             <CreatePostLabel>사진 첨부</CreatePostLabel>
-            <AddImage />
+            <AddImageButton onChange={(d: any) => console.log(d)} />
             <AddImageTip>* 500MB 이하의 jpg,png 파일만 가능</AddImageTip>
           </AddImageWrap>
           <TagWrap>

@@ -5,7 +5,7 @@ import Input from 'components/common/Input';
 import ChangeAddress, {
   ChangeAddressDataFromKakao,
 } from 'components/common/Input/ChangeAddress';
-import AddImage from 'components/common/Input/AddImage';
+import AddImageButton from 'components/common/Input/AddImage';
 import Textarea from 'components/common/Textarea';
 import Button from 'components/common/Button';
 import { MyPlaceResponse, UpdatePlaceBody } from 'dtos/place';
@@ -80,7 +80,7 @@ const UpdatePost: React.FC<Props> = ({ onClose, addressInfo }) => {
             labelmargin="4px"
             labelWarpperMargin="20px 0 0 0"
           >
-            <AddImage />
+            <AddImageButton onChange={(d: any) => console.log(d)} />
             <AddImageTip>* 500MB 이하의 jpg,png 파일만 가능</AddImageTip>
           </Formlabel>
           <Formlabel
