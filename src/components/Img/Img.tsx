@@ -13,7 +13,7 @@ interface ImgProps {
   width: string;
   height: string;
   padding: string;
-  cursor: boolean;
+  cursor: string;
 }
 
 const Img: React.FC<IProps> = ({ src, width, height, padding, onClick }) => {
@@ -25,7 +25,7 @@ const Img: React.FC<IProps> = ({ src, width, height, padding, onClick }) => {
       height={height}
       padding={padding || '0'}
       onClick={onClick}
-      cursor={typeof onClick === 'function'}
+      cursor={(typeof onClick === 'function').toString()}
     />
   );
 };
@@ -34,7 +34,7 @@ const MyImg = styled.img<ImgProps>`
   width: ${props => props.width};
   height: ${props => props.height};
   padding: ${props => props.padding};
-  cursor: ${props => (props.cursor ? 'pointer' : undefined)};
+  cursor: ${props => (props.cursor === 'true' ? 'pointer' : undefined)};
 `;
 
 export default Img;

@@ -1,11 +1,11 @@
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
-import { forwardRef, InputHTMLAttributes } from 'react';
+import { forwardRef, InputHTMLAttributes, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { ReactComponent as SearchSvg } from 'assets/svg/input-search.svg';
 import { ReactComponent as CancelSvg } from 'assets/svg/input-cancel.svg';
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   count?: boolean;
   onClear?: () => void;
@@ -14,7 +14,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 // 48
-const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
+const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const {
     error = '',
     count = false,
@@ -25,6 +25,15 @@ const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
     onClear,
     ...rest
   } = props;
+
+  const [isFocus, setIsFocus] = useState(false);
+
+  const handleFocus = () => {
+    setIsFocus(true);
+  };
+  const handleBlur = () => {
+    setIsFocus(false);
+  };
   return (
     <div>
       <InputWrap>
@@ -37,8 +46,10 @@ const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
           maxLength={maxLength}
           isSearch={!!isSearch}
           isClear={!!isClear}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
         />
-        {isClear && <CancelIcon onClick={onClear} />}
+        {isClear && isFocus && <CancelIcon onClick={onClear} />}
       </InputWrap>
       {(!!error || count) && (
         <OptionsWrap error={!!error}>

@@ -5,11 +5,11 @@ import MyPlaceGroup from 'components/MyPlace/MyPlaceGroup';
 import { KakaoAddress } from 'dtos/kakao';
 import KakaoAddressCard from 'components/KakaoAddressCard';
 import MapConfig from 'services/map-config.js';
-import { createOverlay } from 'utils/overlay';
-import { getPlaceList } from 'apis/place';
-import { MyPlace } from 'dtos/place';
-import { colors } from 'constants/colors';
+import { createAddressDetailOverlay, createUpdateOverlay } from 'utils/overlay';
+import { getPlace, getPlaceList } from 'apis/place';
+import { MyPlaceResponse } from 'dtos/place';
 import DetailPlace from 'components/MyPlace/DetailPlace';
+import UpdatePost from 'components/Modals/UpdatePost';
 import CreatePost from '../Modals/CreatePost';
 import { SearchWrap } from './styles';
 
@@ -22,13 +22,14 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   const currentOverlay = useRef<any>();
 
   const [isFetching, setIsFetching] = useState(false);
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
+  const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
+  const [isDetailLoading, setIsDetailLoading] = useState(false);
   const [keyword, setKeyword] = useState('');
-  const [myPlaceList, setMyPlaceList] = useState<MyPlace[]>([]);
-  const [createdPlace, setCreatePlace] = useState<number | null>(null);
-  const [selectedPlaceDetail, setSelectedPlaceDetail] = useState<number | null>(
-    null,
-  );
+  const [myPlaceList, setMyPlaceList] = useState<MyPlaceResponse[]>([]);
+  const [placeDetail, setPlaceDetail] = useState<MyPlaceResponse | null>(null);
+  const [createdPlace, setCreatePlace] = useState<MyPlaceResponse | null>(null);
+
   const [searchAddressList, setSearchAddressList] = useState<KakaoAddress[]>(
     [],
   );
@@ -43,20 +44,15 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     setKeyword(e.target.value);
   };
   // 닫기 버튼 클릭
-  const handleCloseClick = () => {
-    setIsOpenModal(false);
+  const handleCloseCreateModalClick = () => {
+    setIsOpenCreateModal(false);
     setSelectedAddress(null);
   };
   // 장소 등록 후 리패치,오버레이 변경 함수
-  const handleRefetchAfterCreateData = (id: number | null) => {
-    if (id) {
-      console.log(id);
-      return async () => {
-        await fetchMyPlaces();
-        setIsOpenModal(false);
-      };
-    }
-    return () => {};
+  const handleRefetchAfterCreateData = async (info: MyPlaceResponse) => {
+    await fetchMyPlaces();
+    setIsOpenCreateModal(false);
+    setCreatePlace(info);
   };
   // 주소 검색
   const handleSearchAddress = () => {
@@ -67,6 +63,38 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     if (currentOverlay.current) {
       currentOverlay.current.setMap(null);
     }
+  };
+  // 포스팅 추가하기 클릭
+  const handleCreateClick = (addressInfo: KakaoAddress) => {
+    setSelectedAddress(addressInfo);
+  };
+  // 상세보기 클릭
+  const handleMyPlaceDetailClick = async (id: number) => {
+    setIsDetailLoading(true);
+    try {
+      const data = await getPlace(id);
+      setPlaceDetail(data);
+    } catch (e) {
+      console.log(e);
+    }
+    setIsDetailLoading(false);
+  };
+  // 상세보기 닫기 클릭
+  const handleCloseDetailClick = () => {
+    setPlaceDetail(null);
+  };
+  // 포스팅 수정 버튼 클릭
+  const handleClickUpdateClick = () => {
+    setIsOpenUpdateModal(true);
+  };
+  // 포스팅 수정 모달 닫기
+  const handleCloseUpdateModalClick = () => {
+    setIsOpenUpdateModal(false);
+  };
+
+  // 검색 내용 초기화 클릭
+  const handleKeywordClearClick = () => {
+    setKeyword('');
   };
   const handleClickCard = (addressInfo: KakaoAddress) => {
     return () => {
@@ -85,7 +113,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
         );
         MapConfig.changeOverlayContent(
           currentOverlay.current,
-          createOverlay(
+          createAddressDetailOverlay(
             addressInfo,
             handleOverayOverlayClose,
             handleCreateClick,
@@ -95,16 +123,21 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
       } else {
         const marker = MapConfig.createMarker(
           kakao,
-          addressInfo.x,
           addressInfo.y,
+          addressInfo.x,
         );
         const closeOverlay = () => {
           overlay.setMap(null);
         };
         const overlay = new kakao.maps.CustomOverlay({
-          content: createOverlay(addressInfo, closeOverlay, handleCreateClick),
+          content: createAddressDetailOverlay(
+            addressInfo,
+            closeOverlay,
+            handleCreateClick,
+          ),
           map: map.current,
           position: marker.getPosition(),
+          clickable: true,
         });
 
         currentMarker.current = marker;
@@ -115,22 +148,8 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
         });
         MapConfig.moveMap(map, addressInfo.y, addressInfo.x);
       }
+      currentOverlay.current.setMap(map.current);
     };
-  };
-  // 포스팅 추가하기 클릭
-  const handleCreateClick = (addressInfo: KakaoAddress) => {
-    setSelectedAddress(addressInfo);
-  };
-  // 상세보기 클릭
-  const handleMyPlaceDetailClick = (id: number) => {
-    setSelectedPlaceDetail(id);
-  };
-  // 상세보기 닫기 클릭
-  const handleCloseDetailClick = () => {
-    setSelectedPlaceDetail(null);
-  };
-  const handleKeywordClearClick = () => {
-    setKeyword('');
   };
   // 내가 저장한 장소 목록 페치함수
   const fetchMyPlaces = async () => {
@@ -161,17 +180,82 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     }
   };
 
-  // 선택한 장소 등록 모달
-  useEffect(() => {
-    if (selectedAddress) {
-      setIsOpenModal(true);
-    }
-  }, [selectedAddress]);
-
   // 첫 렌더링 시 초기 저장된 장소 목록
   useEffect(() => {
     fetchMyPlaces();
   }, []);
+
+  // 선택한 장소 등록 모달
+  useEffect(() => {
+    if (selectedAddress) {
+      setIsOpenCreateModal(true);
+    }
+  }, [selectedAddress]);
+
+  // 장소 생성했을 때
+  useEffect(() => {
+    if (createdPlace) {
+      MapConfig.changeOverlayContent(
+        currentOverlay.current,
+        createUpdateOverlay(createdPlace, handleOverayOverlayClose, () => {}),
+      );
+    }
+  }, [createdPlace]);
+  // 내가 저장한 장소 상세보기
+  useEffect(() => {
+    if (placeDetail) {
+      const { kakao } = window;
+
+      if (currentMarker.current) {
+        MapConfig.moveMarker(
+          currentMarker.current,
+          placeDetail.latitude,
+          placeDetail.longitude,
+        );
+        MapConfig.moveOverlay(
+          currentOverlay.current,
+          placeDetail.latitude,
+          placeDetail.longitude,
+        );
+        MapConfig.changeOverlayContent(
+          currentOverlay.current,
+          createUpdateOverlay(
+            placeDetail,
+            handleOverayOverlayClose,
+            handleClickUpdateClick,
+          ),
+        );
+        MapConfig.moveMap(map, placeDetail.latitude, placeDetail.longitude);
+      } else {
+        const marker = MapConfig.createMarker(
+          kakao,
+          placeDetail.latitude,
+          placeDetail.longitude,
+        );
+        const closeOverlay = () => {
+          overlay.setMap(null);
+        };
+        const overlay = new kakao.maps.CustomOverlay({
+          content: createUpdateOverlay(
+            placeDetail,
+            closeOverlay,
+            handleClickUpdateClick,
+          ),
+          map: map.current,
+          position: marker.getPosition(),
+        });
+
+        currentMarker.current = marker;
+        marker.setMap(map.current);
+        currentOverlay.current = overlay;
+        kakao.maps.event.addListener(marker, 'click', function () {
+          overlay.setMap(map.current);
+        });
+        MapConfig.moveMap(map, placeDetail.latitude, placeDetail.longitude);
+      }
+      currentOverlay.current.setMap(map.current);
+    }
+  }, [placeDetail]);
 
   return (
     <MyPlacesWrap>
@@ -212,17 +296,23 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
           })}
         </KakaoAddressListWrap>
       )}
-      {isOpenModal && (
+      {isOpenCreateModal && (
         <CreatePost
           addressInfo={selectedAddress!}
           keyword={keyword}
-          onClose={handleCloseClick}
-          onCreateComplete={handleRefetchAfterCreateData(createdPlace)}
+          onClose={handleCloseCreateModalClick}
+          onCreateComplete={handleRefetchAfterCreateData}
         />
       )}
-      {selectedPlaceDetail && (
+      {isOpenUpdateModal && placeDetail && (
+        <UpdatePost
+          addressInfo={placeDetail}
+          onClose={handleCloseUpdateModalClick}
+        />
+      )}
+      {placeDetail && (
         <DetailPlace
-          myPlaceDetailId={selectedPlaceDetail}
+          myPlaceDetail={placeDetail}
           onClose={handleCloseDetailClick}
         />
       )}
@@ -242,12 +332,4 @@ const KakaoAddressListWrap = styled.div`
   height: calc(100vh - 108px);
   padding: 12px 0;
   overflow: auto;
-`;
-const MyPlaceDetailWrap = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: ${colors.WHITE};
 `;

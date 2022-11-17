@@ -1,15 +1,20 @@
 import { KakaoAddress } from 'dtos/kakao';
-import CloseIcon from 'assets/svg/close.svg';
+import CloseIcon from 'assets/svg/overlay-close.svg';
 import PinIcon from 'assets/svg/overlay-pin.svg';
+import { MyPlaceResponse } from 'dtos/place';
 
 type CreateOverlay = (
   addressInfo: KakaoAddress,
   onClose: () => void,
   onCreateClick: (info: KakaoAddress) => void,
 ) => {};
-
+type UpdateOverlay = (
+  addressInfo: MyPlaceResponse,
+  onClose: () => void,
+  onUpdateClick: () => void,
+) => void;
 // 검색한 결과 클릭 시 오버레이
-export const createOverlay: CreateOverlay = (
+export const createAddressDetailOverlay: CreateOverlay = (
   addressInfo,
   onClose,
   onCreateClick,
@@ -36,7 +41,6 @@ export const createOverlay: CreateOverlay = (
   const closeButton = document.createElement('img');
   closeButton.className = 'overlay-header-close';
   closeButton.src = CloseIcon;
-  closeButton.style.fill = 'black';
   closeButton.alt = '닫기버튼';
   headerContentWrap.appendChild(placeName);
   headerContentWrap.appendChild(placeCategory);
@@ -100,6 +104,92 @@ export const createOverlay: CreateOverlay = (
   post.className = 'overlay-footer-post-button';
   post.onclick = () => {
     onCreateClick(addressInfo);
+  };
+  footer.appendChild(pin);
+  footer.appendChild(post);
+  // 닫기 이벤트 추가
+  closeButton.onclick = function (e) {
+    onClose();
+  };
+
+  // 삼각형
+  const triangle = document.createElement('div');
+  triangle.className = 'overlay-triangle';
+  wrap.appendChild(header);
+  wrap.appendChild(body);
+  wrap.appendChild(footer);
+  wrap.appendChild(triangle);
+
+  return wrap;
+};
+export const createUpdateOverlay: UpdateOverlay = (
+  addressInfo,
+  onClose,
+  onUpdateClick,
+) => {
+  // warp
+  const wrap = document.createElement('article');
+  wrap.className = 'overlay-wrap';
+
+  // header
+  const header = document.createElement('div');
+  header.className = 'overlay-header';
+  const headerContentWrap = document.createElement('div');
+  headerContentWrap.className = 'overlay-header-wrap';
+  const placeName = document.createElement('span');
+  const placeNameContent = document.createTextNode(addressInfo.name);
+  placeName.className = 'overlay-header-title';
+  placeName.appendChild(placeNameContent);
+
+  const closeButton = document.createElement('img');
+  closeButton.className = 'overlay-header-close';
+  closeButton.src = CloseIcon;
+  closeButton.alt = '닫기버튼';
+  headerContentWrap.appendChild(placeName);
+  headerContentWrap.appendChild(closeButton);
+  header.appendChild(headerContentWrap);
+
+  // main
+  const body = document.createElement('div');
+  body.className = 'overlay-body';
+  const textWrap = document.createElement('div');
+  textWrap.className = 'overlay-body-text-wrap';
+  const street = document.createElement('div');
+  const streetContent = document.createTextNode(addressInfo.address);
+  street.className = 'update-overlay-body-text-street';
+  street.appendChild(streetContent);
+
+  const description = document.createElement('div');
+
+  const descriptionContent = document.createTextNode(
+    addressInfo.description ?? '내용 없음',
+  );
+  description.appendChild(descriptionContent);
+  description.className = 'update-overlay-body-text-description';
+
+  textWrap.appendChild(street);
+  textWrap.appendChild(description);
+  const imageWrap = document.createElement('div');
+  imageWrap.className = 'update-overlay-body-image-wrap';
+  const Image = document.createElement('img');
+  body.appendChild(textWrap);
+  body.appendChild(imageWrap);
+
+  // footer
+  const footer = document.createElement('div');
+  footer.className = 'overlay-footer';
+  const pin = document.createElement('button');
+  pin.className = 'overlay-footer-pin-button';
+  const pinImage = document.createElement('img');
+  pinImage.src = PinIcon;
+  pinImage.alt = '핀이미지';
+  pin.appendChild(pinImage);
+  const post = document.createElement('button');
+  const postContent = document.createTextNode('포스팅 수정');
+  post.appendChild(postContent);
+  post.className = 'overlay-footer-update-button';
+  post.onclick = () => {
+    onUpdateClick();
   };
   footer.appendChild(pin);
   footer.appendChild(post);

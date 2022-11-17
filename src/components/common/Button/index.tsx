@@ -1,7 +1,7 @@
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
 
-import React, { ButtonHTMLAttributes, forwardRef } from 'react';
+import { ButtonHTMLAttributes, forwardRef } from 'react';
 import styled, { css } from 'styled-components';
 
 type ButtonType = 'filled' | 'outline';
@@ -16,7 +16,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button = forwardRef<HTMLButtonElement, Props>((props, ref) => {
   return (
-    <MyButton ref={ref} onClick={props.onClick} disabled {...props}>
+    <MyButton ref={ref} onClick={props.onClick} {...props}>
       {props.children}
     </MyButton>
   );
