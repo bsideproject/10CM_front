@@ -10,6 +10,7 @@ const useDaysData = (endDay: number): any => {
 
   const handleChangeData = (addr: AddrT, dayNum: number) => {
     mapData[dayNum - 1].push(addr);
+    console.log(mapData);
     setData([...mapData]);
   };
 

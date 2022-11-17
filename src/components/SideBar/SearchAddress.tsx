@@ -34,7 +34,7 @@ const SearchAddress: React.FC<Props> = ({ map, onSetDaysData }) => {
 
   const ps = new window.kakao.maps.services.Places();
 
-  const placesSearchCB = (data: AddrT[], status: string) => {
+  const placesSearchCB = (data: KakaoAddress[], status: string) => {
     // pagination 생략
     const wStatus = window.kakao.maps.services.Status;
     if (status === wStatus.OK) {
@@ -57,67 +57,67 @@ const SearchAddress: React.FC<Props> = ({ map, onSetDaysData }) => {
     }
   };
 
-  // // 주소 카드 클릭
-  // const handleOverayOverlayClose = () => {
-  //   if (currentOverlay.current) {
-  //     currentOverlay.current.setMap(null);
-  //   }
-  // };
+  // 주소 카드 클릭
+  const handleOverayOverlayClose = () => {
+    if (currentOverlay.current) {
+      currentOverlay.current.setMap(null);
+    }
+  };
 
-  // // 포스팅 추가하기 클릭
-  // const handleCreateClick = (addressInfo: KakaoAddress) => {
-  //   //
-  // };
+  // 포스팅 추가하기 클릭
+  const handleCreateClick = (addressInfo: KakaoAddress) => {
+    //
+  };
 
-  // const handleClickCard = (addressInfo: KakaoAddress) => {
-  //   return () => {
-  //     const { kakao } = window;
+  const handleClickCard = (addressInfo: KakaoAddress) => {
+    return () => {
+      const { kakao } = window;
 
-  //     if (currentMarker.current) {
-  //       MapConfig.moveMarker(
-  //         currentMarker.current,
-  //         addressInfo.y,
-  //         addressInfo.x,
-  //       );
-  //       MapConfig.moveOverlay(
-  //         currentOverlay.current,
-  //         addressInfo.y,
-  //         addressInfo.x,
-  //       );
-  //       MapConfig.changeOverlayContent(
-  //         currentOverlay.current,
-  //         createOverlay(
-  //           addressInfo,
-  //           handleOverayOverlayClose,
-  //           handleCreateClick,
-  //         ),
-  //       );
-  //       MapConfig.moveMap(map, addressInfo.y, addressInfo.x);
-  //     } else {
-  //       const marker = MapConfig.createMarker(
-  //         kakao,
-  //         addressInfo.x,
-  //         addressInfo.y,
-  //       );
-  //       const closeOverlay = () => {
-  //         overlay.setMap(null);
-  //       };
-  //       const overlay = new kakao.maps.CustomOverlay({
-  //         content: createOverlay(addressInfo, closeOverlay, handleCreateClick),
-  //         map: map.current,
-  //         position: marker.getPosition(),
-  //       });
+      if (currentMarker.current) {
+        MapConfig.moveMarker(
+          currentMarker.current,
+          addressInfo.y,
+          addressInfo.x,
+        );
+        MapConfig.moveOverlay(
+          currentOverlay.current,
+          addressInfo.y,
+          addressInfo.x,
+        );
+        MapConfig.changeOverlayContent(
+          currentOverlay.current,
+          createOverlay(
+            addressInfo,
+            handleOverayOverlayClose,
+            handleCreateClick,
+          ),
+        );
+        MapConfig.moveMap(map, addressInfo.y, addressInfo.x);
+      } else {
+        const marker = MapConfig.createMarker(
+          kakao,
+          addressInfo.x,
+          addressInfo.y,
+        );
+        const closeOverlay = () => {
+          overlay.setMap(null);
+        };
+        const overlay = new kakao.maps.CustomOverlay({
+          content: createOverlay(addressInfo, closeOverlay, handleCreateClick),
+          map: map.current,
+          position: marker.getPosition(),
+        });
 
-  //       currentMarker.current = marker;
-  //       marker.setMap(map.current);
-  //       currentOverlay.current = overlay;
-  //       kakao.maps.event.addListener(marker, 'click', function () {
-  //         overlay.setMap(map.current);
-  //       });
-  //       MapConfig.moveMap(map, addressInfo.y, addressInfo.x);
-  //     }
-  //   };
-  // };
+        currentMarker.current = marker;
+        marker.setMap(map.current);
+        currentOverlay.current = overlay;
+        kakao.maps.event.addListener(marker, 'click', function () {
+          overlay.setMap(map.current);
+        });
+        MapConfig.moveMap(map, addressInfo.y, addressInfo.x);
+      }
+    };
+  };
 
   return (
     <SearchAddressWrap>
@@ -142,7 +142,7 @@ const SearchAddress: React.FC<Props> = ({ map, onSetDaysData }) => {
         <SearchCardGroup
           addrList={searchedData}
           onSetDaysData={onSetDaysData}
-          // onClickCard={handleClickCard}
+          onClickCard={handleClickCard}
         />
       )}
     </SearchAddressWrap>

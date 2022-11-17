@@ -31,6 +31,42 @@ const DayListBar: React.FC<IProps> = ({ daysData }) => {
       address: 'adsadadssdasdad',
       title: '이영수',
     },
+    {
+      number: 1,
+      phone: '010-1111-2222',
+      address: 'adsadadssdasdad',
+      title: '이경수',
+    },
+    {
+      number: 2,
+      phone: '010-1111-2222',
+      address: 'adsadadssdasdad',
+      title: '이정수',
+    },
+    {
+      number: 3,
+      phone: '010-1111-2222',
+      address: 'adsadadssdasdad',
+      title: '이영수',
+    },
+    {
+      number: 1,
+      phone: '010-1111-2222',
+      address: 'adsadadssdasdad',
+      title: '이경수',
+    },
+    {
+      number: 2,
+      phone: '010-1111-2222',
+      address: 'adsadadssdasdad',
+      title: '이정수',
+    },
+    {
+      number: 3,
+      phone: '010-1111-2222',
+      address: 'adsadadssdasdad',
+      title: '이영수',
+    },
   ]);
 
   const dummyFunc = (items: Item[]) => {

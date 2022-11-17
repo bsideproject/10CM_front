@@ -10,7 +10,7 @@ import { sizes } from 'constants/sizes';
 interface Props {
   onClick?: () => void;
   onSetDaysData: (addr: AddrT, dayNum: number) => void;
-  // onClickCard: (addressInfo: KakaoAddress) => void;
+  onClickCard: (addressInfo: KakaoAddress) => void;
   data: AddrT;
 }
 
@@ -18,14 +18,14 @@ const SearchCard: React.FC<Props> = ({
   onClick,
   onSetDaysData,
   data,
-  // onClickCard,
+  onClickCard,
 }) => {
   const handleClickIcon = () => {
     onSetDaysData(data, 1);
     // 숫자에 dayNum
   };
   return (
-    <SearchAddressCardWrap>
+    <SearchAddressCardWrap onClick={() => onClickCard(data)}>
       <SearchAddressCardHeader>
         <SearchAddressCardTitle>
           {data.place_name}

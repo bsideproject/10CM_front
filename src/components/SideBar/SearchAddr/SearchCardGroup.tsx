@@ -6,12 +6,12 @@ import { AddrT } from 'types/dtos/address';
 interface IProps {
   addrList: AddrT[];
   onSetDaysData: (addr: AddrT, dayNum: number) => void;
-  // onClickCard: (addressInfo: KakaoAddress) => void;
+  onClickCard: (addressInfo: KakaoAddress) => void;
 }
 const SearchCardGroup: React.FC<IProps> = ({
   addrList,
   onSetDaysData,
-  // onClickCard,
+  onClickCard,
 }) => {
   return (
     <Wrap>
@@ -19,7 +19,7 @@ const SearchCardGroup: React.FC<IProps> = ({
         <SearchCard
           data={data}
           onSetDaysData={onSetDaysData}
-          // onClickCard={onClickCard}
+          onClickCard={onClickCard}
         />
       ))}
     </Wrap>
