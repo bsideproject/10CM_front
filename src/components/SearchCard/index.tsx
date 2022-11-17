@@ -2,38 +2,51 @@ import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
 import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as AddressAddIcon } from '../../assets/svg/plus.svg';
-
+import { AddrT } from 'types/dtos/address';
+import placePlusIcon from 'assets/img/placePlusIcon.svg';
+import { KakaoAddress } from 'dtos/kakao';
+import Img from 'components/Img/Img';
+import { sizes } from 'constants/sizes';
 interface Props {
   onClick?: () => void;
+  onSetDaysData: (addr: AddrT, dayNum: number) => void;
+  // onClickCard: (addressInfo: KakaoAddress) => void;
+  data: AddrT;
 }
 
-const SearchCard: React.FC<Props> = ({ onClick }) => {
+const SearchCard: React.FC<Props> = ({
+  onClick,
+  onSetDaysData,
+  data,
+  // onClickCard,
+}) => {
+  const handleClickIcon = () => {
+    onSetDaysData(data, 1);
+    // 숫자에 dayNum
+  };
   return (
     <SearchAddressCardWrap>
       <SearchAddressCardHeader>
         <SearchAddressCardTitle>
-          경복궁
+          {data.place_name}
           <SearchAddressCardCategory>장소 구분</SearchAddressCardCategory>
         </SearchAddressCardTitle>
-        <AddressAddIcon
-          style={{ cursor: 'pointer' }}
-          fill={colors.NEUTRAl_600}
+        <Img
+          src={placePlusIcon}
+          width={sizes.PLUS_ICON_SIZE}
+          height={sizes.PLUS_ICON_SIZE}
+          onClick={handleClickIcon}
         />
       </SearchAddressCardHeader>
       <SearchAddressCardBody>
         <SearchAddressCardAddress>
-          제주특별자치도 제주시 구좌읍 월정리 33-3{' '}
+          {data.road_address_name}
         </SearchAddressCardAddress>
-        <SearchAddressCardZibun>(지번) 이태원동 181-8</SearchAddressCardZibun>
+        <SearchAddressCardZibun>{data.address_name}</SearchAddressCardZibun>
       </SearchAddressCardBody>
       <SearchAddressCardFooter>
-        <div>000-0000-0000</div>
-        <a
-          href="https://www.naver.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <div>{data.phone}</div>
+        <a href={data.place_url} target="_blank" rel="noopener noreferrer">
           홈페이지
         </a>
       </SearchAddressCardFooter>
@@ -44,6 +57,7 @@ export default SearchCard;
 
 const SearchAddressCardWrap = styled.div`
   padding: 22px 20px;
+  letter-spacing: 0.013em;
 `;
 const SearchAddressCardHeader = styled.div`
   display: flex;

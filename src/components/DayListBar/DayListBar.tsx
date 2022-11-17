@@ -6,7 +6,12 @@ import PickDateInfo from 'components/MyTrip/PickDateInfo';
 import EmptyDnd from 'components/common/EmptyContent/EmptyDnd';
 import TripSummary from 'components/MyTrip/TripSummary';
 import DraggableItem, { Item } from 'components/TripDayGroup';
-const DayListBar = () => {
+import { AddrT, DndType } from 'types/dtos/address';
+interface IProps {
+  daysData: AddrT[][];
+}
+
+const DayListBar: React.FC<IProps> = ({ daysData }) => {
   const [dummy, setDummy] = useState([
     {
       number: 1,
@@ -52,3 +57,8 @@ const Wrap = styled.div`
 `;
 
 export default DayListBar;
+
+// {dummy.length === 0 && <EmptyDnd />}
+// {dummy.length > 0 && (
+//   <DraggableItem itemList={dummy} onChangeList={dummyFunc} />
+// )}

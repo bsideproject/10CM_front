@@ -1,6 +1,7 @@
 import { KakaoAddress } from 'dtos/kakao';
 import CloseIcon from 'assets/svg/close.svg';
 import PinIcon from 'assets/svg/overlay-pin.svg';
+import { AddrT } from 'types/dtos/address';
 
 type CreateOverlay = (
   addressInfo: KakaoAddress,

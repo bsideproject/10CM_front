@@ -1,6 +1,6 @@
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
-import { forwardRef, InputHTMLAttributes } from 'react';
+import { forwardRef, InputHTMLAttributes, KeyboardEvent } from 'react';
 import styled, { css } from 'styled-components';
 import { ReactComponent as SearchSvg } from 'assets/svg/input-search.svg';
 import { ReactComponent as CancelSvg } from 'assets/svg/input-cancel.svg';
@@ -11,6 +11,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   onClear?: () => void;
   isClear?: boolean;
   isSearch?: boolean;
+  onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void;
 }
 
 // 48

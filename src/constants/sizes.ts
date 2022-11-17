@@ -8,4 +8,5 @@ export const sizes = {
   TRASH_ICON_SIZE: '24px',
   CALENDAR_ICON_SIZE: '24px',
   ARROW_ICON_SIZE: '24px',
+  PLUS_ICON_SIZE: '24px',
 };

@@ -9,6 +9,7 @@ import {
 } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import TripDayCard from 'components/TripDayCard';
+import { AddrT, DndType } from 'types/dtos/address';
 
 interface Props {
   // TODO 백엔드 연동시 타입 지정 필수!!
@@ -112,6 +113,14 @@ const DraggableItem: React.FC<Props> = ({ itemList, onChangeList }) => {
 export default DraggableItem;
 
 const DndWrap = styled.div`
+  height: calc(100vh - 311px);
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   > div > article {
     margin-top: 20px;
   }
