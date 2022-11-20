@@ -11,7 +11,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonType?: ButtonType;
   buttonSize?: ButtonSize;
   buttonWidth: string;
-  onClick?: () => void;
+  // onClick?: () => void;
 }
 
 const Button = forwardRef<HTMLButtonElement, Props>((props, ref) => {

@@ -1,6 +1,6 @@
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { MyPlaceResponse } from 'dtos/place';
 import MyPlaceCard from './MyPlaceCard';
@@ -9,31 +9,41 @@ import { ReactComponent as SortIcon } from '../../assets/svg/my-place-sort.svg';
 interface Props {
   placeList: MyPlaceResponse[];
   onDetailClick: (id: number) => void;
+  hasNextPage: boolean;
 }
 
-const MyPlaceGroup: React.FC<Props> = ({ placeList, onDetailClick }) => {
-  return (
-    <MyPlacesWrap>
-      <MyPlacesTop>
-        <MyPlacesTitle>나의 관심장소</MyPlacesTitle>
-        <SortButton>
-          <SortIcon />
-          최근 수정 순
-        </SortButton>
-      </MyPlacesTop>
-      <MyPlacesListWrap>
-        {placeList.map(place => (
-          <MyPlaceCard
-            key={place.id}
-            place={place}
-            onDetailClick={onDetailClick}
-          />
-        ))}
-      </MyPlacesListWrap>
-    </MyPlacesWrap>
-  );
-};
+const MyPlaceGroup = React.forwardRef<HTMLDivElement, Props>(
+  ({ placeList, onDetailClick, hasNextPage }, ref) => {
+    return (
+      <GroupWrap>
+        <MyPlacesWrap>
+          <MyPlacesTop>
+            <MyPlacesTitle>나의 관심장소</MyPlacesTitle>
+            <SortButton>
+              <SortIcon />
+              최근 수정 순
+            </SortButton>
+          </MyPlacesTop>
+          <MyPlacesListWrap>
+            {placeList.map(place => (
+              <MyPlaceCard
+                key={place.id}
+                place={place}
+                onDetailClick={onDetailClick}
+              />
+            ))}
+            {hasNextPage && <div ref={ref}>이게 보여~</div>}
+          </MyPlacesListWrap>
+        </MyPlacesWrap>
+      </GroupWrap>
+    );
+  },
+);
 export default MyPlaceGroup;
+
+const GroupWrap = styled.div`
+  height: calc(100vh - 96px);
+`;
 
 const MyPlacesWrap = styled.div`
   height: 100%;

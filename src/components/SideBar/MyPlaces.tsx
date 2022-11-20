@@ -3,13 +3,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import MyPlaceGroup from 'components/MyPlace/MyPlaceGroup';
 import { KakaoAddress } from 'dtos/kakao';
-import KakaoAddressCard from 'components/KakaoAddressCard';
 import MapConfig from 'services/map-config.js';
 import { createAddressDetailOverlay, createUpdateOverlay } from 'utils/overlay';
-import { getPlace, getPlaceList } from 'apis/place';
+import { getPlace } from 'apis/place';
 import { MyPlaceResponse } from 'dtos/place';
 import DetailPlace from 'components/MyPlace/DetailPlace';
 import UpdatePost from 'components/Modals/UpdatePost';
+import useInterSectionObserver from 'hooks/useInterSectionOpserver';
+import KakaoAddressList from 'components/MyPlace/KakaoAddressList';
+import useSearchKakaoAddress from 'hooks/useSearchKakaoAddress';
+import useMyPlaceList from 'hooks/useMyPlaceList';
 import CreatePost from '../Modals/CreatePost';
 import { SearchWrap } from './styles';
 
@@ -21,23 +24,52 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   const currentMarker = useRef<any>();
   const currentOverlay = useRef<any>();
 
-  const [isFetching, setIsFetching] = useState(false);
+  const {
+    handleSearchAddress,
+    addressList,
+    hasKakaoAddressNextPage,
+    getNextPage,
+  } = useSearchKakaoAddress();
+  const {
+    myPlaceList,
+    handleChangeSort,
+    reFetchMyPlaceList,
+    hasMyPlaceNextPage,
+  } = useMyPlaceList();
+
+  // 내가 저장한 장소 목록
+  const myPlaceListObserverCallback: IntersectionObserverCallback = entries => {
+    entries.forEach(el => {
+      if (el.target === myListRef.current && el.isIntersecting) {
+        console.log('good');
+      }
+    });
+  };
+  const { ref: myListRef } = useInterSectionObserver(
+    myPlaceListObserverCallback,
+  );
+
+  // 카카오 주소검색
+  const kakaoSearchObserverCallback: IntersectionObserverCallback = entries => {
+    entries.forEach(el => {
+      if (el.target === kakaoSearchRef.current && el.isIntersecting) {
+        getNextPage();
+      }
+    });
+  };
+  const { ref: kakaoSearchRef } = useInterSectionObserver(
+    kakaoSearchObserverCallback,
+  );
+
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
   const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
   const [isDetailLoading, setIsDetailLoading] = useState(false);
   const [keyword, setKeyword] = useState('');
-  const [myPlaceList, setMyPlaceList] = useState<MyPlaceResponse[]>([]);
   const [placeDetail, setPlaceDetail] = useState<MyPlaceResponse | null>(null);
   const [createdPlace, setCreatePlace] = useState<MyPlaceResponse | null>(null);
-
-  const [searchAddressList, setSearchAddressList] = useState<KakaoAddress[]>(
-    [],
-  );
   const [selectedAddress, setSelectedAddress] = useState<KakaoAddress | null>(
     null,
   );
-  // TODO 클래스나 훅으로 빼기
-  const ps = new window.kakao.maps.services.Places();
 
   // 핸들러 함수
   const handleChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,14 +82,14 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   };
   // 장소 등록 후 리패치,오버레이 변경 함수
   const handleRefetchAfterCreateData = async (info: MyPlaceResponse) => {
-    await fetchMyPlaces();
+    await reFetchMyPlaceList();
     setIsOpenCreateModal(false);
     setCreatePlace(info);
   };
   // 주소 검색
-  const handleSearchAddress = () => {
-    ps.keywordSearch(keyword, placesSearchCB);
-  };
+  // const handleSearchAddress = () => {
+  //   ps.keywordSearch(keyword, placesSearchCB);
+  // };
   // 주소 카드 클릭
   const handleOverayOverlayClose = () => {
     if (currentOverlay.current) {
@@ -91,11 +123,11 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   const handleCloseUpdateModalClick = () => {
     setIsOpenUpdateModal(false);
   };
-
   // 검색 내용 초기화 클릭
   const handleKeywordClearClick = () => {
     setKeyword('');
   };
+  // 카카오 주소검색 결과 클릭 시
   const handleClickCard = (addressInfo: KakaoAddress) => {
     return () => {
       const { kakao } = window;
@@ -152,38 +184,6 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     };
   };
   // 내가 저장한 장소 목록 페치함수
-  const fetchMyPlaces = async () => {
-    setIsFetching(true);
-    try {
-      const data = await getPlaceList();
-      setMyPlaceList(data.placeList);
-    } catch (e) {
-      console.log(e);
-    }
-    setIsFetching(false);
-  };
-  const placesSearchCB = (data: any, status: any, pagination: any) => {
-    console.log(data, status, pagination);
-    if (status === window.kakao.maps.services.Status.OK) {
-      setSearchAddressList(data);
-      // 정상적으로 검색이 완료됐으면
-      // 검색 목록과 마커를 표출합니다
-      // displayPlaces(data);
-
-      // // 페이지 번호를 표출합니다
-      // displayPagination(pagination);
-      // console.log(data);
-    } else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
-      alert('검색 결과가 존재하지 않습니다.');
-    } else if (status === window.kakao.maps.services.Status.ERROR) {
-      alert('검색 결과 중 오류가 발생했습니다.');
-    }
-  };
-
-  // 첫 렌더링 시 초기 저장된 장소 목록
-  useEffect(() => {
-    fetchMyPlaces();
-  }, []);
 
   // 선택한 장소 등록 모달
   useEffect(() => {
@@ -191,7 +191,6 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
       setIsOpenCreateModal(true);
     }
   }, [selectedAddress]);
-
   // 장소 생성했을 때
   useEffect(() => {
     if (createdPlace) {
@@ -263,7 +262,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
         <form
           onSubmit={e => {
             e.preventDefault();
-            handleSearchAddress();
+            handleSearchAddress(keyword);
           }}
         >
           <Input
@@ -277,24 +276,19 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
         </form>
       </SearchWrap>
       {keyword.length === 0 ? (
-        <GroupWrap>
-          <MyPlaceGroup
-            placeList={myPlaceList}
-            onDetailClick={handleMyPlaceDetailClick}
-          />
-        </GroupWrap>
+        <MyPlaceGroup
+          ref={myListRef}
+          placeList={myPlaceList}
+          onDetailClick={handleMyPlaceDetailClick}
+          hasNextPage={hasMyPlaceNextPage}
+        />
       ) : (
-        <KakaoAddressListWrap>
-          {searchAddressList.map(data => {
-            return (
-              <KakaoAddressCard
-                key={data.id}
-                addressData={data}
-                onClick={handleClickCard(data)}
-              />
-            );
-          })}
-        </KakaoAddressListWrap>
+        <KakaoAddressList
+          ref={kakaoSearchRef}
+          addressList={addressList}
+          onClick={handleClickCard}
+          hasNextPage={hasKakaoAddressNextPage}
+        />
       )}
       {isOpenCreateModal && (
         <CreatePost
@@ -325,9 +319,7 @@ const MyPlacesWrap = styled.article`
   position: relative;
   width: 390px;
 `;
-const GroupWrap = styled.div`
-  height: calc(100vh - 96px);
-`;
+
 const KakaoAddressListWrap = styled.div`
   height: calc(100vh - 108px);
   padding: 12px 0;

@@ -77,7 +77,9 @@
       }
     ],
     "react/jsx-props-no-spreading": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "no-undef": "off",
+    "no-shadow": "off"
     // prop-types X
   },
   "settings": {

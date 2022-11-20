@@ -1,5 +1,6 @@
 import {
   CreatePlaceBody,
+  MyPlaceListQueryParams,
   MyPlaceListResponse,
   MyPlaceResponse,
 } from 'dtos/place';
@@ -17,8 +18,9 @@ export const createPlace = async (body: CreatePlaceBody) => {
 /**
  * 내가 등록한 모든 장소
  */
-export const getPlaceList = async () => {
+export const getPlaceList = async (params: MyPlaceListQueryParams) => {
   const { data } = await api.get<MyPlaceListResponse>(url);
+  console.log(data);
   return data;
 };
 

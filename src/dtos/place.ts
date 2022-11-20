@@ -23,6 +23,10 @@ export interface CreatePlaceBody {
   // 태그
   tag?: string[];
 }
+
+/**
+ * 장소 정보 수정
+ */
 export interface UpdatePlaceBody {
   // 장소 이름
   name: string;
@@ -96,9 +100,13 @@ export interface MyPlaceListResponse {
   count: number;
 
   // 목록
-  placeList: MyPlaceResponse[];
+  place_list: MyPlaceResponse[];
 }
 
 /**
- * 내가 저장한 장소 상세
+ * 내가 저장한 장소 목록 파라미터
  */
+export interface MyPlaceListQueryParams {
+  page?: number;
+  size?: number;
+}

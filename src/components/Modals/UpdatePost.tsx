@@ -1,14 +1,14 @@
-import Modal from 'components/UI/Modal';
 import React, { useEffect, useState } from 'react';
 import Formlabel from 'components/common/Formlabel';
 import Input from 'components/common/Input';
 import ChangeAddress, {
   ChangeAddressDataFromKakao,
 } from 'components/common/Input/ChangeAddress';
-import AddImageButton from 'components/common/Input/AddImage';
+import AddImageButton from 'components/common/Input/AddImageButton';
 import Textarea from 'components/common/Textarea';
 import Button from 'components/common/Button';
 import { MyPlaceResponse, UpdatePlaceBody } from 'dtos/place';
+import Modal from '../UI/Modal';
 import {
   AddImageTip,
   AddressInputWrap,

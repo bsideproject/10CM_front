@@ -9,7 +9,7 @@ import Textarea from 'components/common/Textarea';
 import Button from 'components/common/Button';
 import { createPlace, getPlace } from 'apis/place';
 import { MyPlaceResponse } from 'dtos/place';
-import AddImageButton from 'components/common/Input/AddImage';
+import AddImageButton from 'components/common/Input/AddImageButton';
 import {
   AddImageTip,
   AddressInputWrap,
