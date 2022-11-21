@@ -20,6 +20,7 @@ interface Props {
 
 const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick }) => {
   const [isShowOption, setIsShowOption] = useState<boolean>(false);
+  const [isHover, setIsHover] = useState(false);
   const optionRef = useRef<HTMLDivElement | null>(null);
   const optionButtonRef = useRef<SVGSVGElement | null>(null);
   const handleOptionOpen = () => {
@@ -33,6 +34,9 @@ const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick }) => {
       handleOptionClose();
       onDetailClick(id);
     };
+  };
+  const handleHover = () => {
+    setIsHover(prev => !prev);
   };
   const handleDidNotOptionClick = (e: MouseEvent) => {
     if (
@@ -54,9 +58,9 @@ const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick }) => {
     };
   }, [isShowOption]);
   return (
-    <MyPlaceCardWrap>
+    <MyPlaceCardWrap onMouseEnter={handleHover} onMouseLeave={handleHover}>
       <MyPlaceCardImageWrap>
-        <img src={Image} alt="더미" width="100%" />
+        <MyPlaceImage src={Image} alt="더미" isHover={isHover} />
       </MyPlaceCardImageWrap>
       <MyPlaceInfoWrap>
         <MyPlaceName>{place.name}</MyPlaceName>
@@ -102,6 +106,14 @@ const MyPlaceOptionButton = styled(OptionIcon)`
   top: 12px;
   right: 4px;
   cursor: pointer;
+`;
+const MyPlaceImage = styled.img<{ isHover: boolean }>`
+  position: absolute;
+  width: ${({ isHover }) => (isHover ? '120%' : '100%')};
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: 0.3s;
 `;
 const MyPlaceOptionBox = styled.div`
   width: 120px;

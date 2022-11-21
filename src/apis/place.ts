@@ -19,7 +19,7 @@ export const createPlace = async (body: CreatePlaceBody) => {
  * 내가 등록한 모든 장소
  */
 export const getPlaceList = async (params: MyPlaceListQueryParams) => {
-  const { data } = await api.get<MyPlaceListResponse>(url);
+  const { data } = await api.get<MyPlaceListResponse>(url, { params });
   console.log(data);
   return data;
 };

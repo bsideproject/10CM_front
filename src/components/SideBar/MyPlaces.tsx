@@ -28,20 +28,23 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     handleSearchAddress,
     addressList,
     hasKakaoAddressNextPage,
-    getNextPage,
+    getKakaoAddressNextPage,
   } = useSearchKakaoAddress();
   const {
     myPlaceList,
     handleChangeSort,
     reFetchMyPlaceList,
     hasMyPlaceNextPage,
+    getMyPlaceListNextPage,
+    isMyListFetching,
+    currentSort,
   } = useMyPlaceList();
 
   // 내가 저장한 장소 목록
   const myPlaceListObserverCallback: IntersectionObserverCallback = entries => {
     entries.forEach(el => {
       if (el.target === myListRef.current && el.isIntersecting) {
-        console.log('good');
+        getMyPlaceListNextPage();
       }
     });
   };
@@ -53,7 +56,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   const kakaoSearchObserverCallback: IntersectionObserverCallback = entries => {
     entries.forEach(el => {
       if (el.target === kakaoSearchRef.current && el.isIntersecting) {
-        getNextPage();
+        getKakaoAddressNextPage();
       }
     });
   };
@@ -272,6 +275,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
             isClear
             isSearch
             onClear={handleKeywordClearClick}
+            placeholder="장소 검색"
           />
         </form>
       </SearchWrap>
@@ -281,6 +285,9 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
           placeList={myPlaceList}
           onDetailClick={handleMyPlaceDetailClick}
           hasNextPage={hasMyPlaceNextPage}
+          isLoading={isMyListFetching}
+          onChangeSort={handleChangeSort}
+          currentSort={currentSort}
         />
       ) : (
         <KakaoAddressList
@@ -318,10 +325,4 @@ export default MyPlaces;
 const MyPlacesWrap = styled.article`
   position: relative;
   width: 390px;
-`;
-
-const KakaoAddressListWrap = styled.div`
-  height: calc(100vh - 108px);
-  padding: 12px 0;
-  overflow: auto;
 `;

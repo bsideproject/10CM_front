@@ -106,7 +106,9 @@ export interface MyPlaceListResponse {
 /**
  * 내가 저장한 장소 목록 파라미터
  */
+export type Sort = 'name,ASC' | 'createdDate,DESC' | 'modifiedDate,DESC';
 export interface MyPlaceListQueryParams {
   page?: number;
   size?: number;
+  sort: Sort;
 }

@@ -30,14 +30,14 @@ const useSearchKakaoAddress = () => {
       alert('검색 결과 중 오류가 발생했습니다.');
     }
   };
-  const getNextPage = () => {
+  const getKakaoAddressNextPage = () => {
     kakao.keywordSearch(keyword, placesSearchCB, { page });
   };
   return {
     addressList,
     handleSearchAddress,
     hasKakaoAddressNextPage,
-    getNextPage,
+    getKakaoAddressNextPage,
   };
 };
 export default useSearchKakaoAddress;

@@ -90,7 +90,10 @@ const CreatePost: React.FC<Props> = ({
           </AddressInputWrap>
           <AddImageWrap>
             <CreatePostLabel>사진 첨부</CreatePostLabel>
-            <AddImageButton onChange={(d: any) => console.log(d)} />
+            <AddImageButton
+              value="dasdfa"
+              onChange={(d: any) => console.log(d)}
+            />
             <AddImageTip>* 500MB 이하의 jpg,png 파일만 가능</AddImageTip>
           </AddImageWrap>
           <TagWrap>

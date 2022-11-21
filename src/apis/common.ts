@@ -5,7 +5,7 @@ const axiosConfig: AxiosRequestConfig = {
   headers: {
     'content-type': 'application/json',
     Authorization:
-      'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2Njg5MzQyNTQsImV4cCI6MTY2OTAyMDY1NH0.KSVoWLOEFTMSe592m7a4G_fkt9d2qmwivtfPsB-0ypxXU3UmjgmytZWutkCUQ90R1e4IkxyOeSUBD7jmSECQgQ',
+      'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2NjkwMzI0MTksImV4cCI6MTY2OTExODgxOX0.J1l3BRf2YavU2piKYQ1iHDXgJiy58C-sWrxxDmEROkFQwZ1dB3V0_McoyVels0BqMQPWbcqTk3bqpVSgFiFkCg',
     // Authorization:
     //   'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2NjgyMjQwODgsImV4cCI6MTY2ODMxMDQ4OH0.yc61a4gsbMGzJkpHVxjNNuiSLujCO-oDMXH1dDtkblixr9yNdhPGChwrzBeJS-lc7e404Hq-yDWLmruG4fw-iw',
   },

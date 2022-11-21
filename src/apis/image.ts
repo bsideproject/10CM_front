@@ -1,3 +1,4 @@
+import { Image } from 'dtos/common';
 import api from './common';
 
 /**
@@ -6,8 +7,8 @@ import api from './common';
 const url = '/api/v1/resources';
 
 export const uploadImage = async (form: FormData) => {
-  const { data } = await api.post<string>(url, form);
-  console.log(data);
+  const { data } = await api.post<Image>(url, form);
+  return data;
   // const stringList = data.split('/');
   // const test = await getImageId(stringList[stringList.length - 1]);
 };

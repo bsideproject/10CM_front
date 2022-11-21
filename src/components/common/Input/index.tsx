@@ -40,6 +40,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     setIsFocus(true);
   };
 
+  const handleClearClick = () => {
+    if (onClear) {
+      onClear();
+    }
+    setIsFocus(false);
+  };
   const checkInputWrap = useCallback((e: MouseEvent) => {
     if (!wrapRef.current?.contains(e.target as Node)) {
       setIsFocus(false);
@@ -67,7 +73,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
           isClear={!!isClear}
           onFocus={handleFocus}
         />
-        {isClear && isFocus && <CancelIcon onClick={onClear} />}
+        {isClear && isFocus && <CancelIcon onClick={handleClearClick} />}
       </InputWrap>
       {(!!error || count) && (
         <OptionsWrap error={!!error}>
