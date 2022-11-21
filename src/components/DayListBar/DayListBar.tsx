@@ -1,5 +1,5 @@
 import DayNumList from 'components/MyTrip/DayNumList';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { colors } from 'constants/colors';
 import PickDateInfo from 'components/MyTrip/PickDateInfo';
@@ -9,75 +9,37 @@ import DraggableItem, { Item } from 'components/TripDayGroup';
 import { AddrT, DndType } from 'types/dtos/address';
 interface IProps {
   daysData: AddrT[][];
+  pickedDay: number;
+  setPickedDay: React.Dispatch<React.SetStateAction<any>>;
+  removeDaysData: (addr: AddrT, dayNum: number) => void;
 }
 
-const DayListBar: React.FC<IProps> = ({ daysData }) => {
-  const [dummy, setDummy] = useState([
-    {
-      number: 1,
-      phone: '010-1111-2222',
-      address: 'adsadadssdasdad',
-      title: '이경수',
-    },
-    {
-      number: 2,
-      phone: '010-1111-2222',
-      address: 'adsadadssdasdad',
-      title: '이정수',
-    },
-    {
-      number: 3,
-      phone: '010-1111-2222',
-      address: 'adsadadssdasdad',
-      title: '이영수',
-    },
-    {
-      number: 1,
-      phone: '010-1111-2222',
-      address: 'adsadadssdasdad',
-      title: '이경수',
-    },
-    {
-      number: 2,
-      phone: '010-1111-2222',
-      address: 'adsadadssdasdad',
-      title: '이정수',
-    },
-    {
-      number: 3,
-      phone: '010-1111-2222',
-      address: 'adsadadssdasdad',
-      title: '이영수',
-    },
-    {
-      number: 1,
-      phone: '010-1111-2222',
-      address: 'adsadadssdasdad',
-      title: '이경수',
-    },
-    {
-      number: 2,
-      phone: '010-1111-2222',
-      address: 'adsadadssdasdad',
-      title: '이정수',
-    },
-    {
-      number: 3,
-      phone: '010-1111-2222',
-      address: 'adsadadssdasdad',
-      title: '이영수',
-    },
-  ]);
+const DayListBar: React.FC<IProps> = ({
+  daysData,
+  pickedDay,
+  setPickedDay,
+  removeDaysData,
+}) => {
+  const [addrData, setAddrData] = useState(daysData[pickedDay - 1]);
 
-  const dummyFunc = (items: Item[]) => {
-    setDummy(items);
+  useEffect(() => {
+    setAddrData(daysData[pickedDay - 1]);
+  }, [daysData, pickedDay]);
+
+  const dummyFunc = (items: AddrT[]) => {
+    setAddrData(items);
   };
   return (
     <Wrap>
       <TripSummary />
-      <DayNumList />
-      <PickDateInfo />
-      <DraggableItem itemList={dummy} onChangeList={dummyFunc} />
+      <DayNumList setPickedDay={setPickedDay} />
+      <PickDateInfo pickedDay={pickedDay} />
+      <DraggableItem
+        itemList={addrData}
+        pickedDay={pickedDay}
+        onChangeList={dummyFunc}
+        removeDaysData={removeDaysData}
+      />
     </Wrap>
   );
 };
@@ -94,7 +56,7 @@ const Wrap = styled.div`
 
 export default DayListBar;
 
-// {dummy.length === 0 && <EmptyDnd />}
-// {dummy.length > 0 && (
-//   <DraggableItem itemList={dummy} onChangeList={dummyFunc} />
+// {addrData.length === 0 && <EmptyDnd />}
+// {addrData.length > 0 && (
+//   <DraggableItem itemList={addrData} onChangeList={dummyFunc} />
 // )}

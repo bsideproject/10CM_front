@@ -4,14 +4,22 @@ import styled from 'styled-components';
 import { sizes } from 'constants/sizes';
 import leftArrow from 'assets/img/leftArrowIcon.svg';
 import rightArrow from 'assets/img/rightArrowIcon.svg';
+import * as Misc from 'services/misc';
+import { useAppSelect } from 'store/configureStore.hooks';
 import DayNumBox from './DayNumBox';
+interface IProps {
+  setPickedDay: React.Dispatch<React.SetStateAction<any>>;
+}
+const DayNumList: React.FC<IProps> = ({ setPickedDay }) => {
+  const { fromDate, toDate } = useAppSelect(state => state.placeInfo);
+  const daylist = Array.from({ length: Misc.diffDay(fromDate, toDate) }).map(
+    (el, idx) => idx + 1,
+  );
 
-const DayNumList = () => {
-  const dummy = [1, 2, 3, 4];
   return (
     <Wrap>
-      {dummy.map(el => (
-        <DayNumBox dayNum={el} />
+      {daylist.map(el => (
+        <DayNumBox key={el} dayNum={el} setPickedDay={setPickedDay} />
       ))}
       <ControlWrap>
         <Img

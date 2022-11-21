@@ -8,20 +8,22 @@ import { KakaoAddress } from 'dtos/kakao';
 import Img from 'components/Img/Img';
 import { sizes } from 'constants/sizes';
 interface Props {
+  data: AddrT;
+  pickedDay: number;
   onClick?: () => void;
   onSetDaysData: (addr: AddrT, dayNum: number) => void;
   onClickCard: (addressInfo: KakaoAddress) => void;
-  data: AddrT;
 }
 
 const SearchCard: React.FC<Props> = ({
+  data,
+  pickedDay,
   onClick,
   onSetDaysData,
-  data,
   onClickCard,
 }) => {
   const handleClickIcon = () => {
-    onSetDaysData(data, 1);
+    onSetDaysData(data, pickedDay);
     // 숫자에 dayNum
   };
   return (

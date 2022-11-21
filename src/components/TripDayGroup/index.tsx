@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import {
   DragDropContext,
@@ -13,8 +14,10 @@ import { AddrT, DndType } from 'types/dtos/address';
 
 interface Props {
   // TODO 백엔드 연동시 타입 지정 필수!!
-  itemList: Item[];
-  onChangeList: (itemList: Item[]) => void;
+  itemList: AddrT[];
+  pickedDay: number;
+  removeDaysData: (addr: AddrT, dayNum: number) => void;
+  onChangeList: (itemList: AddrT[]) => void;
 }
 
 export interface Item {
@@ -24,7 +27,12 @@ export interface Item {
   title: string;
 }
 
-const DraggableItem: React.FC<Props> = ({ itemList, onChangeList }) => {
+const DraggableItem: React.FC<Props> = ({
+  itemList,
+  pickedDay,
+  removeDaysData,
+  onChangeList,
+}) => {
   const reorder = <T,>(
     list: T[],
     startIndex: number,
@@ -79,17 +87,20 @@ const DraggableItem: React.FC<Props> = ({ itemList, onChangeList }) => {
             <div {...provided.droppableProps} ref={provided.innerRef}>
               {itemList.map((item, index) => (
                 <Draggable
-                  key={item.number}
-                  draggableId={item.number.toString()}
+                  key={index}
+                  draggableId={index.toString()}
                   index={index}
                 >
                   {(provided2, snapshot2) => (
                     <TripDayCard
                       number={index + 1}
                       phone={item.phone}
-                      address={item.address}
-                      title={item.title}
+                      address={item.road_address_name}
+                      title={item.place_name}
                       ref={provided2.innerRef}
+                      cardData={item}
+                      pickedDay={pickedDay}
+                      removeDaysData={removeDaysData}
                       dndProps={{
                         ...provided2.draggableProps,
                         ...provided2.dragHandleProps,

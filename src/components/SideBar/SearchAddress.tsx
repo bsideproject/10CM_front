@@ -16,12 +16,13 @@ import SearchAddressNav from './SearchAddr/SearchAddressNav';
 import SearchCardGroup from './SearchAddr/SearchCardGroup';
 interface Props {
   map?: any;
+  pickedDay: number;
   onSetDaysData: (addr: AddrT, dayNum: number) => void;
 }
 
 type SelectedType = 'search' | 'myPlace';
 
-const SearchAddress: React.FC<Props> = ({ map, onSetDaysData }) => {
+const SearchAddress: React.FC<Props> = ({ map, pickedDay, onSetDaysData }) => {
   const [selectedMenu, setSelectedMenu] = useState<SelectedType>('search');
   const [searchValue, onChangeSearchValue] = useEnteredInfo('');
   const [searchedData, setSearchedData] = useState<AddrT[]>([]);
@@ -141,6 +142,7 @@ const SearchAddress: React.FC<Props> = ({ map, onSetDaysData }) => {
       ) : (
         <SearchCardGroup
           addrList={searchedData}
+          pickedDay={pickedDay}
           onSetDaysData={onSetDaysData}
           onClickCard={handleClickCard}
         />

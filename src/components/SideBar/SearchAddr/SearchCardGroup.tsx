@@ -5,11 +5,13 @@ import styled from 'styled-components';
 import { AddrT } from 'types/dtos/address';
 interface IProps {
   addrList: AddrT[];
+  pickedDay: number;
   onSetDaysData: (addr: AddrT, dayNum: number) => void;
   onClickCard: (addressInfo: KakaoAddress) => void;
 }
 const SearchCardGroup: React.FC<IProps> = ({
   addrList,
+  pickedDay,
   onSetDaysData,
   onClickCard,
 }) => {
@@ -17,6 +19,8 @@ const SearchCardGroup: React.FC<IProps> = ({
     <Wrap>
       {addrList.map(data => (
         <SearchCard
+          key={data.id}
+          pickedDay={pickedDay}
           data={data}
           onSetDaysData={onSetDaysData}
           onClickCard={onClickCard}

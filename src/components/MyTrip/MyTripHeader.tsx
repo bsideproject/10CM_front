@@ -6,8 +6,35 @@ import { fonts } from 'assets/fonts/fonts';
 import smallNavLogo from 'assets/img/smallNavLogo.svg';
 import Img from 'components/Img/Img';
 import Button from 'components/common/Button';
+import { createTrip } from 'apis/tripApi';
+import { AddrT } from 'types/dtos/address';
+interface IProps {
+  daysData: AddrT[][];
+}
+const MyTripHeader: React.FC<IProps> = ({ daysData }) => {
+  const handleClickSave = () => {
+    const prms = {
+      description: '테스트',
+      end_date: '2022-09-04',
+      name: '테스트',
+      share_yn: 'N',
+      start_date: '2022-09-03',
+      trip_details: [
+        [
+          {
+            address: 'string',
+            address_detail: 'string',
+            description: 'string',
+            latitude: 'string',
+            longitude: 'string',
+            name: 'string',
+          },
+        ],
+      ],
+    };
+    createTrip(daysData, prms);
+  };
 
-const MyTripHeader = () => {
   return (
     <Wrap>
       <Img

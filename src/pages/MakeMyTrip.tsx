@@ -5,11 +5,16 @@ import MyTripHeader from 'components/MyTrip/MyTripHeader';
 import MyPlaces from 'components/SideBar/MyPlaces';
 import SearchAddress from 'components/SideBar/SearchAddress';
 import MakeTripLayout from 'components/UI/MakeTripLayout';
-import React, { useRef } from 'react';
-import styled from 'styled-components';
+import React, { useRef, useState } from 'react';
+import { useAppSelect } from 'store/configureStore.hooks';
+import * as Misc from 'services/misc';
 
 const MakeMyTrip: React.FC = () => {
-  const [daysData, setDaysData] = useDaysData(4);
+  const { fromDate, toDate } = useAppSelect(state => state.placeInfo);
+  const [pickedDay, setPickedDay] = useState(1);
+  const [daysData, setDaysData, removeDaysData] = useDaysData(
+    Misc.diffDay(fromDate, toDate),
+  );
   const mapRef = useRef<any>();
   const handleChangeRef = (map: any) => {
     mapRef.current = map;
@@ -17,9 +22,22 @@ const MakeMyTrip: React.FC = () => {
 
   return (
     <MakeTripLayout
-      header={<MyTripHeader />}
-      nav={<DayListBar daysData={daysData} />}
-      searchPlace={<SearchAddress map={mapRef} onSetDaysData={setDaysData} />}
+      header={<MyTripHeader daysData={daysData} />}
+      nav={
+        <DayListBar
+          daysData={daysData}
+          pickedDay={pickedDay}
+          setPickedDay={setPickedDay}
+          removeDaysData={removeDaysData}
+        />
+      }
+      searchPlace={
+        <SearchAddress
+          map={mapRef}
+          pickedDay={pickedDay}
+          onSetDaysData={setDaysData}
+        />
+      }
       map={<Map mapRef={mapRef} setMapRef={handleChangeRef} />}
     />
   );

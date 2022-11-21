@@ -2,12 +2,17 @@ import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
 import React from 'react';
 import styled from 'styled-components';
-
-const PickDateInfo: React.FC = () => {
+import { useAppSelect } from 'store/configureStore.hooks';
+import * as Misc from 'services/misc';
+interface IProps {
+  pickedDay: number;
+}
+const PickDateInfo: React.FC<IProps> = ({ pickedDay }) => {
+  const { fromDate } = useAppSelect(state => state.placeInfo);
   return (
     <Wrap>
-      <PickDay>DAY1</PickDay>
-      <PickDate>9.29(목요일)</PickDate>
+      <PickDay>{`DAY${pickedDay}`}</PickDay>
+      <PickDate>{Misc.convertPickDay(fromDate, pickedDay)}</PickDate>
     </Wrap>
   );
 };
