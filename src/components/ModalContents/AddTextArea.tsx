@@ -1,5 +1,5 @@
 import Textarea from 'components/common/Textarea';
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import styled from 'styled-components';
 import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
@@ -9,15 +9,22 @@ type Purpose = 'TAG' | 'TRIP';
 
 interface IProps {
   purpose: Purpose;
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
 }
-const AddTextArea: React.FC<IProps> = ({ purpose }) => {
+const AddTextArea: React.FC<IProps> = ({ purpose, value, onChange }) => {
   const content = CFG.TEXTAREA_DESC[purpose];
 
-  // const exampleText = '장소에 대한 생각, 간략한 설명을 입력해주세요.';
   return (
     <Wrap>
       <span>메모</span>
-      <Textarea placeholder={content.placeholder} maxLength={500} count />
+      <Textarea
+        placeholder={content.placeholder}
+        maxLength={500}
+        count
+        value={value}
+        onChange={onChange}
+      />
     </Wrap>
   );
 };

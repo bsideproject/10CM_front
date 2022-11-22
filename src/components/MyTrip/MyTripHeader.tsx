@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { colors } from 'constants/colors';
 import { sizes } from 'constants/sizes';
 import { fonts } from 'assets/fonts/fonts';
+import MyTripPlace from 'components/common/ModalContents/MyTripPlace';
 import smallNavLogo from 'assets/img/smallNavLogo.svg';
 import Img from 'components/Img/Img';
 import Button from 'components/common/Button';
@@ -12,27 +13,11 @@ interface IProps {
   daysData: AddrT[][];
 }
 const MyTripHeader: React.FC<IProps> = ({ daysData }) => {
-  const handleClickSave = () => {
-    const prms = {
-      description: '테스트',
-      end_date: '2022-09-04',
-      name: '테스트',
-      share_yn: 'N',
-      start_date: '2022-09-03',
-      trip_details: [
-        [
-          {
-            address: 'string',
-            address_detail: 'string',
-            description: 'string',
-            latitude: 'string',
-            longitude: 'string',
-            name: 'string',
-          },
-        ],
-      ],
-    };
-    createTrip(daysData, prms);
+  const [onModal, setOnModal] = useState(false);
+
+  const handleChangeModal = () => {
+    // 빈 데이터 처리
+    setOnModal(!onModal);
   };
 
   return (
@@ -48,6 +33,7 @@ const MyTripHeader: React.FC<IProps> = ({ daysData }) => {
           buttonSize="small"
           buttonWidth="67px"
           disabled={false}
+          onClick={handleChangeModal}
         >
           <ButtonText isCancel={false}>저장</ButtonText>
         </Button>
@@ -60,6 +46,9 @@ const MyTripHeader: React.FC<IProps> = ({ daysData }) => {
           <ButtonText isCancel>닫기</ButtonText>
         </Button>
       </ButtonWrap>
+      {onModal && (
+        <MyTripPlace daysData={daysData} onClose={handleChangeModal} />
+      )}
     </Wrap>
   );
 };

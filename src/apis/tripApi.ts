@@ -1,10 +1,10 @@
-import { MyTripListResponse, MyTripReqeust } from './../dtos/trip';
+import { MyTripListResponse, MyTripReqeust } from '../dtos/trip';
 import api from './common';
 
 const url = '/api/v1/trip';
 
 export const createTrip = async (body: MyTripReqeust) => {
-  await api.post(url, body);
+  await api.post(url, body).then(res => console.log(res));
 };
 
 export const getTripList = async () => {

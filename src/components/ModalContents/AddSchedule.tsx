@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
 import { sizes } from 'constants/sizes';
@@ -8,8 +8,9 @@ import calendarIcon from 'assets/img/calendarIcon.svg';
 import Img from 'components/Img/Img';
 import usePickerInfo from 'components/hook/usePickerInfo';
 import { convertDate } from 'services/misc';
+import { isAllOf } from '@reduxjs/toolkit';
 interface IProps {
-  isMake?: boolean;
+  isMake: boolean;
 }
 const AddSchedule: React.FC<IProps> = ({ isMake }) => {
   const [startDate, onChangeStart, clickedStart, setClickedStart] =
@@ -24,7 +25,7 @@ const AddSchedule: React.FC<IProps> = ({ isMake }) => {
       <WrapDate>
         <WrapSchedule>
           <span>시작일*</span>
-          <PickerWrap onClick={setClickedStart}>
+          <PickerWrap onClick={setClickedStart} isMake>
             <Img
               src={calendarIcon}
               width={sizes.CALENDAR_ICON_SIZE}
@@ -38,7 +39,7 @@ const AddSchedule: React.FC<IProps> = ({ isMake }) => {
         </WrapSchedule>
         <WrapSchedule>
           <span>종료일*</span>
-          <PickerWrap onClick={setClickedEnd}>
+          <PickerWrap onClick={setClickedEnd} isMake>
             <Img
               src={calendarIcon}
               width={sizes.CALENDAR_ICON_SIZE}
@@ -56,6 +57,20 @@ const AddSchedule: React.FC<IProps> = ({ isMake }) => {
       )}
     </Wrap>
   );
+};
+
+const getScheduleCss = (isMake: boolean) => {
+  if (isMake) {
+    return css`
+      color: ${colors.NEUTRAl_300};
+      background-color: ${colors.NEUTRAl_50};
+      pointer-events: none;
+    `;
+  }
+  return css`
+    color: ${colors.NEUTRAl_900};
+    background-color: ${colors.WHITE};
+  `;
 };
 
 const Wrap = styled.div`
@@ -83,23 +98,22 @@ const WrapSchedule = styled.div`
   }
 `;
 
-const PickerWrap = styled.div`
+const PickerWrap = styled.div<{ isMake: boolean }>`
   position: relative;
   width: 212px;
   height: 44px;
   padding: 0 12px;
   display: flex;
   align-items: center;
+  border: 1px solid ${colors.NEUTRAl_200};
   ${fonts('text-xs-regular')};
   color: ${colors.NEUTRAl_900};
   border: 1px solid ${colors.NEUTRAl_200};
   background-color: ${colors.WHITE};
   border-radius: 4px;
   cursor: pointer;
-
+  ${props => getScheduleCss(props.isMake)};
   > span {
-    ${fonts('text-xs-regular')};
-    color: ${colors.NEUTRAl_900};
     letter-spacing: 0.013em;
     margin-left: 10px;
   }

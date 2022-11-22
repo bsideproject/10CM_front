@@ -104,7 +104,6 @@ const defaultButtonStyle = css`
   border: 0;
   outline: 0;
   transition: 0.1s;
-  ${fonts('text-sm-bold')};
   box-sizing: border-box;
   cursor: pointer;
 `;

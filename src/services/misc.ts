@@ -1,3 +1,5 @@
+import { AddrT } from 'types/dtos/address';
+
 type SplitType = 'dash' | 'dot';
 const DATE_ONE_DAY = 86400000;
 export const convertDate = (date: Date, type: SplitType): string => {
@@ -45,3 +47,23 @@ export const convertPickDay = (date: string, pickedDay: number) => {
     calDate.getDay(),
   )})`;
 };
+
+export const convertTripDetails = (data: AddrT[][]) => {
+  const convertData = data.map(arr =>
+    arr.map(el => {
+      return {
+        latitude: el.y,
+        longitude: el.x,
+        description: '',
+        name: el.place_name,
+        address: el.road_address_name,
+        address_detail: el.address_name,
+      };
+    }),
+  );
+
+  return convertData;
+};
+
+// x = longtidue 경도
+// y = latitude 위도
