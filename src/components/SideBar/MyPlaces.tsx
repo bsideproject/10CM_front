@@ -74,6 +74,24 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     null,
   );
 
+  // 장소 등록 후 리패치,오버레이 변경 함수
+  const refetchAfterCreateData = async (info: MyPlaceResponse) => {
+    await reFetchMyPlaceList();
+    setIsOpenCreateModal(false);
+    setCreatePlace(info);
+  };
+  // 상세정보 refetch
+  const refetchAfterUpdateData = async () => {
+    if (placeDetail) {
+      try {
+        const data = await getPlace(placeDetail.id);
+        setPlaceDetail({ ...data });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
+
   // 핸들러 함수
   const handleChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
@@ -83,16 +101,6 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     setIsOpenCreateModal(false);
     setSelectedAddress(null);
   };
-  // 장소 등록 후 리패치,오버레이 변경 함수
-  const handleRefetchAfterCreateData = async (info: MyPlaceResponse) => {
-    await reFetchMyPlaceList();
-    setIsOpenCreateModal(false);
-    setCreatePlace(info);
-  };
-  // 주소 검색
-  // const handleSearchAddress = () => {
-  //   ps.keywordSearch(keyword, placesSearchCB);
-  // };
   // 주소 카드 클릭
   const handleOverayOverlayClose = () => {
     if (currentOverlay.current) {
@@ -118,6 +126,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   const handleCloseDetailClick = () => {
     setPlaceDetail(null);
   };
+
   // 포스팅 수정 버튼 클릭
   const handleClickUpdateClick = () => {
     setIsOpenUpdateModal(true);
@@ -186,8 +195,6 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
       currentOverlay.current.setMap(map.current);
     };
   };
-  // 내가 저장한 장소 목록 페치함수
-
   // 선택한 장소 등록 모달
   useEffect(() => {
     if (selectedAddress) {
@@ -302,13 +309,14 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
           addressInfo={selectedAddress!}
           keyword={keyword}
           onClose={handleCloseCreateModalClick}
-          onCreateComplete={handleRefetchAfterCreateData}
+          onCreateComplete={refetchAfterCreateData}
         />
       )}
       {isOpenUpdateModal && placeDetail && (
         <UpdatePost
           addressInfo={placeDetail}
           onClose={handleCloseUpdateModalClick}
+          onUpdateComplete={refetchAfterUpdateData}
         />
       )}
       {placeDetail && (

@@ -76,7 +76,6 @@ const MyPlaceGroup = React.forwardRef<HTMLDivElement, Props>(
                     {currentSort === 'createdDate,DESC' && <CheckIcon />}
                     <span>최근 등록 순</span>
                   </SortOption>
-
                   <SortOption
                     isSelected={currentSort === 'name,ASC'}
                     onClick={handleSortOptionClick('name,ASC')}

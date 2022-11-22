@@ -10,8 +10,9 @@ import {
 import { MyPlaceResponse } from 'dtos/place';
 import dayjs from 'dayjs';
 import { dateFormat } from 'constants/common';
-import Image from '../../assets/png/thumbnail-area.png';
-import { ReactComponent as OptionIcon } from '../../assets/svg/my-place-option.svg';
+import Image from 'assets/png/thumbnail-area.png';
+import { getTagListToString } from 'utils/plage';
+import { ReactComponent as OptionIcon } from 'assets/svg/my-place-option.svg';
 
 interface Props {
   place: MyPlaceResponse;
@@ -65,11 +66,7 @@ const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick }) => {
       <MyPlaceInfoWrap>
         <MyPlaceName>{place.name}</MyPlaceName>
         <MyPlaceAddress>{place.address}</MyPlaceAddress>
-        <MyPlaceHashTag>
-          {(place.tag || []).map(tag => (
-            <span key={tag}>{tag}</span>
-          ))}
-        </MyPlaceHashTag>
+        <MyPlaceHashTag>{getTagListToString(place?.tag || [])}</MyPlaceHashTag>
         <MyPlaceDate>{dayjs(place.createdDate).format(dateFormat)}</MyPlaceDate>
         <MyPlaceOptionButton ref={optionButtonRef} onClick={handleOptionOpen} />
         {isShowOption && (

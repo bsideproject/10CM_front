@@ -18,7 +18,11 @@ interface Props {
 }
 
 const AddImageButton: React.FC<Props> = ({ onChange, value }) => {
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageName, setImageName] = useState<string | null>(null);
+  const handleClickClear = () => {
+    onChange('');
+    setImageName('');
+  };
   const ref = useRef<HTMLInputElement | null>(null);
 
   const handleClickButton = () => {
@@ -33,9 +37,9 @@ const AddImageButton: React.FC<Props> = ({ onChange, value }) => {
           const formData = new FormData();
           formData.append('file', e.target.files[0]);
           const data = await uploadImage(formData);
-          setImageUrl(data.original_name);
-          onChange(data.image_id);
-          e.target.files = null;
+          onChange(data.url);
+          setImageName(data.original_name);
+          e.target.value = '';
         } catch (e) {
           console.log(e);
         }
@@ -48,8 +52,8 @@ const AddImageButton: React.FC<Props> = ({ onChange, value }) => {
     <div>
       {value ? (
         <UploadImageNameWrap>
-          <UploadFileName>{value}</UploadFileName>
-          <RemoveButton />
+          <UploadFileName>{imageName || value}</UploadFileName>
+          <RemoveButton onClick={handleClickClear} />
         </UploadImageNameWrap>
       ) : (
         <Label htmlFor="addImage" onClick={handleClickButton}>
@@ -78,7 +82,8 @@ const Input = styled.input`
 const UploadImageNameWrap = styled.div`
   display: flex;
   align-items: center;
-  padding: 9px 12px;
+  justify-content: space-between;
+  padding: 10px 12px;
   border: 1px solid ${colors.BLUE_BASE};
   color: ${colors.BLUE_BASE};
   ${fonts('text-xs-regular')};

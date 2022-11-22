@@ -3,6 +3,7 @@ import {
   MyPlaceListQueryParams,
   MyPlaceListResponse,
   MyPlaceResponse,
+  UpdatePlaceBody,
 } from 'dtos/place';
 import api from './common';
 
@@ -11,6 +12,7 @@ import api from './common';
  */
 const url = '/api/v1/place';
 export const createPlace = async (body: CreatePlaceBody) => {
+  console.log(body);
   const { data } = await api.post<{ id: number }>(url, body);
   return data;
 };
@@ -31,3 +33,15 @@ export const getPlace = async (id: number) => {
   const { data } = await api.get<MyPlaceResponse>(`${url}/${id}`);
   return data;
 };
+
+/**
+ * 장소 수정
+ */
+export const updatePlace = async (body: UpdatePlaceBody) => {
+  const { id, ...rest } = body;
+  await api.put(`${url}/${id}`, body);
+};
+
+/**
+ * 장소 삭제
+ */

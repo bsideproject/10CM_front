@@ -9,7 +9,7 @@ export interface CreatePlaceBody {
   address: string;
 
   // 상세주소
-  addressDetail?: string;
+  address_detail?: string;
 
   // 위도
   latitude: string;
@@ -22,12 +22,18 @@ export interface CreatePlaceBody {
 
   // 태그
   tag?: string[];
+
+  // 이미지
+  image?: string;
 }
 
 /**
  * 장소 정보 수정
  */
 export interface UpdatePlaceBody {
+  // pk;
+  id: number;
+
   // 장소 이름
   name: string;
 
@@ -48,6 +54,9 @@ export interface UpdatePlaceBody {
 
   // 태그
   tag?: string[];
+
+  // 이미지
+  image?: string;
 }
 
 /**
@@ -71,7 +80,7 @@ export interface MyPlaceResponse {
   id: number;
 
   // 이미지
-  imageId?: number;
+  image?: string;
 
   // 위도
   latitude: string;

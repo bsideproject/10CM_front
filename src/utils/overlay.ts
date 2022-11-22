@@ -171,7 +171,12 @@ export const createUpdateOverlay: UpdateOverlay = (
   textWrap.appendChild(description);
   const imageWrap = document.createElement('div');
   imageWrap.className = 'update-overlay-body-image-wrap';
-  const Image = document.createElement('img');
+  const image = document.createElement('img');
+  image.className = 'update-overlay-body-image';
+  image.src = addressInfo.image || '';
+  image.alt = '장소 이미지';
+
+  imageWrap.appendChild(image);
   body.appendChild(textWrap);
   body.appendChild(imageWrap);
 

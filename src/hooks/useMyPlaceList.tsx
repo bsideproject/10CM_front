@@ -31,7 +31,7 @@ const useMyPlaceList = () => {
     setIsLoading(true);
     try {
       const data = await getPlaceList({
-        size: myPlaceList.length,
+        size: myPlaceList.length + 1,
         page: 0,
         sort: currentSort,
       });
@@ -46,23 +46,6 @@ const useMyPlaceList = () => {
     }
     setIsLoading(false);
   };
-  const fetchMyPlaces = async () => {
-    setIsLoading(true);
-    try {
-      const data = await getPlaceList({
-        size: PAGE_SIZE,
-        page: currentPage,
-        sort: currentSort,
-      });
-      setMyPlaceList(prev => prev.concat(data.place_list));
-      // setTotalCount(data.count);
-      setHasMyPlaceNextPage(getHasNextPage(data.count, currentPage + 1));
-      setCurrentPage(prev => prev + 1);
-    } catch (e) {
-      console.log(e);
-    }
-    setIsLoading(false);
-  };
   const fetchNextMyPlaces = async () => {
     setIsLoading(true);
     try {
@@ -72,7 +55,6 @@ const useMyPlaceList = () => {
         sort: currentSort,
       });
       setMyPlaceList(prev => prev.concat(data.place_list));
-      // setTotalCount(data.count);
       setHasMyPlaceNextPage(getHasNextPage(data.count, currentPage + 1));
       setCurrentPage(prev => prev + 1);
     } catch (e) {
@@ -87,7 +69,7 @@ const useMyPlaceList = () => {
   // 첫 렌더링 시 초기 저장된 장소 목록
   useEffect(() => {
     (async () => {
-      await fetchMyPlaces();
+      await fetchNextMyPlaces();
     })();
   }, []);
   useEffect(() => {
