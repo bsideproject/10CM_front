@@ -1,4 +1,4 @@
-// const createOveray = () => {
+// const createOverlay = () => {
 //   const content = ReactDOMServer.renderToString(
 //     <div
 //       className="overlaybox"

@@ -1,34 +1,32 @@
+// 이거 ts로 수정부탁드립니다.
+
 class MapConfig {
   static initMapOption(kakao) {
-    console.log(kakao);
     const options = {
       // 지도를 생성할 때 필요한 기본 옵션
-      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표.
+      center: new kakao.maps.LatLng(37.499779332771375, 127.027978289709), // 지도의 중심좌표.
+      // center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표.
       level: 3, // 지도의 레벨(확대, 축소 정도)
     };
-    return kakao;
+    return options;
   }
 
   static confirmMapLog(kakao, map) {
-    kakao.maps.event.addListener(map.current, 'zoom_changed', function () {
+    kakao.maps.event.addListener(map, 'zoom_changed', function () {
       // 지도의 현재 레벨을 얻어옵니다
-      const level = map.current.getLevel();
+      const level = map.getLevel();
       console.log('현재 지도 레벨은 ', level, ' 입니다');
     });
-    kakao.maps.event.addListener(
-      map.current,
-      'click',
-      function event(mouseEvent) {
-        // 클릭한 위도, 경도 정보를 가져옵니다
-        const latlng = mouseEvent.latLng;
-        console.log('마커를 찍은 위치는? ', latlng);
-      },
-    );
+    kakao.maps.event.addListener(map, 'click', function event(mouseEvent) {
+      // 클릭한 위도, 경도 정보를 가져옵니다
+      const latlng = mouseEvent.latLng;
+      console.log('마커를 찍은 위치는? ', latlng);
+    });
   }
 
   static managerOptions(kakao, map) {
     return {
-      map: map.current, // Drawing Manager로 그리기 요소를 그릴 map 객체입니다
+      map, // Drawing Manager로 그리기 요소를 그릴 map 객체입니다
       drawingMode: [
         // drawing manager로 제공할 그리기 요소 모드입니다
         kakao.maps.drawing.OverlayType.MARKER,
@@ -83,14 +81,16 @@ class MapConfig {
     };
   }
 
-  static createMarker(kakao, map, locationY, locationX) {
+  static createMarker(kakao, locationY, locationX) {
     // 마커 생성
+
     const markerPosition = new kakao.maps.LatLng(locationY, locationX);
 
     const marker = new kakao.maps.Marker({
       position: markerPosition,
     });
-    marker.setMap(map.current);
+    // marker.setMap(map.current);
+    return marker;
   }
 
   static createCluster(kakao, map, locations) {
@@ -115,6 +115,48 @@ class MapConfig {
       }),
     ];
     clusterer.addMarkers(markers);
+  }
+
+  static getPos(lat, long) {
+    const { kakao } = window;
+    const pos = new kakao.maps.LatLng(lat, long);
+
+    return pos;
+  }
+
+  // 마커 지우기
+  static removeMarker(map, marker) {
+    console.log(marker);
+  }
+
+  // 마커 이동
+  static moveMarker(marker, lat, long) {
+    const pos = this.getPos(lat, long);
+    marker.setPosition(pos);
+  }
+
+  // 오버레이 이동
+  static moveOverlay(overlay, lat, long) {
+    const pos = this.getPos(lat, long);
+    overlay.setPosition(pos);
+  }
+
+  // 오버레이 제거
+  static removeOverlay(overlay) {
+    overlay.setMap(null);
+  }
+
+  // 마커 이벤트 제거
+  static removeMarkerEvent = (marker, d) => {};
+
+  static changeOverlayContent(overlay, content) {
+    overlay.setContent(content);
+  }
+
+  // 지드 이동
+  static moveMap(map, lat, long) {
+    const pos = this.getPos(lat, long);
+    map.current.panTo(pos);
   }
 
   static displayMarker(kakao, map, locPosition, msg) {
@@ -193,27 +235,44 @@ class MapConfig {
       roadview.setPanoId(panoId, position);
     });
 
-    let content = '<div class="overlay_info">';
+    let content = '';
+    content += '<div class="rv-custom">';
+    content += '  <div class="rv-title">';
+    content += '    <span>장소명</span>';
+    content += '    <button>X</button>';
+    content += '  </div>';
+    content += '  <div class="rv-desc">';
+    content += '    <div class="rv-desc-text">';
     content +=
-      '    <a href="https://place.map.kakao.com/17600274" target="_blank"><strong>월정리 해수욕장</strong></a>';
-    content += '    <div class="desc">';
+      '        <span class="rv-desc-addr">제주특별자치도 제주시 구좌읍 월정리 33-3</span>';
+    content +=
+      '        <p class="rv-desc-p">모든 국민은 신체의 자유를 가진다. 누구든지 법률에 의하지 아니하고는 체포·구속·압수·수색 또는 심문을 받지 아니하며 테스트중입니다. 테스트중입니다. 테스트중입니다. 테스트중입니다.</p>';
+    content += '    </div>';
     content +=
       '        <img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/place_thumb.png" alt="">';
-    content +=
-      '        <span class="address">제주특별자치도 제주시 구좌읍 월정리 33-3</span>';
-    content += '    </div>';
+    content += '  </div>';
+    content += '  <div class="rv-action">';
+    content += '    <button>포스팅 수정</button>';
+    content += '  </div>';
     content += '</div>';
+    // html element로 수정
+    const rvCustomOverlay = new kakao.maps.CustomOverlay({
+      position,
+      content,
+      // https://devtalk.kakao.com/t/topic/105513/5  html 문자열만 가능
+      xAnchor: 0.5,
+      yAnchor: 1.3,
+      // removable: true,
+    });
 
     kakao.maps.event.addListener(roadview, 'init', function () {
-      const rvCustomOverlay = new kakao.maps.CustomOverlay({
+      const rMarker = new kakao.maps.Marker({
         position,
-        content,
-        // https://devtalk.kakao.com/t/topic/105513/5  html 문자열만 가능
-        xAnchor: 0.5,
-        yAnchor: 0.5,
+        map: roadview,
       });
 
       rvCustomOverlay.setMap(roadview);
+      rvCustomOverlay.open(roadview, rMarker);
 
       const projection = roadview.getProjection();
 
