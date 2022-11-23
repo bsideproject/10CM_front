@@ -51,7 +51,6 @@ const Map: React.FC<Props> = ({ mapRef, setMapRef = () => {} }) => {
   // 내 위치에 마커 찍기
   const getMapLevel = () => {
     alert(mapRef.current.getLevel());
-    console.log(mapRef.current);
   };
   const handleClickSearchAddress = () => {
     const { kakao } = window;
@@ -112,7 +111,7 @@ const Map: React.FC<Props> = ({ mapRef, setMapRef = () => {} }) => {
       />
       <div
         id="roadview"
-        style={{ width: '100%', height: '100%' }}
+        style={{ display: 'none', width: '100%', height: '100%' }}
         onClick={() => handleCreateRoadView()}
       />
       <div style={{ display: 'none' }}>

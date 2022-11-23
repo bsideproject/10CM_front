@@ -3,7 +3,7 @@ import { colors } from 'constants/colors';
 import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from 'assets/svg/close.svg';
 
-export const ModalFormWrap = styled.div`
+export const ModalFormWrap = styled.form`
   width: 480px;
   padding: 24px;
   background-color: ${colors.WHITE};
@@ -18,8 +18,6 @@ export const ModalFormHeader = styled.div`
   color: ${colors.NEUTRAl_900};
 `;
 export const ModalFormBody = styled.div`
-  height: 462px;
-  overflow-y: auto;
   margin-top: 32px;
 `;
 

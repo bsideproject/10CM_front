@@ -10,18 +10,25 @@ import {
 import { MyPlaceResponse } from 'dtos/place';
 import dayjs from 'dayjs';
 import { dateFormat } from 'constants/common';
-import Image from '../../assets/png/thumbnail-area.png';
-import { ReactComponent as OptionIcon } from '../../assets/svg/my-place-option.svg';
+import Image from 'assets/png/thumbnail-area.png';
+import { getTagListToString } from 'utils/plage';
+import { ReactComponent as OptionIcon } from 'assets/svg/my-place-option.svg';
+import { deletePlace } from 'apis/place';
+import UpdatePost from 'components/Modals/UpdatePost';
 
 interface Props {
   place: MyPlaceResponse;
   onDetailClick: (id: number) => void;
+  onReFetch: () => Promise<void>;
 }
 
-const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick }) => {
+const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick, onReFetch }) => {
+  const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
   const [isShowOption, setIsShowOption] = useState<boolean>(false);
+  const [isHover, setIsHover] = useState(false);
   const optionRef = useRef<HTMLDivElement | null>(null);
   const optionButtonRef = useRef<SVGSVGElement | null>(null);
+
   const handleOptionOpen = () => {
     setIsShowOption(prev => !prev);
   };
@@ -33,6 +40,23 @@ const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick }) => {
       handleOptionClose();
       onDetailClick(id);
     };
+  };
+  const handleHover = () => {
+    setIsHover(prev => !prev);
+  };
+  const handleUpdateClick = () => {
+    setIsOpenUpdateModal(true);
+  };
+  const handleRemoveClick = async () => {
+    try {
+      await deletePlace(place.id);
+      onReFetch();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const handleCloseModal = () => {
+    setIsOpenUpdateModal(false);
   };
   const handleDidNotOptionClick = (e: MouseEvent) => {
     if (
@@ -54,18 +78,14 @@ const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick }) => {
     };
   }, [isShowOption]);
   return (
-    <MyPlaceCardWrap>
+    <MyPlaceCardWrap onMouseEnter={handleHover} onMouseLeave={handleHover}>
       <MyPlaceCardImageWrap>
-        <img src={Image} alt="더미" width="100%" />
+        <MyPlaceImage src={Image} alt="더미" isHover={isHover} />
       </MyPlaceCardImageWrap>
       <MyPlaceInfoWrap>
         <MyPlaceName>{place.name}</MyPlaceName>
         <MyPlaceAddress>{place.address}</MyPlaceAddress>
-        <MyPlaceHashTag>
-          {(place.tag || []).map(tag => (
-            <span key={tag}>{tag}</span>
-          ))}
-        </MyPlaceHashTag>
+        <MyPlaceHashTag>{getTagListToString(place?.tag || [])}</MyPlaceHashTag>
         <MyPlaceDate>{dayjs(place.createdDate).format(dateFormat)}</MyPlaceDate>
         <MyPlaceOptionButton ref={optionButtonRef} onClick={handleOptionOpen} />
         {isShowOption && (
@@ -73,11 +93,22 @@ const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick }) => {
             <MyPlaceOptionItem onClick={handleDetailClick(place.id)}>
               상세보기
             </MyPlaceOptionItem>
-            <MyPlaceOptionItem>수정하기</MyPlaceOptionItem>
-            <MyPlaceOptionItem>삭제하기</MyPlaceOptionItem>
+            <MyPlaceOptionItem onClick={handleUpdateClick}>
+              수정하기
+            </MyPlaceOptionItem>
+            <MyPlaceOptionItem onClick={handleRemoveClick}>
+              삭제하기
+            </MyPlaceOptionItem>
           </MyPlaceOptionBox>
         )}
       </MyPlaceInfoWrap>
+      {isOpenUpdateModal && (
+        <UpdatePost
+          addressInfo={place}
+          onClose={handleCloseModal}
+          onUpdateComplete={onReFetch}
+        />
+      )}
     </MyPlaceCardWrap>
   );
 };
@@ -102,6 +133,14 @@ const MyPlaceOptionButton = styled(OptionIcon)`
   top: 12px;
   right: 4px;
   cursor: pointer;
+`;
+const MyPlaceImage = styled.img<{ isHover: boolean }>`
+  position: absolute;
+  width: ${({ isHover }) => (isHover ? '120%' : '100%')};
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: 0.3s;
 `;
 const MyPlaceOptionBox = styled.div`
   width: 120px;

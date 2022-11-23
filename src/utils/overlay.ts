@@ -13,6 +13,8 @@ type UpdateOverlay = (
   onClose: () => void,
   onUpdateClick: () => void,
 ) => void;
+
+// TODO 이거 좀 더 간단한 방법으로 해결 해보기
 // 검색한 결과 클릭 시 오버레이
 export const createAddressDetailOverlay: CreateOverlay = (
   addressInfo,
@@ -171,7 +173,12 @@ export const createUpdateOverlay: UpdateOverlay = (
   textWrap.appendChild(description);
   const imageWrap = document.createElement('div');
   imageWrap.className = 'update-overlay-body-image-wrap';
-  const Image = document.createElement('img');
+  const image = document.createElement('img');
+  image.className = 'update-overlay-body-image';
+  image.src = addressInfo.image || '';
+  image.alt = '장소 이미지';
+
+  imageWrap.appendChild(image);
   body.appendChild(textWrap);
   body.appendChild(imageWrap);
 

@@ -9,7 +9,7 @@ export interface CreatePlaceBody {
   address: string;
 
   // 상세주소
-  addressDetail?: string;
+  address_detail?: string;
 
   // 위도
   latitude: string;
@@ -22,8 +22,18 @@ export interface CreatePlaceBody {
 
   // 태그
   tag?: string[];
+
+  // 이미지
+  image?: string;
 }
+
+/**
+ * 장소 정보 수정
+ */
 export interface UpdatePlaceBody {
+  // pk;
+  id: number;
+
   // 장소 이름
   name: string;
 
@@ -31,7 +41,7 @@ export interface UpdatePlaceBody {
   address: string;
 
   // 상세주소
-  addressDetail?: string;
+  address_detail?: string;
 
   // 위도
   latitude: string;
@@ -44,6 +54,9 @@ export interface UpdatePlaceBody {
 
   // 태그
   tag?: string[];
+
+  // 이미지
+  image?: string;
 }
 
 /**
@@ -67,7 +80,7 @@ export interface MyPlaceResponse {
   id: number;
 
   // 이미지
-  imageId?: number;
+  image?: string;
 
   // 위도
   latitude: string;
@@ -96,9 +109,15 @@ export interface MyPlaceListResponse {
   count: number;
 
   // 목록
-  placeList: MyPlaceResponse[];
+  place_list: MyPlaceResponse[];
 }
 
 /**
- * 내가 저장한 장소 상세
+ * 내가 저장한 장소 목록 파라미터
  */
+export type Sort = 'name,ASC' | 'createdDate,DESC' | 'modifiedDate,DESC';
+export interface MyPlaceListQueryParams {
+  page?: number;
+  size?: number;
+  sort: Sort;
+}

@@ -10,7 +10,9 @@ export const MyPlaceCardWrap = styled.article`
   }
 `;
 export const MyPlaceCardImageWrap = styled.div`
+  position: relative;
   height: 183.25px;
+  overflow: hidden;
 `;
 export const MyPlaceInfoWrap = styled.div`
   position: relative;

@@ -1,6 +1,13 @@
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
-import { forwardRef, InputHTMLAttributes, useState } from 'react';
+import {
+  forwardRef,
+  InputHTMLAttributes,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import styled, { css } from 'styled-components';
 import { ReactComponent as SearchSvg } from 'assets/svg/input-search.svg';
 import { ReactComponent as CancelSvg } from 'assets/svg/input-cancel.svg';
@@ -26,17 +33,35 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     ...rest
   } = props;
 
+  const wrapRef = useRef<HTMLDivElement | null>(null);
   const [isFocus, setIsFocus] = useState(false);
 
   const handleFocus = () => {
     setIsFocus(true);
   };
-  const handleBlur = () => {
+
+  const handleClearClick = () => {
+    if (onClear) {
+      onClear();
+    }
     setIsFocus(false);
   };
+  const checkInputWrap = useCallback((e: MouseEvent) => {
+    if (!wrapRef.current?.contains(e.target as Node)) {
+      setIsFocus(false);
+    }
+  }, []);
+  useEffect(() => {
+    if (isFocus) {
+      window.addEventListener('click', checkInputWrap);
+    }
+    return () => {
+      window.removeEventListener('click', checkInputWrap);
+    };
+  }, [isFocus]);
   return (
     <div>
-      <InputWrap>
+      <InputWrap ref={wrapRef}>
         {isSearch && <SearchIcon />}
         <MyInput
           ref={ref}
@@ -47,9 +72,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
           isSearch={!!isSearch}
           isClear={!!isClear}
           onFocus={handleFocus}
-          onBlur={handleBlur}
         />
-        {isClear && isFocus && <CancelIcon onClick={onClear} />}
+        {isClear && isFocus && <CancelIcon onClick={handleClearClick} />}
       </InputWrap>
       {(!!error || count) && (
         <OptionsWrap error={!!error}>

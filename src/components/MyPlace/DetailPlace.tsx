@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import image from 'assets/png/detail-dummy.png';
 import { fonts } from 'assets/fonts/fonts';
 import { ReactComponent as CloseIcon } from 'assets/svg/close.svg';
+import { getTagListToString } from 'utils/plage';
 
 interface Props {
   myPlaceDetail: MyPlaceResponse;
@@ -30,7 +31,9 @@ const DetailPlace: React.FC<Props> = ({ myPlaceDetail, onClose }) => {
             </MyPlaceDetailTitleWrap>
             <MyPlaceDetailAddress>{myPlaceDetail.address}</MyPlaceDetailAddress>
             <MyPlaceDetailTagWrap>
-              {(myPlaceDetail.tag || []).map(tag => tag)}
+              {(myPlaceDetail.tag || []).map(tag => (
+                <PlaceTag>{`#${tag}`}</PlaceTag>
+              ))}
             </MyPlaceDetailTagWrap>
             <Divider />
             <MyPlaceDetailMemo>{myPlaceDetail.description}</MyPlaceDetailMemo>
@@ -78,8 +81,16 @@ const MyPlaceDetailAddress = styled.div`
   color: ${colors.NEUTRAl_600};
 `;
 const MyPlaceDetailTagWrap = styled.div`
+  display: flex;
+  gap: 0 4px;
+  flex-wrap: wrap;
+  justify-content: center;
   ${fonts('text-xxs-regular')};
   color: ${colors.BLUE_BASE};
+`;
+const PlaceTag = styled.div`
+  color: ${colors.BLUE_BASE};
+  cursor: pointer;
 `;
 const MyPlaceDetailMemo = styled.div`
   padding: 0 20px;
