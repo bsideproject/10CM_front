@@ -12,7 +12,6 @@ import api from './common';
  */
 const url = '/api/v1/place';
 export const createPlace = async (body: CreatePlaceBody) => {
-  console.log(body);
   const { data } = await api.post<{ id: number }>(url, body);
   return data;
 };
@@ -22,7 +21,6 @@ export const createPlace = async (body: CreatePlaceBody) => {
  */
 export const getPlaceList = async (params: MyPlaceListQueryParams) => {
   const { data } = await api.get<MyPlaceListResponse>(url, { params });
-  console.log(data);
   return data;
 };
 
@@ -39,9 +37,12 @@ export const getPlace = async (id: number) => {
  */
 export const updatePlace = async (body: UpdatePlaceBody) => {
   const { id, ...rest } = body;
-  await api.put(`${url}/${id}`, body);
+  await api.put(`${url}/${id}`, rest);
 };
 
 /**
  * 장소 삭제
  */
+export const deletePlace = async (id: number) => {
+  await api.delete(`${url}/${id}`);
+};

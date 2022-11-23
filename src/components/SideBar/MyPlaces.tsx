@@ -295,6 +295,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
           isLoading={isMyListFetching}
           onChangeSort={handleChangeSort}
           currentSort={currentSort}
+          onReFetch={reFetchMyPlaceList}
         />
       ) : (
         <KakaoAddressList

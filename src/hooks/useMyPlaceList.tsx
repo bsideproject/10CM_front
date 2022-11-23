@@ -3,7 +3,7 @@ import { MyPlaceResponse, Sort } from 'dtos/place';
 import { useEffect, useState } from 'react';
 import useDidmount from './useDidMount';
 
-const PAGE_SIZE = 8;
+const PAGE_SIZE = 15;
 
 const useMyPlaceList = () => {
   const { isDidMount } = useDidmount();
@@ -12,7 +12,6 @@ const useMyPlaceList = () => {
   const [currentSort, setCurrentSort] = useState<Sort>('createdDate,DESC');
   const [myPlaceList, setMyPlaceList] = useState<MyPlaceResponse[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
-  // const [totalCount, setTotalCount] = useState(0);
   const [hasMyPlaceNextPage, setHasMyPlaceNextPage] = useState(false);
 
   const getHasNextPage = (count: number, page: number) => {
@@ -21,24 +20,23 @@ const useMyPlaceList = () => {
     }
     return false;
   };
-  const getCurrentPage = (totalPage: number) => {
-    if (totalPage % PAGE_SIZE === 0) {
-      return totalPage / PAGE_SIZE;
-    }
-    return Math.floor(totalPage / PAGE_SIZE) + 1;
-  };
+  // const getCurrentPage = (totalPage: number) => {
+  //   if (totalPage % PAGE_SIZE === 0) {
+  //     return totalPage / PAGE_SIZE;
+  //   }
+  //   return Math.floor(totalPage / PAGE_SIZE) + 1;
+  // };
   const reFetchMyPlaceList = async () => {
     setIsLoading(true);
     try {
       const data = await getPlaceList({
-        size: myPlaceList.length + 1,
+        size: currentPage * PAGE_SIZE,
         page: 0,
         sort: currentSort,
       });
-      setCurrentPage(() => getCurrentPage(myPlaceList.length));
       setMyPlaceList(data.place_list);
-      // setTotalCount(data.count);
-      if (data.count > getCurrentPage(data.count) * PAGE_SIZE) {
+      setCurrentPage(Math.floor(data.count / PAGE_SIZE));
+      if (data.count > currentPage * PAGE_SIZE) {
         setHasMyPlaceNextPage(true);
       }
     } catch (e) {
@@ -73,7 +71,6 @@ const useMyPlaceList = () => {
     })();
   }, []);
   useEffect(() => {
-    console.log(isDidMount);
     if (isDidMount) {
       (async () => {
         await reFetchMyPlaceList();

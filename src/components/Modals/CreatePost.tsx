@@ -38,7 +38,7 @@ const initialFormData = {
   name: '',
   address: '',
   description: '',
-  addressDetail: '',
+  address_detail: '',
   latitude: '',
   longitude: '',
   image: '',
@@ -58,7 +58,6 @@ const CreatePost: React.FC<Props> = ({
 
   const handleMemoChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      console.log('good', e.target.value);
       setFormData(prev => ({ ...prev, description: e.target.value }));
     },
     [],
@@ -123,8 +122,8 @@ const CreatePost: React.FC<Props> = ({
               onChange={handleChangeImage}
             />
             <AddImageTip>* 500MB 이하의 jpg,png 파일만 가능</AddImageTip>
+            <AddImageTip>* 권장 이미지 비율 n:n</AddImageTip>
           </AddImageWrap>
-          <button onClick={() => getTagToStringArray(tag)}>태그 체크</button>
           <TagWrap>
             <CreatePostLabel>태그</CreatePostLabel>
             <Input

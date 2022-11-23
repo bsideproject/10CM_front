@@ -41,7 +41,7 @@ export interface UpdatePlaceBody {
   address: string;
 
   // 상세주소
-  addressDetail?: string;
+  address_detail?: string;
 
   // 위도
   latitude: string;

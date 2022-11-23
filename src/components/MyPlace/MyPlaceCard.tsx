@@ -13,17 +13,22 @@ import { dateFormat } from 'constants/common';
 import Image from 'assets/png/thumbnail-area.png';
 import { getTagListToString } from 'utils/plage';
 import { ReactComponent as OptionIcon } from 'assets/svg/my-place-option.svg';
+import { deletePlace } from 'apis/place';
+import UpdatePost from 'components/Modals/UpdatePost';
 
 interface Props {
   place: MyPlaceResponse;
   onDetailClick: (id: number) => void;
+  onReFetch: () => Promise<void>;
 }
 
-const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick }) => {
+const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick, onReFetch }) => {
+  const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
   const [isShowOption, setIsShowOption] = useState<boolean>(false);
   const [isHover, setIsHover] = useState(false);
   const optionRef = useRef<HTMLDivElement | null>(null);
   const optionButtonRef = useRef<SVGSVGElement | null>(null);
+
   const handleOptionOpen = () => {
     setIsShowOption(prev => !prev);
   };
@@ -38,6 +43,20 @@ const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick }) => {
   };
   const handleHover = () => {
     setIsHover(prev => !prev);
+  };
+  const handleUpdateClick = () => {
+    setIsOpenUpdateModal(true);
+  };
+  const handleRemoveClick = async () => {
+    try {
+      await deletePlace(place.id);
+      onReFetch();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const handleCloseModal = () => {
+    setIsOpenUpdateModal(false);
   };
   const handleDidNotOptionClick = (e: MouseEvent) => {
     if (
@@ -74,11 +93,22 @@ const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick }) => {
             <MyPlaceOptionItem onClick={handleDetailClick(place.id)}>
               상세보기
             </MyPlaceOptionItem>
-            <MyPlaceOptionItem>수정하기</MyPlaceOptionItem>
-            <MyPlaceOptionItem>삭제하기</MyPlaceOptionItem>
+            <MyPlaceOptionItem onClick={handleUpdateClick}>
+              수정하기
+            </MyPlaceOptionItem>
+            <MyPlaceOptionItem onClick={handleRemoveClick}>
+              삭제하기
+            </MyPlaceOptionItem>
           </MyPlaceOptionBox>
         )}
       </MyPlaceInfoWrap>
+      {isOpenUpdateModal && (
+        <UpdatePost
+          addressInfo={place}
+          onClose={handleCloseModal}
+          onUpdateComplete={onReFetch}
+        />
+      )}
     </MyPlaceCardWrap>
   );
 };

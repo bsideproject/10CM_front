@@ -44,7 +44,6 @@ const DatePicker: React.FC<Props> = ({
           decreaseMonth,
           increaseMonth,
         }) => {
-          console.log('customHeaderCount', customHeaderCount);
           return (
             <Header>
               <PrevButton onClick={decreaseMonth} />

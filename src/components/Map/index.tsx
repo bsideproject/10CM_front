@@ -51,7 +51,6 @@ const Map: React.FC<Props> = ({ mapRef, setMapRef = () => {} }) => {
   // 내 위치에 마커 찍기
   const getMapLevel = () => {
     alert(mapRef.current.getLevel());
-    console.log(mapRef.current);
   };
   const handleClickSearchAddress = () => {
     const { kakao } = window;

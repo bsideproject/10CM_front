@@ -30,7 +30,7 @@ interface Props {
 const initialValue = {
   name: '',
   address: '',
-  addressDetail: '',
+  address_detail: '',
   description: '',
   latitude: '',
   longitude: '',
@@ -54,7 +54,7 @@ const UpdatePost: React.FC<Props> = ({
   const handleChangeAddressDetail = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setUpdateAddress(prev => ({ ...prev, addressDetail: e.target.value }));
+    setUpdateAddress(prev => ({ ...prev, address_detail: e.target.value }));
   };
   const handleChangeMemo = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setUpdateAddress(prev => ({ ...prev, description: e.target.value }));
@@ -101,7 +101,7 @@ const UpdatePost: React.FC<Props> = ({
                 onAddressChange={handleAddressChange}
               />
               <Input
-                value={updateAddress.addressDetail || ''}
+                value={updateAddress.address_detail || ''}
                 onChange={handleChangeAddressDetail}
               />
             </AddressInputWrap>
@@ -116,6 +116,7 @@ const UpdatePost: React.FC<Props> = ({
               value={updateAddress.image}
             />
             <AddImageTip>* 500MB 이하의 jpg,png 파일만 가능</AddImageTip>
+            <AddImageTip>* 권장 이미지 비율 n:n</AddImageTip>
           </Formlabel>
           <Formlabel
             label="태그"

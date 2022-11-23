@@ -14,6 +14,7 @@ interface Props {
   isLoading: boolean;
   onChangeSort: (sortValue: Sort) => void;
   currentSort: Sort;
+  onReFetch: () => Promise<void>;
 }
 
 const MyPlaceGroup = React.forwardRef<HTMLDivElement, Props>(
@@ -25,6 +26,7 @@ const MyPlaceGroup = React.forwardRef<HTMLDivElement, Props>(
       isLoading,
       onChangeSort,
       currentSort,
+      onReFetch,
     },
     ref,
   ) => {
@@ -45,7 +47,6 @@ const MyPlaceGroup = React.forwardRef<HTMLDivElement, Props>(
     const handleSortClick = () => {
       setIsSortClicked(prev => !prev);
     };
-
     const handleSortOptionClick = (sortValue: Sort) => {
       return () => {
         onChangeSort(sortValue);
@@ -93,6 +94,7 @@ const MyPlaceGroup = React.forwardRef<HTMLDivElement, Props>(
                 key={place.id}
                 place={place}
                 onDetailClick={onDetailClick}
+                onReFetch={onReFetch}
               />
             ))}
             {hasNextPage && !isLoading && <div ref={ref}>이게 보여~</div>}
