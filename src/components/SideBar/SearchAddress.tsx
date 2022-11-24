@@ -7,7 +7,7 @@ import SearchAddressCard from 'components/SearchCard';
 import MapConfig from 'services/map-config.js';
 import { createOverlay } from 'utils/overlay';
 import MyPlaceGroup from 'components/CreateTrip/MyPlaceGroup';
-import useEnteredInfo from 'components/hook/useEnteredInfo';
+import useEnteredInfo from 'components/hooks/useEnteredInfo';
 import { AddrT } from 'types/dtos/address';
 
 import { KakaoAddress } from 'dtos/kakao';

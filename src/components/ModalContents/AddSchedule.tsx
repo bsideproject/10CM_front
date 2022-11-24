@@ -6,7 +6,7 @@ import { sizes } from 'constants/sizes';
 import DatePicker from 'components/common/DatePicker';
 import calendarIcon from 'assets/img/calendarIcon.svg';
 import Img from 'components/Img/Img';
-import usePickerInfo from 'components/hook/usePickerInfo';
+import usePickerInfo from 'components/hooks/usePickerInfo';
 import { convertDate } from 'services/misc';
 import { isAllOf } from '@reduxjs/toolkit';
 interface IProps {
@@ -25,7 +25,7 @@ const AddSchedule: React.FC<IProps> = ({ isMake }) => {
       <WrapDate>
         <WrapSchedule>
           <span>시작일*</span>
-          <PickerWrap onClick={setClickedStart} isMake>
+          <PickerWrap onClick={setClickedStart} isMake={isMake}>
             <Img
               src={calendarIcon}
               width={sizes.CALENDAR_ICON_SIZE}
@@ -39,7 +39,7 @@ const AddSchedule: React.FC<IProps> = ({ isMake }) => {
         </WrapSchedule>
         <WrapSchedule>
           <span>종료일*</span>
-          <PickerWrap onClick={setClickedEnd} isMake>
+          <PickerWrap onClick={setClickedEnd} isMake={isMake}>
             <Img
               src={calendarIcon}
               width={sizes.CALENDAR_ICON_SIZE}
@@ -60,7 +60,7 @@ const AddSchedule: React.FC<IProps> = ({ isMake }) => {
 };
 
 const getScheduleCss = (isMake: boolean) => {
-  if (isMake) {
+  if (!isMake) {
     return css`
       color: ${colors.NEUTRAl_300};
       background-color: ${colors.NEUTRAl_50};

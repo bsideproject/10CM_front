@@ -1,5 +1,5 @@
 import DayListBar from 'components/DayListBar/DayListBar';
-import useDaysData from 'components/hook/useDaysData';
+import useDaysData from 'components/hooks/useDaysData';
 import Map from 'components/Map';
 import MyTripHeader from 'components/MyTrip/MyTripHeader';
 import MyPlaces from 'components/SideBar/MyPlaces';
