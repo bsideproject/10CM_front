@@ -13,6 +13,8 @@ import * as Misc from 'services/misc';
 import { AddrT } from 'types/dtos/address';
 import { useAppSelect } from 'store/configureStore.hooks';
 import { createTrip } from 'apis/tripApi';
+import { useNavigate } from 'react-router-dom';
+
 interface IProps {
   daysData: AddrT[][];
   onClose: () => void;
@@ -23,6 +25,7 @@ const MyTripPlace: React.FC<IProps> = ({ daysData, onClose }) => {
   const [detailDesc, setDetailDesc] = useState('');
   const { title, fromDate, toDate } = useAppSelect(state => state.placeInfo);
   const [titleValue, setTitleValue] = useState(title);
+  const navigate = useNavigate();
   const handleClickSave = () => {
     const prms = {
       description: detailDesc,
@@ -32,12 +35,13 @@ const MyTripPlace: React.FC<IProps> = ({ daysData, onClose }) => {
       start_date: fromDate,
       trip_details: Misc.convertTripDetails(daysData),
     };
-    // createTrip(prms);
-    // onClose();
+    createTrip(prms);
+    onClose();
+    navigate('/my-trip');
     // 모달 종료
     // 페이지 이동
   };
-  console.log(titleValue);
+
   const handleChangeValue = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setDetailDesc(e.target.value);
   };

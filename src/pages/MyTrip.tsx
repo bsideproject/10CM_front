@@ -7,12 +7,6 @@ import TripBanner from 'components/MyTrip/TripBanner';
 interface Props {}
 
 const MyTrip: React.FC<Props> = () => {
-  return (
-    <HomeLayout
-      nav={<Nav className="hover-open" />}
-      banner={<TripBanner />}
-      content={<MyTripContent />}
-    />
-  );
+  return <HomeLayout nav={<Nav />} content={<MyTripContent />} />;
 };
 export default MyTrip;

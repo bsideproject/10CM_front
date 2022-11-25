@@ -25,11 +25,11 @@ const ListItem = styled.li<{ isNav?: boolean | undefined }>`
   width: ${props => (props.isNav ? 'calc(188px - 32px)' : '64px')};
   padding: ${props => props.isNav && '0 16px'};
   height: 48px;
-  // padding은 이미지 내부에서 12px 0px;
   display: flex;
   justify-content: ${props => (props.isNav ? 'row' : 'center')};
   align-items: center;
   border-radius: 12px;
+  cursor: pointer;
   &:hover {
     color: ${colors.BLUE_BASE};
     background-color: ${colors.NEUTRAl_50};

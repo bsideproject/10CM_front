@@ -2,6 +2,7 @@ import { AddrT } from 'types/dtos/address';
 
 type SplitType = 'dash' | 'dot';
 const DATE_ONE_DAY = 86400000;
+
 export const convertDate = (date: Date, type: SplitType): string => {
   const splitDate = date.toLocaleDateString().split('.');
   if (type === 'dash') {
@@ -65,5 +66,10 @@ export const convertTripDetails = (data: AddrT[][]) => {
   return convertData;
 };
 
+export const convertTripDate = (startDate: string, endDate: string) => {
+  const start = startDate.replaceAll('-', '.');
+  const end = endDate.slice(5).replace('-', '.');
+  return `${start} - ${end}`;
+};
 // x = longtidue 경도
 // y = latitude 위도

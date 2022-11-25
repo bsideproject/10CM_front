@@ -2,6 +2,9 @@ import introduceImg from 'assets/img/introduceImg.svg';
 import interestPlaceImg from 'assets/img/interestPlaceImg.svg';
 import myPlaceTripImg from 'assets/img/myPlaceTripImg.svg';
 import logoutImg from 'assets/img/logoutImg.svg';
+import introCenterTop from 'assets/img/introCenterTopImg.svg';
+import introCenterMiddle from 'assets/img/introCenterMiddleImg.svg';
+import introCenterBottom from 'assets/img/introCenterBottomImg.svg';
 
 export const FILE_SIZE_MAX_LIMIT = 500 * 1024 * 1024;
 export const FILTERBOX_TEXT = '나의 관심장소';
@@ -71,4 +74,23 @@ export const TEXTAREA_DESC = {
     text: '상세 설명',
     placeholder: '500자 이내 작성',
   },
+};
+
+export const INTRO_CENTER = {
+  TOP: [
+    '나의 관심 장소',
+    '나만의 장소를 저장해요',
+    '태크로 분류하여 나만의 장소를 스크랩 해보세요.',
+  ],
+  MIDDLE: [
+    '나의 여행 일정',
+    '일정과 동선을 계획해요',
+    '나만의 장소로 구성한 여행을 계획해보세요.',
+  ],
+  BOTTOM: [
+    '여행 일정 공유',
+    '소중한 사람과 일정을 공유해요',
+    '여행 일정을 링크로 복사하고 공유해 보세요.',
+  ],
+  IMG: [introCenterTop, introCenterMiddle, introCenterBottom],
 };

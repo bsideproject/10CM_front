@@ -9,7 +9,7 @@ import profileImg from 'assets/img/profileImg.svg';
 import navLogo from 'assets/img/navLogo.svg';
 import ImgLists from './ImgLists';
 interface IProps {
-  className: string;
+  className?: string;
 }
 
 const Nav: React.FC<IProps> = ({ className }) => {
