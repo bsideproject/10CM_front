@@ -18,27 +18,33 @@ import UpdatePost from 'components/Modals/UpdatePost';
 
 interface Props {
   place: MyPlaceResponse;
-  onDetailClick: (id: number) => void;
+  onDetailClick: (addressInfo: MyPlaceResponse) => void;
+  onClickCard: (addressInfo: MyPlaceResponse) => void;
   onReFetch: () => Promise<void>;
 }
 
-const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick, onReFetch }) => {
+const MyPlaceCard: React.FC<Props> = ({
+  place,
+  onDetailClick,
+  onClickCard,
+  onReFetch,
+}) => {
   const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
   const [isShowOption, setIsShowOption] = useState<boolean>(false);
   const [isHover, setIsHover] = useState(false);
   const optionRef = useRef<HTMLDivElement | null>(null);
   const optionButtonRef = useRef<SVGSVGElement | null>(null);
 
-  const handleOptionOpen = () => {
+  const handleOptionOpen = (e: React.MouseEvent) => {
     setIsShowOption(prev => !prev);
   };
   const handleOptionClose = () => {
     setIsShowOption(false);
   };
-  const handleDetailClick = (id: number) => {
+  const handleDetailClick = (addressInfo: MyPlaceResponse) => {
     return () => {
       handleOptionClose();
-      onDetailClick(id);
+      onDetailClick(addressInfo);
     };
   };
   const handleHover = () => {
@@ -55,10 +61,14 @@ const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick, onReFetch }) => {
       console.log(e);
     }
   };
+  const handleClickCard = () => {
+    onClickCard(place);
+  };
   const handleCloseModal = () => {
     setIsOpenUpdateModal(false);
   };
   const handleDidNotOptionClick = (e: MouseEvent) => {
+    console.log('good');
     if (
       e.target !== optionButtonRef.current &&
       !optionRef.current?.contains(e.target as Node)
@@ -78,19 +88,27 @@ const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick, onReFetch }) => {
     };
   }, [isShowOption]);
   return (
-    <MyPlaceCardWrap onMouseEnter={handleHover} onMouseLeave={handleHover}>
+    <MyPlaceCardWrap
+      onMouseEnter={handleHover}
+      onMouseLeave={handleHover}
+      onClick={handleClickCard}
+    >
       <MyPlaceCardImageWrap>
         <MyPlaceImage src={Image} alt="더미" isHover={isHover} />
       </MyPlaceCardImageWrap>
       <MyPlaceInfoWrap>
         <MyPlaceName>{place.name}</MyPlaceName>
         <MyPlaceAddress>{place.address}</MyPlaceAddress>
-        <MyPlaceHashTag>{getTagListToString(place?.tag || [])}</MyPlaceHashTag>
+        <MyPlaceHashTag>
+          {(place?.tag || []).map(tag => {
+            return <span>#{tag}</span>;
+          })}
+        </MyPlaceHashTag>
         <MyPlaceDate>{dayjs(place.createdDate).format(dateFormat)}</MyPlaceDate>
         <MyPlaceOptionButton ref={optionButtonRef} onClick={handleOptionOpen} />
         {isShowOption && (
           <MyPlaceOptionBox ref={optionRef}>
-            <MyPlaceOptionItem onClick={handleDetailClick(place.id)}>
+            <MyPlaceOptionItem onClick={handleDetailClick(place)}>
               상세보기
             </MyPlaceOptionItem>
             <MyPlaceOptionItem onClick={handleUpdateClick}>
@@ -116,9 +134,11 @@ export default React.memo(MyPlaceCard);
 
 const MyPlaceName = styled.div`
   ${fonts('text-sm-bold')};
+  color: ${colors.NEUTRAl_900};
 `;
 const MyPlaceAddress = styled.div`
   ${fonts('text-xs-regular')};
+  color: ${colors.NEUTRAl_400};
 `;
 const MyPlaceHashTag = styled.div`
   height: 48px;
@@ -127,6 +147,7 @@ const MyPlaceHashTag = styled.div`
 const MyPlaceDate = styled.div`
   margin-top: 6px;
   ${fonts('caption')};
+  color: ${colors.NEUTRAl_300};
 `;
 const MyPlaceOptionButton = styled(OptionIcon)`
   position: absolute;

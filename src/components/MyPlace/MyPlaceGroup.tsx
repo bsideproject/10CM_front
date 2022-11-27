@@ -9,7 +9,8 @@ import MyPlaceCard from './MyPlaceCard';
 
 interface Props {
   placeList: MyPlaceResponse[];
-  onDetailClick: (id: number) => void;
+  onDetailClick: (addressInfo: MyPlaceResponse) => void;
+  onClickCard: (addressInfo: MyPlaceResponse) => void;
   hasNextPage: boolean;
   isLoading: boolean;
   onChangeSort: (sortValue: Sort) => void;
@@ -22,6 +23,7 @@ const MyPlaceGroup = React.forwardRef<HTMLDivElement, Props>(
     {
       placeList,
       onDetailClick,
+      onClickCard,
       hasNextPage,
       isLoading,
       onChangeSort,
@@ -52,7 +54,6 @@ const MyPlaceGroup = React.forwardRef<HTMLDivElement, Props>(
         onChangeSort(sortValue);
       };
     };
-
     return (
       <GroupWrap>
         <MyPlacesWrap>
@@ -94,6 +95,7 @@ const MyPlaceGroup = React.forwardRef<HTMLDivElement, Props>(
                 key={place.id}
                 place={place}
                 onDetailClick={onDetailClick}
+                onClickCard={onClickCard}
                 onReFetch={onReFetch}
               />
             ))}
@@ -104,7 +106,7 @@ const MyPlaceGroup = React.forwardRef<HTMLDivElement, Props>(
     );
   },
 );
-export default MyPlaceGroup;
+export default React.memo(MyPlaceGroup);
 
 const GroupWrap = styled.div`
   height: calc(100vh - 96px);

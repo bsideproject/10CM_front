@@ -10,7 +10,6 @@ const MyTrip: React.FC<Props> = () => {
   return (
     <HomeLayout
       nav={<Nav className="hover-open" />}
-      banner={<TripBanner />}
       content={<MyTripContent />}
     />
   );
