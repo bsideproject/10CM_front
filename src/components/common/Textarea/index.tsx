@@ -18,7 +18,13 @@ const Textarea = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
   } = props;
   return (
     <div>
-      <MyTextarea ref={ref} {...rest} error={!!error} maxLength={maxLength} />
+      <MyTextarea
+        ref={ref}
+        {...rest}
+        error={!!error}
+        value={value}
+        maxLength={maxLength}
+      />
       {(!!error || count) && (
         <OptionsWrap error={!!error}>
           <div>{error}</div>

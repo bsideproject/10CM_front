@@ -1,11 +1,19 @@
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
-import { forwardRef, InputHTMLAttributes, KeyboardEvent } from 'react';
+import {
+  forwardRef,
+  InputHTMLAttributes,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  KeyboardEvent,
+} from 'react';
 import styled, { css } from 'styled-components';
 import { ReactComponent as SearchSvg } from 'assets/svg/input-search.svg';
 import { ReactComponent as CancelSvg } from 'assets/svg/input-cancel.svg';
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   count?: boolean;
   onClear?: () => void;
@@ -15,7 +23,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 // 48
-const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
+const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const {
     error = '',
     count = false,
@@ -26,9 +34,36 @@ const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
     onClear,
     ...rest
   } = props;
+
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  const [isFocus, setIsFocus] = useState(false);
+
+  const handleFocus = () => {
+    setIsFocus(true);
+  };
+
+  const handleClearClick = () => {
+    if (onClear) {
+      onClear();
+    }
+    setIsFocus(false);
+  };
+  const checkInputWrap = useCallback((e: MouseEvent) => {
+    if (!wrapRef.current?.contains(e.target as Node)) {
+      setIsFocus(false);
+    }
+  }, []);
+  useEffect(() => {
+    if (isFocus) {
+      window.addEventListener('click', checkInputWrap);
+    }
+    return () => {
+      window.removeEventListener('click', checkInputWrap);
+    };
+  }, [isFocus]);
   return (
     <div>
-      <InputWrap>
+      <InputWrap ref={wrapRef}>
         {isSearch && <SearchIcon />}
         <MyInput
           ref={ref}
@@ -38,8 +73,9 @@ const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
           maxLength={maxLength}
           isSearch={!!isSearch}
           isClear={!!isClear}
+          onFocus={handleFocus}
         />
-        {isClear && <CancelIcon onClick={onClear} />}
+        {isClear && isFocus && <CancelIcon onClick={handleClearClick} />}
       </InputWrap>
       {(!!error || count) && (
         <OptionsWrap error={!!error}>

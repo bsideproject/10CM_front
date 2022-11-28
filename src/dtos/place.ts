@@ -9,7 +9,7 @@ export interface CreatePlaceBody {
   address: string;
 
   // 상세주소
-  addressDetail?: string;
+  address_detail?: string;
 
   // 위도
   latitude: string;
@@ -21,34 +21,27 @@ export interface CreatePlaceBody {
   description?: string;
 
   // 태그
-  tag?: string;
+  tag?: string[];
+
+  // 이미지
+  image?: string;
 }
 
 /**
- * 내가 저장한 장소
+ * 장소 정보 수정
  */
-
-export interface MyPlace {
-  //pk
+export interface UpdatePlaceBody {
+  // pk;
   id: number;
 
   // 장소 이름
   name: string;
 
   // 주소
-  address: null | string;
+  address: string;
 
   // 상세주소
-  addressDetail: null | string;
-
-  // 생성일
-  createdDate: string;
-
-  // 메모
-  description: null | string;
-
-  // 이미지 아이디
-  imageId: null | number;
+  address_detail?: string;
 
   // 위도
   latitude: string;
@@ -56,47 +49,38 @@ export interface MyPlace {
   // 경도
   longitude: string;
 
-  // 수정일
-  modifiedDate: string;
-
-  // 휴대폰 번호
-  phone: null | string;
+  // 메모
+  description?: string;
 
   // 태그
-  tag: string[];
-}
-/**
- * 내가 저장한 장소 목록
- */
-export interface MyPlaceListResponse {
-  // 총 개수
-  count: number;
+  tag?: string[];
 
-  // 목록
-  placeList: MyPlace[];
+  // 이미지
+  image?: string;
 }
 
 /**
- * 내가 저장한 장소 상세
+ * 내가 저장한 장소
  */
+
 export interface MyPlaceResponse {
   // 주소
   address: string;
 
   // 주소 상세
-  addressDetail: string;
+  addressDetail?: string;
 
   // 생성일
   createdDate: string;
 
   // 메모
-  description: string;
+  description?: string;
 
   // pk
   id: number;
 
   // 이미지
-  imageId: number;
+  image?: string;
 
   // 위도
   latitude: string;
@@ -111,8 +95,29 @@ export interface MyPlaceResponse {
   name: string;
 
   // 휴대폰 번호
-  phone: string;
+  phone?: string;
 
   // 태그 리스트
-  tag: string[];
+  tag?: string[];
+}
+
+/**
+ * 내가 저장한 장소 목록
+ */
+export interface MyPlaceListResponse {
+  // 총 개수
+  count: number;
+
+  // 목록
+  place_list: MyPlaceResponse[];
+}
+
+/**
+ * 내가 저장한 장소 목록 파라미터
+ */
+export type Sort = 'name,ASC' | 'createdDate,DESC' | 'modifiedDate,DESC';
+export interface MyPlaceListQueryParams {
+  page?: number;
+  size?: number;
+  sort: Sort;
 }

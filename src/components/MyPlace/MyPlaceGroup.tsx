@@ -1,39 +1,114 @@
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
-import React from 'react';
-import styled from 'styled-components';
-import { MyPlace } from 'dtos/place';
+import React, { useState } from 'react';
+import styled, { css } from 'styled-components';
+import { MyPlaceResponse, Sort } from 'dtos/place';
+import { ReactComponent as SortIcon } from 'assets/svg/my-place-sort.svg';
+import { ReactComponent as CheckIcon } from 'assets/svg/checked.svg';
 import MyPlaceCard from './MyPlaceCard';
-import { ReactComponent as SortIcon } from '../../assets/svg/my-place-sort.svg';
 
 interface Props {
-  placeList: MyPlace[];
+  placeList: MyPlaceResponse[];
   onDetailClick: (id: number) => void;
+  hasNextPage: boolean;
+  isLoading: boolean;
+  onChangeSort: (sortValue: Sort) => void;
+  currentSort: Sort;
+  onReFetch: () => Promise<void>;
 }
 
-const MyPlaceGroup: React.FC<Props> = ({ placeList, onDetailClick }) => {
-  return (
-    <MyPlacesWrap>
-      <MyPlacesTop>
-        <MyPlacesTitle>나의 관심장소</MyPlacesTitle>
-        <SortButton>
-          <SortIcon />
-          최근 수정 순
-        </SortButton>
-      </MyPlacesTop>
-      <MyPlacesListWrap>
-        {placeList.map(place => (
-          <MyPlaceCard
-            key={place.id}
-            place={place}
-            onDetailClick={onDetailClick}
-          />
-        ))}
-      </MyPlacesListWrap>
-    </MyPlacesWrap>
-  );
-};
+const MyPlaceGroup = React.forwardRef<HTMLDivElement, Props>(
+  (
+    {
+      placeList,
+      onDetailClick,
+      hasNextPage,
+      isLoading,
+      onChangeSort,
+      currentSort,
+      onReFetch,
+    },
+    ref,
+  ) => {
+    const [isSortClicked, setIsSortClicked] = useState(false);
+
+    const getCurrentSortInKorean = (currentSort: Sort) => {
+      switch (currentSort) {
+        case 'createdDate,DESC':
+          return '최근 등록 순';
+        case 'modifiedDate,DESC':
+          return '최근 수정 순';
+        case 'name,ASC':
+          return '장소 이름 순';
+        default:
+          return '최근 등록 순';
+      }
+    };
+    const handleSortClick = () => {
+      setIsSortClicked(prev => !prev);
+    };
+    const handleSortOptionClick = (sortValue: Sort) => {
+      return () => {
+        onChangeSort(sortValue);
+      };
+    };
+
+    return (
+      <GroupWrap>
+        <MyPlacesWrap>
+          <MyPlacesTop>
+            <MyPlacesTitle>나의 관심장소</MyPlacesTitle>
+            <SortButton onClick={handleSortClick}>
+              <SortIcon />
+              <span>{getCurrentSortInKorean(currentSort)}</span>
+              {isSortClicked && (
+                <SortOptionWrap>
+                  <SortOption
+                    isSelected={currentSort === 'modifiedDate,DESC'}
+                    onClick={handleSortOptionClick('modifiedDate,DESC')}
+                  >
+                    {currentSort === 'modifiedDate,DESC' && <CheckIcon />}
+                    <span>최근 수정 순</span>
+                  </SortOption>
+                  <SortOption
+                    isSelected={currentSort === 'createdDate,DESC'}
+                    onClick={handleSortOptionClick('createdDate,DESC')}
+                  >
+                    {currentSort === 'createdDate,DESC' && <CheckIcon />}
+                    <span>최근 등록 순</span>
+                  </SortOption>
+                  <SortOption
+                    isSelected={currentSort === 'name,ASC'}
+                    onClick={handleSortOptionClick('name,ASC')}
+                  >
+                    {currentSort === 'name,ASC' && <CheckIcon />}
+                    <span>장소 이름 순</span>
+                  </SortOption>
+                </SortOptionWrap>
+              )}
+            </SortButton>
+          </MyPlacesTop>
+          <MyPlacesListWrap>
+            {placeList.map(place => (
+              <MyPlaceCard
+                key={place.id}
+                place={place}
+                onDetailClick={onDetailClick}
+                onReFetch={onReFetch}
+              />
+            ))}
+            {hasNextPage && !isLoading && <div ref={ref}>이게 보여~</div>}
+          </MyPlacesListWrap>
+        </MyPlacesWrap>
+      </GroupWrap>
+    );
+  },
+);
 export default MyPlaceGroup;
+
+const GroupWrap = styled.div`
+  height: calc(100vh - 96px);
+`;
 
 const MyPlacesWrap = styled.div`
   height: 100%;
@@ -53,6 +128,7 @@ const SortButton = styled.div`
   align-items: center;
   gap: 0 6px;
   height: 36px;
+  position: relative;
   ${fonts('text-xs')};
   color: ${colors.NEUTRAl_500};
   padding: 5px 16px 5px 11px;
@@ -66,4 +142,35 @@ const MyPlacesListWrap = styled.div`
   /* > div + div {
     margin-top: 16px;
   } */
+`;
+const SortOptionWrap = styled.div`
+  position: absolute;
+  top: 36px;
+  right: 0;
+  padding: 8px;
+  ${fonts('text-xxs-regular')};
+  color: ${colors.NEUTRAl_900};
+  background-color: ${colors.WHITE};
+  border-radius: 4px;
+  z-index: 5;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12);
+`;
+const SortOption = styled.div<{ isSelected: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 0 4px;
+  width: 144px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  ${({ isSelected }) =>
+    isSelected &&
+    css`
+      color: ${colors.BLUE_BASE};
+    `}
+  & + & {
+    margin-top: 8px;
+  }
+  &:hover {
+    background-color: ${colors.NEUTRAl_50};
+  }
 `;
