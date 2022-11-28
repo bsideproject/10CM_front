@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { colors } from 'constants/colors';
 import { setTitle, setFromDate, setToDate } from 'store/modules/placeInfo';
 import { useAppDispatch, useAppSelect } from 'store/configureStore.hooks';
-import useEnteredInfo from 'components/hooks/useEnteredInfo';
+import useEnteredInfo from 'hooks/useEnteredInfo';
 
 interface IProps {
   onClose: () => void;

@@ -5,10 +5,10 @@ import React, { useState, useRef, KeyboardEvent } from 'react';
 import styled, { css } from 'styled-components';
 import SearchAddressCard from 'components/SearchCard';
 import MapConfig from 'services/map-config.js';
-import { createOverlay } from 'utils/overlay';
+import { createAddressDetailOverlay } from 'utils/overlay';
 import MyPlaceGroup from 'components/CreateTrip/MyPlaceGroup';
-import useEnteredInfo from 'components/hooks/useEnteredInfo';
 import { AddrT } from 'types/dtos/address';
+import useEnteredInfo from 'hooks/useEnteredInfo';
 
 import { KakaoAddress } from 'dtos/kakao';
 import { SearchWrap } from './styles';
@@ -87,7 +87,7 @@ const SearchAddress: React.FC<Props> = ({ map, pickedDay, onSetDaysData }) => {
         );
         MapConfig.changeOverlayContent(
           currentOverlay.current,
-          createOverlay(
+          createAddressDetailOverlay(
             addressInfo,
             handleOverayOverlayClose,
             handleCreateClick,
@@ -104,7 +104,11 @@ const SearchAddress: React.FC<Props> = ({ map, pickedDay, onSetDaysData }) => {
           overlay.setMap(null);
         };
         const overlay = new kakao.maps.CustomOverlay({
-          content: createOverlay(addressInfo, closeOverlay, handleCreateClick),
+          content: createAddressDetailOverlay(
+            addressInfo,
+            closeOverlay,
+            handleCreateClick,
+          ),
           map: map.current,
           position: marker.getPosition(),
         });

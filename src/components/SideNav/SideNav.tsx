@@ -40,6 +40,7 @@ const Wrap = styled.div`
     left: 0;
     opacity: 0;
     pointer-events: none;
+    overflow: hidden;
   }
 
   .hover-hidden {

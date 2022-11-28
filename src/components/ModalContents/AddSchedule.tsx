@@ -6,7 +6,7 @@ import { sizes } from 'constants/sizes';
 import DatePicker from 'components/common/DatePicker';
 import calendarIcon from 'assets/img/calendarIcon.svg';
 import Img from 'components/Img/Img';
-import usePickerInfo from 'components/hooks/usePickerInfo';
+import usePickerInfo from 'hooks/usePickerInfo';
 import { convertDate } from 'services/misc';
 interface IProps {
   isMake: boolean;

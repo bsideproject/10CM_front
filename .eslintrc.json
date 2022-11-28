@@ -79,6 +79,8 @@
     ],
     "react/jsx-props-no-spreading": "off",
     "react/prop-types": "off",
+    "no-undef": "off",
+    "no-shadow": "off",
     // prop-types X
     "import/no-unresolved": "off"
     // 경로의 파일이 unresolved 되는 일 없도록 하는 옵션

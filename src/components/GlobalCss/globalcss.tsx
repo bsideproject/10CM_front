@@ -21,8 +21,10 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
     }
     button {
+        padding: 0;
         border: 0;
         outline: 0;
+        margin: 0;
     }
 `;
 

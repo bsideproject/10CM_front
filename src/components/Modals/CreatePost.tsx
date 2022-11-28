@@ -1,27 +1,48 @@
 import Modal from 'components/UI/Modal';
 import { colors } from 'constants/colors';
 import { KakaoAddress } from 'dtos/kakao';
-import React, { ChangeEvent, useCallback, useState } from 'react';
+import React, {
+  ChangeEvent,
+  FormEvent,
+  FormEventHandler,
+  useCallback,
+  useState,
+} from 'react';
 import styled from 'styled-components';
-import { ReactComponent as CloseIcon } from 'assets/svg/close.svg';
 import { fonts } from 'assets/fonts/fonts';
 import Input from 'components/common/Input';
-import AddImage from 'components/common/Input/addImage';
 import Textarea from 'components/common/Textarea';
 import Button from 'components/common/Button';
-import { createPlace } from 'apis/place';
+import { createPlace, getPlace } from 'apis/place';
+import { CreatePlaceBody, MyPlaceResponse } from 'dtos/place';
+import AddImageButton from 'components/common/Input/AddImageButton';
+import { getTagToStringArray } from 'utils/plage';
+import {
+  AddImageTip,
+  AddressInputWrap,
+  CloseButton,
+  ModalFormBody,
+  ModalFormFooter,
+  ModalFormHeader,
+  ModalFormWrap,
+} from './styles';
 
 interface Props {
   addressInfo: KakaoAddress;
   keyword: string;
   onClose: () => void;
-  onCreateComplete: () => void;
+  onCreateComplete: (info: MyPlaceResponse) => void;
 }
 
-interface Test {
-  memo: string;
-  tag: string;
-}
+const initialFormData = {
+  name: '',
+  address: '',
+  description: '',
+  address_detail: '',
+  latitude: '',
+  longitude: '',
+  image: '',
+};
 
 const CreatePost: React.FC<Props> = ({
   addressInfo,
@@ -30,38 +51,48 @@ const CreatePost: React.FC<Props> = ({
   onCreateComplete,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [test, setTest] = useState<Test>({ memo: '', tag: '' });
-
-  const [addressDetail, setAddressDetail] = useState('');
+  const [formData, setFormData] = useState<Omit<CreatePlaceBody, 'tag'>>({
+    ...initialFormData,
+  });
+  const [tag, setTag] = useState('');
 
   const handleMemoChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setTest(prev => ({ ...prev, memo: e.target.value }));
+      setFormData(prev => ({ ...prev, description: e.target.value }));
     },
     [],
   );
   const handleTagChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setTest(prev => ({ ...prev, tag: e.target.value }));
+      setTag(e.target.value);
     },
     [],
   );
-  const handleAddressDetailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setAddressDetail(e.target.value);
+  const handleChangeImage = (url: string) => {
+    setFormData(prev => ({ ...prev, image: url }));
   };
-  const buttonStyle = useCallback((): React.CSSProperties => {
-    return { width: '100%' };
-  }, []);
+  const handleAddressDetailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({ ...prev, address_detail: e.target.value }));
+  };
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+  };
   const handleSaveClick = async () => {
     setIsLoading(true);
     try {
-      await createPlace({
+      const tagList = getTagToStringArray(tag);
+      const data = await createPlace({
         name: keyword,
         address: addressInfo.road_address_name,
+        address_detail: formData.address_detail,
+        description: formData.description,
         longitude: addressInfo.x.toString(),
         latitude: addressInfo.y.toString(),
+        image: formData.image,
+        tag: tagList,
       });
-      onCreateComplete();
+      const createAddressInfo = await getPlace(data.id);
+      onCreateComplete(createAddressInfo);
     } catch (e) {
       console.log(e);
     }
@@ -70,27 +101,34 @@ const CreatePost: React.FC<Props> = ({
 
   return (
     <Modal onClose={onClose}>
-      <CreatePostWrap>
-        <CreatePostHeader>
+      <ModalFormWrap onSubmit={handleSubmit}>
+        <ModalFormHeader>
           <div>나의 관심장소 추가하기</div>
-          <CloseIcon width={32} height={32} onClick={onClose} fill="black" />
-        </CreatePostHeader>
-        <CreatePostBody>
+          <CloseButton onClick={onClose} />
+        </ModalFormHeader>
+        <ModalFormBody>
           <CreatePostLabel>위치</CreatePostLabel>
           <AddressInputWrap>
             <Input disabled value={addressInfo.road_address_name} readOnly />
-            <Input value={addressDetail} onChange={handleAddressDetailChange} />
+            <Input
+              value={formData.address_detail}
+              onChange={handleAddressDetailChange}
+            />
           </AddressInputWrap>
           <AddImageWrap>
             <CreatePostLabel>사진 첨부</CreatePostLabel>
-            <AddImage />
+            <AddImageButton
+              value={formData.image}
+              onChange={handleChangeImage}
+            />
             <AddImageTip>* 500MB 이하의 jpg,png 파일만 가능</AddImageTip>
+            <AddImageTip>* 권장 이미지 비율 n:n</AddImageTip>
           </AddImageWrap>
           <TagWrap>
             <CreatePostLabel>태그</CreatePostLabel>
             <Input
               placeholder="태그를 입력해주세요.(ex. #비건 #카페 #재즈바)"
-              value={test.tag}
+              value={tag}
               onChange={handleTagChange}
             />
           </TagWrap>
@@ -99,76 +137,43 @@ const CreatePost: React.FC<Props> = ({
             <Textarea
               placeholder="장소에 대한 생각, 간략한 설명을 입력해주세요."
               count
-              value={test.memo}
+              value={formData.description}
               onChange={handleMemoChange}
             />
           </MemoWrap>
-        </CreatePostBody>
-        <CreatePostFooter>
+        </ModalFormBody>
+        <ModalFormFooter>
           <Button
+            type="button"
             buttonType="outline"
-            style={buttonStyle()}
-            onClick={onClose}
             buttonWidth="100%"
+            onClick={onClose}
           >
             취소
           </Button>
-          <Button
-            style={buttonStyle()}
-            onClick={handleSaveClick}
-            buttonWidth="100%"
-          >
+          <Button type="button" onClick={handleSaveClick} buttonWidth="100%">
             저장
           </Button>
-        </CreatePostFooter>
-      </CreatePostWrap>
+        </ModalFormFooter>
+      </ModalFormWrap>
     </Modal>
   );
 };
 export default CreatePost;
 
-const CreatePostWrap = styled.div`
-  width: 480px;
-  padding: 24px;
-  background-color: ${colors.WHITE};
-  border-radius: 8px;
-`;
-const CreatePostHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  ${fonts('title-md-bold')};
-  color: ${colors.NEUTRAl_900};
-`;
-const CreatePostBody = styled.div`
-  margin-top: 32px;
-`;
 const CreatePostLabel = styled.div`
   ${fonts('text-sm-bold')};
   color: ${colors.NEUTRAl_900};
   margin-bottom: 4px;
 `;
-const AddressInputWrap = styled.div`
-  > * + * {
-    margin-top: 4px;
-  }
-`;
+
 const AddImageWrap = styled.div`
   margin-top: 28px;
 `;
-const AddImageTip = styled.div`
-  margin-top: 2px;
-  ${fonts('caption')};
-  color: ${colors.NEUTRAl_400};
-`;
+
 const TagWrap = styled.div`
   margin-top: 28px;
 `;
 const MemoWrap = styled.div`
   margin-top: 28px;
-`;
-const CreatePostFooter = styled.div`
-  margin-top: 24px;
-  display: flex;
-  gap: 8px;
 `;
