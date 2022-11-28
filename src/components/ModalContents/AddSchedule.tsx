@@ -8,7 +8,6 @@ import calendarIcon from 'assets/img/calendarIcon.svg';
 import Img from 'components/Img/Img';
 import usePickerInfo from 'components/hooks/usePickerInfo';
 import { convertDate } from 'services/misc';
-import { isAllOf } from '@reduxjs/toolkit';
 interface IProps {
   isMake: boolean;
 }

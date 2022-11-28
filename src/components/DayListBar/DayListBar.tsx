@@ -26,18 +26,18 @@ const DayListBar: React.FC<IProps> = ({
     setAddrData(daysData[pickedDay - 1]);
   }, [daysData, pickedDay]);
 
-  const dummyFunc = (items: AddrT[]) => {
+  const handleChangeCard = (items: AddrT[]) => {
     setAddrData(items);
   };
   return (
     <Wrap>
       <TripSummary />
-      <DayNumList setPickedDay={setPickedDay} />
+      <DayNumList pickedDay={pickedDay} setPickedDay={setPickedDay} />
       <PickDateInfo pickedDay={pickedDay} />
       <DraggableItem
         itemList={addrData}
         pickedDay={pickedDay}
-        onChangeList={dummyFunc}
+        onChangeList={handleChangeCard}
         removeDaysData={removeDaysData}
       />
     </Wrap>
@@ -58,5 +58,5 @@ export default DayListBar;
 
 // {addrData.length === 0 && <EmptyDnd />}
 // {addrData.length > 0 && (
-//   <DraggableItem itemList={addrData} onChangeList={dummyFunc} />
+//   <DraggableItem itemList={addrData} onChangeList={handleChangeCard} />
 // )}

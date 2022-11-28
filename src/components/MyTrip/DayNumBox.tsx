@@ -1,24 +1,52 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
 interface IProps {
-  dayNum: number;
+  idx: number;
+  pickedDay: number;
+  showBoxLen: number;
   setPickedDay: React.Dispatch<React.SetStateAction<any>>;
 }
-const DayNumBox: React.FC<IProps> = ({ dayNum, setPickedDay }) => {
-  return <Wrap onClick={() => setPickedDay(dayNum)}>{`Day${dayNum}`}</Wrap>;
+const DayNumBox: React.FC<IProps> = ({
+  idx,
+  pickedDay,
+  showBoxLen,
+  setPickedDay,
+}) => {
+  const day = idx + 1;
+  const moveBox = showBoxLen - 4;
+  return (
+    <Wrap
+      idx={idx}
+      moveBox={moveBox}
+      pickedDay={pickedDay}
+      onClick={() => setPickedDay(day)}
+    >{`Day${day}`}</Wrap>
+  );
 };
 
-const Wrap = styled.div`
+const pickedCss = css`
+  color: ${colors.WHITE};
+  background: ${colors.BLUE_BASE};
+`;
+
+const Wrap = styled.div<{ idx: number; pickedDay: number; moveBox: number }>`
+  position: absolute;
+  left: ${({ idx, moveBox }) => `${66 * idx + moveBox * -66}px`};
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 58px;
+  padding: 4px 12px;
   border-radius: 4px;
   cursor: pointer;
+  letter-spacing: 0.013em;
   ${fonts('text-xs-regular')};
+  color: ${colors.BLUE_BASE};
   background-color: ${colors.WHITE};
+
+  ${({ pickedDay, idx }) => (pickedDay === idx + 1 ? pickedCss : undefined)}
 `;
 
 export default DayNumBox;
+// ref: left는 56px + 8px , Day간 간격이 8px

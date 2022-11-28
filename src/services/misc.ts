@@ -21,8 +21,7 @@ export const initToDate = convertDate(
 export const diffDay = (from: string, to: string) => {
   const getFrom = new Date(from).getTime();
   const getTo = new Date(to).getTime();
-
-  return (getTo - getFrom) / DATE_ONE_DAY + 1;
+  return Math.ceil((getTo - getFrom) / DATE_ONE_DAY + 1);
 };
 
 export const convertGetDay = (day: number) => {

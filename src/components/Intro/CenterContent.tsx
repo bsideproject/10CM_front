@@ -10,7 +10,7 @@ const CenterContent = () => {
   const content = data.map((el, idx) => {
     if (idx % 2 === 0) {
       return (
-        <ContentWrap>
+        <ContentWrap key={el[0]}>
           <CenterContentText data={data[idx]} />
           <Img
             src={IMG[idx]}
@@ -23,7 +23,7 @@ const CenterContent = () => {
       );
     }
     return (
-      <ContentWrap>
+      <ContentWrap key={el[0]}>
         <Img
           src={IMG[idx]}
           width="360px"

@@ -5,6 +5,7 @@ import logoutImg from 'assets/img/logoutImg.svg';
 import introCenterTop from 'assets/img/introCenterTopImg.svg';
 import introCenterMiddle from 'assets/img/introCenterMiddleImg.svg';
 import introCenterBottom from 'assets/img/introCenterBottomImg.svg';
+import { routePath } from 'constants/route';
 
 export const FILE_SIZE_MAX_LIMIT = 500 * 1024 * 1024;
 export const FILTERBOX_TEXT = '나의 관심장소';
@@ -14,14 +15,17 @@ export const NAV_DESC = [
   {
     img: introduceImg,
     text: '서비스 소개',
+    route: routePath.INTRO
   },
   {
     img: interestPlaceImg,
     text: '나의 관심장소',
+    route: routePath.MY_PLACE
   },
   {
     img: myPlaceTripImg,
     text: '나의 여행',
+    route: routePath.MY_TRIP
   },
 ];
 

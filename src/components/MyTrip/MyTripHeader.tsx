@@ -9,15 +9,22 @@ import Img from 'components/Img/Img';
 import Button from 'components/common/Button';
 import { createTrip } from 'apis/tripApi';
 import { AddrT } from 'types/dtos/address';
+import { useNavigate } from 'react-router-dom';
+import { routePath } from 'constants/route';
 interface IProps {
   daysData: AddrT[][];
 }
 const MyTripHeader: React.FC<IProps> = ({ daysData }) => {
+  const navigate = useNavigate();
   const [onModal, setOnModal] = useState(false);
 
   const handleChangeModal = () => {
     // 빈 데이터 처리
     setOnModal(!onModal);
+  };
+
+  const handleClickCancel = () => {
+    navigate(routePath.MY_TRIP);
   };
 
   return (
@@ -43,7 +50,9 @@ const MyTripHeader: React.FC<IProps> = ({ daysData }) => {
           buttonWidth="67px"
           disabled={false}
         >
-          <ButtonText isCancel>닫기</ButtonText>
+          <ButtonText isCancel onClick={handleClickCancel}>
+            닫기
+          </ButtonText>
         </Button>
       </ButtonWrap>
       {onModal && (

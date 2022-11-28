@@ -13,9 +13,9 @@ type AllowType = 'start' | 'end';
 type ReturnTypes = [string, (e: Date) => void, boolean, () => void];
 
 const usePickerInfo = (type: AllowType): ReturnTypes => {
-  const initDate = initFromDate;
-  const plusDate = initToDate;
-  const initValue = type === 'start' ? initDate : plusDate;
+  const { fromDate, toDate } = useAppSelect(state => state.placeInfo);
+
+  const initValue = type === 'start' ? fromDate : toDate;
 
   const [data, setData] = useState<string>(initValue);
   const [clickedPicker, setClickedPicker] = useState(false);
