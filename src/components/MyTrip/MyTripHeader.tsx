@@ -1,13 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { colors } from 'constants/colors';
 import { sizes } from 'constants/sizes';
 import { fonts } from 'assets/fonts/fonts';
+import MyTripPlace from 'components/common/ModalContents/MyTripPlace';
 import smallNavLogo from 'assets/img/smallNavLogo.svg';
 import Img from 'components/Img/Img';
 import Button from 'components/common/Button';
+import { createTrip } from 'apis/tripApi';
+import { AddrT } from 'types/dtos/address';
+import { useNavigate } from 'react-router-dom';
+import { routePath } from 'constants/route';
+interface IProps {
+  daysData: AddrT[][];
+}
+const MyTripHeader: React.FC<IProps> = ({ daysData }) => {
+  const navigate = useNavigate();
+  const [onModal, setOnModal] = useState(false);
 
-const MyTripHeader = () => {
+  const handleChangeModal = () => {
+    // 빈 데이터 처리
+    setOnModal(!onModal);
+  };
+
+  const handleClickCancel = () => {
+    navigate(routePath.MY_TRIP);
+  };
+
   return (
     <Wrap>
       <Img
@@ -21,6 +40,7 @@ const MyTripHeader = () => {
           buttonSize="small"
           buttonWidth="67px"
           disabled={false}
+          onClick={handleChangeModal}
         >
           <ButtonText isCancel={false}>저장</ButtonText>
         </Button>
@@ -30,9 +50,14 @@ const MyTripHeader = () => {
           buttonWidth="67px"
           disabled={false}
         >
-          <ButtonText isCancel>닫기</ButtonText>
+          <ButtonText isCancel onClick={handleClickCancel}>
+            닫기
+          </ButtonText>
         </Button>
       </ButtonWrap>
+      {onModal && (
+        <MyTripPlace daysData={daysData} onClose={handleChangeModal} />
+      )}
     </Wrap>
   );
 };

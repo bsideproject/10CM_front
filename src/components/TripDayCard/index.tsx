@@ -7,6 +7,7 @@ import {
   DraggableProvidedDraggableProps,
   DraggableProvidedDragHandleProps,
 } from 'react-beautiful-dnd';
+import { AddrT } from 'types/dtos/address';
 import styled from 'styled-components';
 import trashIcon from 'assets/img/trashIcon.svg';
 import { sizes } from '../../constants/sizes';
@@ -16,19 +17,38 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   phone: string;
   address: string;
   title: string;
-  onDeleteClick?: () => void;
   dndProps: any;
+  pickedDay: number;
+  cardData: AddrT;
+  removeDaysData: (addr: AddrT, dayNum: number) => void;
 }
 
 const TripDayCard = React.forwardRef<HTMLElement, Props>(
-  ({ number, phone, address, title, style, onDeleteClick, dndProps }, ref) => {
+  (
+    {
+      number,
+      phone,
+      address,
+      title,
+      style,
+      cardData,
+      pickedDay,
+      removeDaysData,
+      dndProps,
+    },
+    ref,
+  ) => {
+    const handleRemoveItem = () => {
+      removeDaysData(cardData, pickedDay);
+    };
+
     return (
       <TripDayCardWrap ref={ref} {...dndProps} style={style}>
         <TripDayCardTop>
           <DayNumber color={number % 2 === 0 ? 'blue' : 'green'}>
             {number}
           </DayNumber>
-          <div onClick={onDeleteClick}>
+          <div onClick={handleRemoveItem}>
             <Img
               src={trashIcon}
               width={sizes.TRASH_ICON_SIZE}

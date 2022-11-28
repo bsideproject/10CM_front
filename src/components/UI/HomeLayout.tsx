@@ -9,7 +9,7 @@ const HomeLayout: React.FC<IProps> = ({ nav, content }) => {
   return (
     <Layout>
       {nav}
-      <Wrap>{content}</Wrap>
+      {content}
     </Layout>
   );
 };
@@ -19,12 +19,6 @@ const Layout = styled.div`
   width: 1200px;
   margin: 0 auto;
   display: flex;
-`;
-
-const Wrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 980px;
 `;
 
 export default HomeLayout;

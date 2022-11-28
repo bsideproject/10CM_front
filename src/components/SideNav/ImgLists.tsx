@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { colors } from 'constants/colors';
 import ImgItem from './ImgItem';
 interface IProps {
-  listsData: { img: string; text: string }[];
+  listsData: { img: string; text: string; route?: string }[];
   isNav?: boolean;
 }
 
@@ -15,6 +15,7 @@ const ImgLists: React.FC<IProps> = ({ listsData, isNav }) => {
           key={data.text}
           img={data.img}
           text={data.text}
+          route={data.route}
           isNav={isNav}
         />
       ))}
@@ -22,7 +23,7 @@ const ImgLists: React.FC<IProps> = ({ listsData, isNav }) => {
   );
 };
 
-const MenuList = styled.ul<{ isNav?: boolean | undefined }>`
+const MenuList = styled.ul<{ isNav?: boolean }>`
   width: ${props => (props.isNav ? '188px' : '64px')};
   height: 176px;
   padding: 16px 0px;

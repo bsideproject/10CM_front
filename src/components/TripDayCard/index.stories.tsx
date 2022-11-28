@@ -16,5 +16,5 @@ Primary.args = {
   title: '우리집',
   address: '선유서로 34길 11-2',
   phone: '010-9002-4823',
-  onDeleteClick: () => console.log('good'),
+  // onDeleteClick: () => console.log('good'),
 };

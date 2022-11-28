@@ -6,6 +6,7 @@ import { routePath } from 'constants/route';
 import CreateTrip from 'pages/CreateTrip';
 import MyTrip from 'pages/MyTrip';
 import MakeMyTrip from 'pages/MakeMyTrip';
+import UnzidoIntro from 'pages/UnzidoIntro';
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <GlobalStyle />
       <BrowserRouter>
         <Routes>
+          <Route path={routePath.INTRO} element={<UnzidoIntro />} />
           <Route path={routePath.MY_PLACE} element={<MyPlace />} />
           <Route path={routePath.CREATE_TRIP} element={<CreateTrip />} />
           <Route path={routePath.MY_TRIP} element={<MyTrip />} />

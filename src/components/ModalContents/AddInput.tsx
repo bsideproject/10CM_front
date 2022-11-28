@@ -1,5 +1,5 @@
 import Input from 'components/common/Input';
-import React, { useState, useRef } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
@@ -7,9 +7,10 @@ import * as CFG from 'services/config.js';
 type Purpose = 'TAG' | 'TRIP';
 interface IProps {
   purpose: Purpose;
+  title?: string;
+  onChangeTitle?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-const AddInput: React.FC<IProps> = ({ purpose }) => {
-  const inputRef = useRef(null);
+const AddInput: React.FC<IProps> = ({ purpose, title, onChangeTitle }) => {
   const content = CFG.INPUT_DESC[purpose];
 
   return (
@@ -17,9 +18,10 @@ const AddInput: React.FC<IProps> = ({ purpose }) => {
       <span>{content.text}</span>
       <Input
         placeholder={content.placeholder}
-        ref={inputRef}
         maxLength={20}
         count
+        value={title}
+        onChange={onChangeTitle}
       />
     </Wrap>
   );
