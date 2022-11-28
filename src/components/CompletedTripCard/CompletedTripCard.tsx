@@ -3,20 +3,22 @@ import styled from 'styled-components';
 import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
 import Img from 'components/Img/Img';
+import { convertTripDate } from 'services/misc';
 import emptyContent from 'assets/img/emptyContent.svg';
+import { MyTrip } from 'dtos/trip';
 
-const CompletedTripCard = () => {
+interface IProps {
+  data: MyTrip;
+}
+const CompletedTripCard: React.FC<IProps> = ({ data }) => {
   return (
     <Wrap>
       <Img src={emptyContent} width="244px" height="137px" />
       <TripWrap>
-        <TripTitle>국내 여행</TripTitle>
-        <TripDate>2022.9.28 - 9.30</TripDate>
+        <TripTitle>{data.name}</TripTitle>
+        <TripDate>{convertTripDate(data.start_date, data.end_date)}</TripDate>
       </TripWrap>
-      <TripParagraph>
-        여행 소개 어쩌구 저쩌구 여행 소개 어쩌구 저쩌구여행 소개 어쩌구
-        저쩌구여행...
-      </TripParagraph>
+      <TripParagraph>{data.description}</TripParagraph>
     </Wrap>
   );
 };
@@ -25,7 +27,7 @@ const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   width: 284px;
-  padding: 22.5px 20px;
+  padding: 20px;
   gap: 12px;
   background-color: ${colors.WHITE};
   box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);

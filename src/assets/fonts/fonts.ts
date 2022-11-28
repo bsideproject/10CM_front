@@ -50,7 +50,7 @@ export const fonts = (size: Size): FlattenSimpleInterpolation => {
       return css`
         font-weight: 700;
         font-size: 36px;
-        line-height: 58px;
+        line-height: 44px;
       `;
     case 'title-3xl':
       return css`

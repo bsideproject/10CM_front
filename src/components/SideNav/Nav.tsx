@@ -9,7 +9,7 @@ import profileImg from 'assets/img/profileImg.svg';
 import navLogo from 'assets/img/navLogo.svg';
 import ImgLists from './ImgLists';
 interface IProps {
-  className: string;
+  className?: string;
 }
 
 const Nav: React.FC<IProps> = ({ className }) => {
@@ -40,6 +40,9 @@ const Wrap = styled.div`
   ${defaultStyle}
   height: 100vh;
   z-index: 10;
+  position: sticky;
+  top: 0;
+  left: 0;
   background: ${colors.WHITE};
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3),
     0px 1px 3px 3px rgba(0, 0, 0, 0.06);

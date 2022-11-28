@@ -3,6 +3,7 @@ import MapLayout from 'components/UI/MapLayout';
 import React, { useRef } from 'react';
 import Map from 'components/Map';
 import SearchAddress from 'components/SideBar/SearchAddress';
+import MyPlaces from 'components/SideBar/MyPlaces';
 
 interface Props {}
 
@@ -12,7 +13,7 @@ const CreateTrip: React.FC<Props> = () => {
   return (
     <MapLayout
       nav={<SideNav />}
-      side={<SearchAddress />}
+      side={<MyPlaces map={mapRef} />}
       map={<Map mapRef={mapRef} />}
     />
   );

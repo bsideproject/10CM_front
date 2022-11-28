@@ -7,8 +7,8 @@ import styled from 'styled-components';
 const MyPlaceContainer: React.FC = () => {
   return (
     <Wrap>
-      <DayNumList />
-      <PickDateInfo />
+      <DayNumList pickedDay={0} setPickedDay={() => {}} />
+      <PickDateInfo pickedDay={0} />
     </Wrap>
   );
 };

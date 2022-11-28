@@ -7,6 +7,7 @@ import {
   useEffect,
   useRef,
   useState,
+  KeyboardEvent,
 } from 'react';
 import styled, { css } from 'styled-components';
 import { ReactComponent as SearchSvg } from 'assets/svg/input-search.svg';
@@ -18,6 +19,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   onClear?: () => void;
   isClear?: boolean;
   isSearch?: boolean;
+  onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void;
 }
 
 // 48
