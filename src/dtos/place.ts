@@ -120,4 +120,5 @@ export interface MyPlaceListQueryParams {
   page?: number;
   size?: number;
   sort: Sort;
+  tag?: string;
 }

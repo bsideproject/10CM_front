@@ -13,6 +13,8 @@ import useInterSectionObserver from 'hooks/useInterSectionOpserver';
 import KakaoAddressList from 'components/MyPlace/KakaoAddressList';
 import useSearchKakaoAddress from 'hooks/useSearchKakaoAddress';
 import useMyPlaceList from 'hooks/useMyPlaceList';
+import useMyPlaceListByTag from 'hooks/useMyPlaceListByTag';
+import MyPlaceListByTag from 'components/MyPlace/MyPlaceListByTag';
 import CreatePost from '../Modals/CreatePost';
 import { SearchWrap } from './styles';
 
@@ -24,12 +26,14 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   const currentMarker = useRef<any>();
   const currentOverlay = useRef<any>();
 
+  // 카카오주소
   const {
     handleSearchAddress,
     addressList,
     hasKakaoAddressNextPage,
     getKakaoAddressNextPage,
   } = useSearchKakaoAddress();
+  // 목록
   const {
     myPlaceList,
     handleChangeSort,
@@ -39,6 +43,15 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     isMyListFetching,
     currentSort,
   } = useMyPlaceList();
+  // 태그
+  const [currentTag, setCurrentTag] = useState<string | null>(null);
+  const {
+    myPlaceListByTag,
+    reFetchMyPlaceListByTag,
+    hasMyPlaceListByTagNextPage,
+    getMyPlaceListByTagNextPage,
+    isMyPlaceListByTagFetching,
+  } = useMyPlaceListByTag(currentTag);
 
   // 내가 저장한 장소 목록
   const myPlaceListObserverCallback: IntersectionObserverCallback = entries => {
@@ -63,12 +76,23 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   const { ref: kakaoSearchRef } = useInterSectionObserver(
     kakaoSearchObserverCallback,
   );
+  // 태그로 목록 불러오기
+  const myPlaceListByTagCallback: IntersectionObserverCallback = entries => {
+    entries.forEach(el => {
+      if (el.target === tagListRef.current && el.isIntersecting) {
+        getMyPlaceListByTagNextPage();
+      }
+    });
+  };
+
+  const { ref: tagListRef } = useInterSectionObserver(myPlaceListByTagCallback);
 
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
   const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
   const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
   const [isDetailLoading, setIsDetailLoading] = useState(false);
   const [keyword, setKeyword] = useState('');
+
   const [placeDetail, setPlaceDetail] = useState<MyPlaceResponse | null>(null);
   const [createdPlace, setCreatePlace] = useState<MyPlaceResponse | null>(null);
   const [selectedAddress, setSelectedAddress] = useState<KakaoAddress | null>(
@@ -86,7 +110,11 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     if (placeDetail) {
       try {
         const data = await getPlace(placeDetail.id);
+        await reFetchMyPlaceList();
         setPlaceDetail({ ...data });
+        if (currentTag) {
+          await reFetchMyPlaceListByTag();
+        }
       } catch (e) {
         console.log(e);
       }
@@ -184,6 +212,14 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   const handleKeywordClearClick = () => {
     setKeyword('');
   };
+  // 태그 클릭
+  const handleTagNameClick = (tagName: string) => {
+    setCurrentTag(tagName);
+  };
+  // 태그 검색창 닫기
+  const handleTagNameCloseClick = () => {
+    setCurrentTag(null);
+  };
   // 카카오 주소검색 결과 클릭 시
   const handleClickCard = (addressInfo: KakaoAddress) => {
     return () => {
@@ -280,13 +316,15 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
         <MyPlaceGroup
           ref={myListRef}
           placeList={myPlaceList}
-          onDetailClick={handleMyPlaceDetailClick}
-          onClickCard={handleClickMyPlaceCard}
           hasNextPage={hasMyPlaceNextPage}
           isLoading={isMyListFetching}
-          onChangeSort={handleChangeSort}
+          currentPlace={placeDetail}
           currentSort={currentSort}
+          onChangeSort={handleChangeSort}
+          onDetailClick={handleMyPlaceDetailClick}
+          onCardClick={handleClickMyPlaceCard}
           onReFetch={reFetchMyPlaceList}
+          onTagClick={handleTagNameClick}
         />
       ) : (
         <KakaoAddressList
@@ -315,6 +353,21 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
         <DetailPlace
           myPlaceDetail={placeDetail}
           onClose={handleCloseDetailClick}
+        />
+      )}
+      {currentTag && (
+        <MyPlaceListByTag
+          ref={tagListRef}
+          placeList={myPlaceListByTag}
+          hasNextPage={hasMyPlaceListByTagNextPage}
+          isLoading={isMyPlaceListByTagFetching}
+          currentTag={currentTag}
+          currentPlace={placeDetail}
+          onCancel={handleTagNameCloseClick}
+          onCardClick={handleClickMyPlaceCard}
+          onTagClick={handleTagNameClick}
+          onDetailClick={handleMyPlaceDetailClick}
+          onReFetch={reFetchMyPlaceListByTag}
         />
       )}
     </MyPlacesWrap>

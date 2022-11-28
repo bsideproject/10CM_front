@@ -9,26 +9,30 @@ import MyPlaceCard from './MyPlaceCard';
 
 interface Props {
   placeList: MyPlaceResponse[];
-  onDetailClick: (addressInfo: MyPlaceResponse) => void;
-  onClickCard: (addressInfo: MyPlaceResponse) => void;
+  currentPlace: MyPlaceResponse | null;
   hasNextPage: boolean;
   isLoading: boolean;
-  onChangeSort: (sortValue: Sort) => void;
   currentSort: Sort;
+  onChangeSort: (sortValue: Sort) => void;
+  onDetailClick: (addressInfo: MyPlaceResponse) => void;
+  onCardClick: (addressInfo: MyPlaceResponse) => void;
   onReFetch: () => Promise<void>;
+  onTagClick: (tagName: string) => void;
 }
 
 const MyPlaceGroup = React.forwardRef<HTMLDivElement, Props>(
   (
     {
       placeList,
-      onDetailClick,
-      onClickCard,
       hasNextPage,
       isLoading,
-      onChangeSort,
       currentSort,
+      currentPlace,
+      onChangeSort,
+      onDetailClick,
+      onCardClick,
       onReFetch,
+      onTagClick,
     },
     ref,
   ) => {
@@ -89,18 +93,20 @@ const MyPlaceGroup = React.forwardRef<HTMLDivElement, Props>(
               )}
             </SortButton>
           </MyPlacesTop>
-          <MyPlacesListWrap>
+          <MyPlaceListWrap>
             {placeList.map(place => (
               <MyPlaceCard
                 key={place.id}
+                currentPlace={currentPlace}
                 place={place}
                 onDetailClick={onDetailClick}
-                onClickCard={onClickCard}
+                onCardClick={onCardClick}
                 onReFetch={onReFetch}
+                onTagClick={onTagClick}
               />
             ))}
             {hasNextPage && !isLoading && <div ref={ref}>이게 보여~</div>}
-          </MyPlacesListWrap>
+          </MyPlaceListWrap>
         </MyPlacesWrap>
       </GroupWrap>
     );
@@ -136,7 +142,7 @@ const SortButton = styled.div`
   padding: 5px 16px 5px 11px;
   cursor: pointer;
 `;
-const MyPlacesListWrap = styled.div`
+const MyPlaceListWrap = styled.div`
   height: calc(100% - 78px);
   padding: 0 20px 20px 20px;
   overflow-y: auto;

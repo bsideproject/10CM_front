@@ -7,7 +7,6 @@ const PAGE_SIZE = 15;
 
 const useMyPlaceList = () => {
   const { isDidMount } = useDidmount();
-
   const [isLoading, setIsLoading] = useState(false);
   const [currentSort, setCurrentSort] = useState<Sort>('createdDate,DESC');
   const [myPlaceList, setMyPlaceList] = useState<MyPlaceResponse[]>([]);
