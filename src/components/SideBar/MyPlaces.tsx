@@ -13,6 +13,8 @@ import useInterSectionObserver from 'hooks/useInterSectionOpserver';
 import KakaoAddressList from 'components/MyPlace/KakaoAddressList';
 import useSearchKakaoAddress from 'hooks/useSearchKakaoAddress';
 import useMyPlaceList from 'hooks/useMyPlaceList';
+import useMyPlaceListByTag from 'hooks/useMyPlaceListByTag';
+import MyPlaceListByTag from 'components/MyPlace/MyPlaceListByTag';
 import CreatePost from '../Modals/CreatePost';
 import { SearchWrap } from './styles';
 
@@ -24,12 +26,14 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   const currentMarker = useRef<any>();
   const currentOverlay = useRef<any>();
 
+  // 카카오주소
   const {
     handleSearchAddress,
     addressList,
     hasKakaoAddressNextPage,
     getKakaoAddressNextPage,
   } = useSearchKakaoAddress();
+  // 목록
   const {
     myPlaceList,
     handleChangeSort,
@@ -39,6 +43,15 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     isMyListFetching,
     currentSort,
   } = useMyPlaceList();
+  // 태그
+  const [currentTag, setCurrentTag] = useState<string | null>(null);
+  const {
+    myPlaceListByTag,
+    reFetchMyPlaceListByTag,
+    hasMyPlaceListByTagNextPage,
+    getMyPlaceListByTagNextPage,
+    isMyPlaceListByTagFetching,
+  } = useMyPlaceListByTag(currentTag);
 
   // 내가 저장한 장소 목록
   const myPlaceListObserverCallback: IntersectionObserverCallback = entries => {
@@ -63,11 +76,23 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   const { ref: kakaoSearchRef } = useInterSectionObserver(
     kakaoSearchObserverCallback,
   );
+  // 태그로 목록 불러오기
+  const myPlaceListByTagCallback: IntersectionObserverCallback = entries => {
+    entries.forEach(el => {
+      if (el.target === tagListRef.current && el.isIntersecting) {
+        getMyPlaceListByTagNextPage();
+      }
+    });
+  };
+
+  const { ref: tagListRef } = useInterSectionObserver(myPlaceListByTagCallback);
 
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
   const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
+  const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
   const [isDetailLoading, setIsDetailLoading] = useState(false);
   const [keyword, setKeyword] = useState('');
+
   const [placeDetail, setPlaceDetail] = useState<MyPlaceResponse | null>(null);
   const [createdPlace, setCreatePlace] = useState<MyPlaceResponse | null>(null);
   const [selectedAddress, setSelectedAddress] = useState<KakaoAddress | null>(
@@ -85,7 +110,11 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     if (placeDetail) {
       try {
         const data = await getPlace(placeDetail.id);
+        await reFetchMyPlaceList();
         setPlaceDetail({ ...data });
+        if (currentTag) {
+          await reFetchMyPlaceListByTag();
+        }
       } catch (e) {
         console.log(e);
       }
@@ -112,21 +141,65 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     setSelectedAddress(addressInfo);
   };
   // 상세보기 클릭
-  const handleMyPlaceDetailClick = async (id: number) => {
-    setIsDetailLoading(true);
-    try {
-      const data = await getPlace(id);
-      setPlaceDetail(data);
-    } catch (e) {
-      console.log(e);
-    }
-    setIsDetailLoading(false);
+  const handleMyPlaceDetailClick = (addressInfo: MyPlaceResponse) => {
+    setPlaceDetail(addressInfo);
+    setIsOpenDetailModal(true);
   };
   // 상세보기 닫기 클릭
   const handleCloseDetailClick = () => {
     setPlaceDetail(null);
+    setIsOpenDetailModal(false);
   };
-
+  // 나의 관심장소 카드 클릭
+  const handleClickMyPlaceCard = (placeInfo: MyPlaceResponse) => {
+    const { kakao } = window;
+    if (currentMarker.current) {
+      MapConfig.moveMarker(
+        currentMarker.current,
+        placeInfo.latitude,
+        placeInfo.longitude,
+      );
+      MapConfig.moveOverlay(
+        currentOverlay.current,
+        placeInfo.latitude,
+        placeInfo.longitude,
+      );
+      MapConfig.changeOverlayContent(
+        currentOverlay.current,
+        createUpdateOverlay(
+          placeInfo,
+          handleOverayOverlayClose,
+          handleClickUpdateClick,
+        ),
+      );
+      MapConfig.moveMap(map, placeInfo.latitude, placeInfo.longitude);
+    } else {
+      const marker = MapConfig.createMarker(
+        kakao,
+        placeInfo.latitude,
+        placeInfo.longitude,
+      );
+      const closeOverlay = () => {
+        overlay.setMap(null);
+      };
+      const overlay = new kakao.maps.CustomOverlay({
+        content: createUpdateOverlay(
+          placeInfo,
+          closeOverlay,
+          handleClickUpdateClick,
+        ),
+        map: map.current,
+        position: marker.getPosition(),
+      });
+      currentMarker.current = marker;
+      marker.setMap(map.current);
+      currentOverlay.current = overlay;
+      kakao.maps.event.addListener(marker, 'click', function () {});
+      MapConfig.moveMap(map, placeInfo.latitude, placeInfo.longitude);
+    }
+    currentOverlay.current.setMap(map.current);
+    setPlaceDetail(placeInfo);
+  };
   // 포스팅 수정 버튼 클릭
   const handleClickUpdateClick = () => {
     setIsOpenUpdateModal(true);
@@ -138,6 +211,14 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   // 검색 내용 초기화 클릭
   const handleKeywordClearClick = () => {
     setKeyword('');
+  };
+  // 태그 클릭
+  const handleTagNameClick = (tagName: string) => {
+    setCurrentTag(tagName);
+  };
+  // 태그 검색창 닫기
+  const handleTagNameCloseClick = () => {
+    setCurrentTag(null);
   };
   // 카카오 주소검색 결과 클릭 시
   const handleClickCard = (addressInfo: KakaoAddress) => {
@@ -210,61 +291,6 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
       );
     }
   }, [createdPlace]);
-  // 내가 저장한 장소 상세보기
-  useEffect(() => {
-    if (placeDetail) {
-      const { kakao } = window;
-
-      if (currentMarker.current) {
-        MapConfig.moveMarker(
-          currentMarker.current,
-          placeDetail.latitude,
-          placeDetail.longitude,
-        );
-        MapConfig.moveOverlay(
-          currentOverlay.current,
-          placeDetail.latitude,
-          placeDetail.longitude,
-        );
-        MapConfig.changeOverlayContent(
-          currentOverlay.current,
-          createUpdateOverlay(
-            placeDetail,
-            handleOverayOverlayClose,
-            handleClickUpdateClick,
-          ),
-        );
-        MapConfig.moveMap(map, placeDetail.latitude, placeDetail.longitude);
-      } else {
-        const marker = MapConfig.createMarker(
-          kakao,
-          placeDetail.latitude,
-          placeDetail.longitude,
-        );
-        const closeOverlay = () => {
-          overlay.setMap(null);
-        };
-        const overlay = new kakao.maps.CustomOverlay({
-          content: createUpdateOverlay(
-            placeDetail,
-            closeOverlay,
-            handleClickUpdateClick,
-          ),
-          map: map.current,
-          position: marker.getPosition(),
-        });
-
-        currentMarker.current = marker;
-        marker.setMap(map.current);
-        currentOverlay.current = overlay;
-        kakao.maps.event.addListener(marker, 'click', function () {
-          overlay.setMap(map.current);
-        });
-        MapConfig.moveMap(map, placeDetail.latitude, placeDetail.longitude);
-      }
-      currentOverlay.current.setMap(map.current);
-    }
-  }, [placeDetail]);
 
   return (
     <MyPlacesWrap>
@@ -290,12 +316,15 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
         <MyPlaceGroup
           ref={myListRef}
           placeList={myPlaceList}
-          onDetailClick={handleMyPlaceDetailClick}
           hasNextPage={hasMyPlaceNextPage}
           isLoading={isMyListFetching}
-          onChangeSort={handleChangeSort}
+          currentPlace={placeDetail}
           currentSort={currentSort}
+          onChangeSort={handleChangeSort}
+          onDetailClick={handleMyPlaceDetailClick}
+          onCardClick={handleClickMyPlaceCard}
           onReFetch={reFetchMyPlaceList}
+          onTagClick={handleTagNameClick}
         />
       ) : (
         <KakaoAddressList
@@ -320,10 +349,25 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
           onUpdateComplete={refetchAfterUpdateData}
         />
       )}
-      {placeDetail && (
+      {isOpenDetailModal && placeDetail && (
         <DetailPlace
           myPlaceDetail={placeDetail}
           onClose={handleCloseDetailClick}
+        />
+      )}
+      {currentTag && (
+        <MyPlaceListByTag
+          ref={tagListRef}
+          placeList={myPlaceListByTag}
+          hasNextPage={hasMyPlaceListByTagNextPage}
+          isLoading={isMyPlaceListByTagFetching}
+          currentTag={currentTag}
+          currentPlace={placeDetail}
+          onCancel={handleTagNameCloseClick}
+          onCardClick={handleClickMyPlaceCard}
+          onTagClick={handleTagNameClick}
+          onDetailClick={handleMyPlaceDetailClick}
+          onReFetch={reFetchMyPlaceListByTag}
         />
       )}
     </MyPlacesWrap>
