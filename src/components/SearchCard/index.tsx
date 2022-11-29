@@ -2,16 +2,15 @@ import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
 import React from 'react';
 import styled from 'styled-components';
-import { AddrT } from 'types/dtos/address';
 import placePlusIcon from 'assets/img/placePlusIcon.svg';
 import { KakaoAddress } from 'dtos/kakao';
 import Img from 'components/Img/Img';
 import { sizes } from 'constants/sizes';
 interface Props {
-  data: AddrT;
+  data: KakaoAddress;
   pickedDay: number;
   onClick?: () => void;
-  onSetDaysData: (addr: AddrT, dayNum: number) => void;
+  onSetDaysData: (addr: KakaoAddress, dayNum: number) => void;
   onClickCard: (addressInfo: KakaoAddress) => void;
 }
 

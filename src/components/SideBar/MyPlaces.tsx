@@ -143,7 +143,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
   const handleClickCard = (addressInfo: KakaoAddress) => {
     return () => {
       const { kakao } = window;
-
+      console.log(currentMarker.current);
       if (currentMarker.current) {
         MapConfig.moveMarker(
           currentMarker.current,

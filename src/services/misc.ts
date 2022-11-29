@@ -1,5 +1,4 @@
-import { AddrT } from 'types/dtos/address';
-
+import { KakaoAddress } from 'dtos/kakao';
 type SplitType = 'dash' | 'dot';
 const DATE_ONE_DAY = 86400000;
 
@@ -48,7 +47,7 @@ export const convertPickDay = (date: string, pickedDay: number) => {
   )})`;
 };
 
-export const convertTripDetails = (data: AddrT[][]) => {
+export const convertTripDetails = (data: KakaoAddress[][]) => {
   const convertData = data.map(arr =>
     arr.map(el => {
       return {

@@ -8,11 +8,11 @@ import smallNavLogo from 'assets/img/smallNavLogo.svg';
 import Img from 'components/Img/Img';
 import Button from 'components/common/Button';
 import { createTrip } from 'apis/tripApi';
-import { AddrT } from 'types/dtos/address';
+import { KakaoAddress } from 'dtos/kakao';
 import { useNavigate } from 'react-router-dom';
 import { routePath } from 'constants/route';
 interface IProps {
-  daysData: AddrT[][];
+  daysData: KakaoAddress[][];
 }
 const MyTripHeader: React.FC<IProps> = ({ daysData }) => {
   const navigate = useNavigate();

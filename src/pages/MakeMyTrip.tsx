@@ -2,7 +2,6 @@ import DayListBar from 'components/DayListBar/DayListBar';
 import useDaysData from 'hooks/useDaysData';
 import Map from 'components/Map';
 import MyTripHeader from 'components/MyTrip/MyTripHeader';
-import MyPlaces from 'components/SideBar/MyPlaces';
 import SearchAddress from 'components/SideBar/SearchAddress';
 import MakeTripLayout from 'components/UI/MakeTripLayout';
 import React, { useRef, useState } from 'react';

@@ -7,9 +7,8 @@ import SearchAddressCard from 'components/SearchCard';
 import MapConfig from 'services/map-config.js';
 import { createAddressDetailOverlay } from 'utils/overlay';
 import MyPlaceGroup from 'components/CreateTrip/MyPlaceGroup';
-import { AddrT } from 'types/dtos/address';
-import useEnteredInfo from 'hooks/useEnteredInfo';
 
+import useEnteredInfo from 'hooks/useEnteredInfo';
 import { KakaoAddress } from 'dtos/kakao';
 import { SearchWrap } from './styles';
 import SearchAddressNav from './SearchAddr/SearchAddressNav';
@@ -17,7 +16,7 @@ import SearchCardGroup from './SearchAddr/SearchCardGroup';
 interface Props {
   map?: any;
   pickedDay: number;
-  onSetDaysData: (addr: AddrT, dayNum: number) => void;
+  onSetDaysData: (addr: KakaoAddress, dayNum: number) => void;
 }
 
 type SelectedType = 'search' | 'myPlace';
@@ -25,7 +24,8 @@ type SelectedType = 'search' | 'myPlace';
 const SearchAddress: React.FC<Props> = ({ map, pickedDay, onSetDaysData }) => {
   const [selectedMenu, setSelectedMenu] = useState<SelectedType>('search');
   const [searchValue, onChangeSearchValue] = useEnteredInfo('');
-  const [searchedData, setSearchedData] = useState<AddrT[]>([]);
+  const [searchedData, setSearchedData] = useState<KakaoAddress[]>([]);
+
   const currentMarker = useRef<any>();
   const currentOverlay = useRef<any>();
 
@@ -67,61 +67,58 @@ const SearchAddress: React.FC<Props> = ({ map, pickedDay, onSetDaysData }) => {
 
   // 포스팅 추가하기 클릭
   const handleCreateClick = (addressInfo: KakaoAddress) => {
-    //
+    console.log(addressInfo);
+    // setSelectedAddress(addressInfo);
   };
 
   const handleClickCard = (addressInfo: KakaoAddress) => {
-    return () => {
-      const { kakao } = window;
+    console.log(currentMarker.current);
+    const { kakao } = window;
 
-      if (currentMarker.current) {
-        MapConfig.moveMarker(
-          currentMarker.current,
-          addressInfo.y,
-          addressInfo.x,
-        );
-        MapConfig.moveOverlay(
-          currentOverlay.current,
-          addressInfo.y,
-          addressInfo.x,
-        );
-        MapConfig.changeOverlayContent(
-          currentOverlay.current,
-          createAddressDetailOverlay(
-            addressInfo,
-            handleOverayOverlayClose,
-            handleCreateClick,
-          ),
-        );
-        MapConfig.moveMap(map, addressInfo.y, addressInfo.x);
-      } else {
-        const marker = MapConfig.createMarker(
-          kakao,
-          addressInfo.x,
-          addressInfo.y,
-        );
-        const closeOverlay = () => {
-          overlay.setMap(null);
-        };
-        const overlay = new kakao.maps.CustomOverlay({
-          content: createAddressDetailOverlay(
-            addressInfo,
-            closeOverlay,
-            handleCreateClick,
-          ),
-          map: map.current,
-          position: marker.getPosition(),
-        });
+    if (currentMarker.current) {
+      MapConfig.moveMarker(currentMarker.current, addressInfo.y, addressInfo.x);
+      MapConfig.moveOverlay(
+        currentOverlay.current,
+        addressInfo.y,
+        addressInfo.x,
+      );
+      MapConfig.changeOverlayContent(
+        currentOverlay.current,
+        createAddressDetailOverlay(
+          addressInfo,
+          handleOverayOverlayClose,
+          handleCreateClick,
+        ),
+      );
+      MapConfig.moveMap(map, addressInfo.y, addressInfo.x);
+    } else {
+      const marker = MapConfig.createMarker(
+        kakao,
+        addressInfo.y,
+        addressInfo.x,
+      );
+      const closeOverlay = () => {
+        overlay.setMap(null);
+      };
 
-        currentMarker.current = marker;
-        marker.setMap(map.current);
-        currentOverlay.current = overlay;
-        kakao.maps.event.addListener(marker, 'click', function () {
-          overlay.setMap(map.current);
-        });
-        MapConfig.moveMap(map, addressInfo.y, addressInfo.x);
-      }
-    };
+      const overlay = new kakao.maps.CustomOverlay({
+        content: createAddressDetailOverlay(
+          addressInfo,
+          closeOverlay,
+          handleCreateClick,
+        ),
+        map: map.current,
+        position: marker.getPosition(),
+      });
+      currentMarker.current = marker;
+      marker.setMap(map.current);
+      currentOverlay.current = overlay;
+      kakao.maps.event.addListener(marker, 'click', function () {
+        overlay.setMap(map.current);
+      });
+      MapConfig.moveMap(map, addressInfo.y, addressInfo.x);
+    }
+    currentOverlay.current.setMap(map.current);
   };
 
   return (
