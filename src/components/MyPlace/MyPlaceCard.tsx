@@ -11,34 +11,44 @@ import { MyPlaceResponse } from 'dtos/place';
 import dayjs from 'dayjs';
 import { dateFormat } from 'constants/common';
 import Image from 'assets/png/thumbnail-area.png';
-import { getTagListToString } from 'utils/plage';
 import { ReactComponent as OptionIcon } from 'assets/svg/my-place-option.svg';
+import { ReactComponent as CheckedIcon } from 'assets/svg/checked.svg';
 import { deletePlace } from 'apis/place';
 import UpdatePost from 'components/Modals/UpdatePost';
 
 interface Props {
   place: MyPlaceResponse;
-  onDetailClick: (id: number) => void;
+  onDetailClick: (addressInfo: MyPlaceResponse) => void;
+  onCardClick: (addressInfo: MyPlaceResponse) => void;
   onReFetch: () => Promise<void>;
+  currentPlace: MyPlaceResponse | null;
+  onTagClick: (tagName: string) => void;
 }
 
-const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick, onReFetch }) => {
+const MyPlaceCard: React.FC<Props> = ({
+  place,
+  onDetailClick,
+  onCardClick,
+  onReFetch,
+  currentPlace,
+  onTagClick,
+}) => {
   const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
   const [isShowOption, setIsShowOption] = useState<boolean>(false);
   const [isHover, setIsHover] = useState(false);
   const optionRef = useRef<HTMLDivElement | null>(null);
   const optionButtonRef = useRef<SVGSVGElement | null>(null);
 
-  const handleOptionOpen = () => {
+  const handleOptionOpen = (e: React.MouseEvent) => {
     setIsShowOption(prev => !prev);
   };
   const handleOptionClose = () => {
     setIsShowOption(false);
   };
-  const handleDetailClick = (id: number) => {
+  const handleDetailClick = (addressInfo: MyPlaceResponse) => {
     return () => {
       handleOptionClose();
-      onDetailClick(id);
+      onDetailClick(addressInfo);
     };
   };
   const handleHover = () => {
@@ -55,10 +65,19 @@ const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick, onReFetch }) => {
       console.log(e);
     }
   };
+  const handleCardClick = () => {
+    onCardClick(place);
+  };
   const handleCloseModal = () => {
     setIsOpenUpdateModal(false);
   };
+  const handleTagClick = (tagName: string) => {
+    return () => {
+      onTagClick(tagName);
+    };
+  };
   const handleDidNotOptionClick = (e: MouseEvent) => {
+    console.log('good');
     if (
       e.target !== optionButtonRef.current &&
       !optionRef.current?.contains(e.target as Node)
@@ -78,19 +97,36 @@ const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick, onReFetch }) => {
     };
   }, [isShowOption]);
   return (
-    <MyPlaceCardWrap onMouseEnter={handleHover} onMouseLeave={handleHover}>
+    <MyPlaceCardWrap
+      onMouseEnter={handleHover}
+      onMouseLeave={handleHover}
+      onClick={handleCardClick}
+    >
       <MyPlaceCardImageWrap>
-        <MyPlaceImage src={Image} alt="더미" isHover={isHover} />
+        <MyPlaceImage src={Image} alt="장소 이미지" isHover={isHover} />
       </MyPlaceCardImageWrap>
       <MyPlaceInfoWrap>
-        <MyPlaceName>{place.name}</MyPlaceName>
+        <MyPlaceName>
+          {currentPlace?.id === place.id && (
+            <CheckedIcon width={20} height={20} fill={colors.GREEN_BASE} />
+          )}
+          {place.name}
+        </MyPlaceName>
         <MyPlaceAddress>{place.address}</MyPlaceAddress>
-        <MyPlaceHashTag>{getTagListToString(place?.tag || [])}</MyPlaceHashTag>
+        <MyPlaceHashTag>
+          {(place?.tag || []).map(tag => {
+            return (
+              <TagName key={tag} onClick={handleTagClick(tag)}>
+                #{tag}
+              </TagName>
+            );
+          })}
+        </MyPlaceHashTag>
         <MyPlaceDate>{dayjs(place.createdDate).format(dateFormat)}</MyPlaceDate>
         <MyPlaceOptionButton ref={optionButtonRef} onClick={handleOptionOpen} />
         {isShowOption && (
           <MyPlaceOptionBox ref={optionRef}>
-            <MyPlaceOptionItem onClick={handleDetailClick(place.id)}>
+            <MyPlaceOptionItem onClick={handleDetailClick(place)}>
               상세보기
             </MyPlaceOptionItem>
             <MyPlaceOptionItem onClick={handleUpdateClick}>
@@ -115,18 +151,31 @@ const MyPlaceCard: React.FC<Props> = ({ place, onDetailClick, onReFetch }) => {
 export default React.memo(MyPlaceCard);
 
 const MyPlaceName = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0 4px;
   ${fonts('text-sm-bold')};
+  color: ${colors.NEUTRAl_900};
 `;
 const MyPlaceAddress = styled.div`
   ${fonts('text-xs-regular')};
+  color: ${colors.NEUTRAl_400};
 `;
 const MyPlaceHashTag = styled.div`
+  display: flex;
+  gap: 0 4px;
+  flex-wrap: wrap;
   height: 48px;
   ${fonts('text-xxs-regular')};
+`;
+const TagName = styled.span`
+  color: ${colors.BLUE_BASE};
+  cursor: pointer;
 `;
 const MyPlaceDate = styled.div`
   margin-top: 6px;
   ${fonts('caption')};
+  color: ${colors.NEUTRAl_300};
 `;
 const MyPlaceOptionButton = styled(OptionIcon)`
   position: absolute;
