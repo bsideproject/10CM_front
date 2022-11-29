@@ -7,7 +7,7 @@ import {
   DraggableProvidedDraggableProps,
   DraggableProvidedDragHandleProps,
 } from 'react-beautiful-dnd';
-import { AddrT } from 'types/dtos/address';
+import { KakaoAddress } from 'dtos/kakao';
 import styled from 'styled-components';
 import trashIcon from 'assets/img/trashIcon.svg';
 import { sizes } from '../../constants/sizes';
@@ -19,8 +19,8 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   title: string;
   dndProps: any;
   pickedDay: number;
-  cardData: AddrT;
-  removeDaysData: (addr: AddrT, dayNum: number) => void;
+  cardData: KakaoAddress;
+  removeDaysData: (addr: KakaoAddress, dayNum: number) => void;
 }
 
 const TripDayCard = React.forwardRef<HTMLElement, Props>(

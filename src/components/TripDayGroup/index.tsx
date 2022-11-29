@@ -10,14 +10,15 @@ import {
 } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import TripDayCard from 'components/TripDayCard';
-import { AddrT, DndType } from 'types/dtos/address';
+import { KakaoAddress } from 'dtos/kakao';
+import EmptyDnd from 'components/common/EmptyContent/EmptyDnd';
 
 interface Props {
   // TODO 백엔드 연동시 타입 지정 필수!!
-  itemList: AddrT[];
+  itemList: KakaoAddress[];
   pickedDay: number;
-  removeDaysData: (addr: AddrT, dayNum: number) => void;
-  onChangeList: (itemList: AddrT[]) => void;
+  removeDaysData: (addr: KakaoAddress, dayNum: number) => void;
+  onChangeList: (itemList: KakaoAddress[]) => void;
 }
 
 export interface Item {
@@ -78,6 +79,10 @@ const DraggableItem: React.FC<Props> = ({
       onDragEndAction(items);
     }
   };
+
+  if (itemList.length === 0) {
+    return <EmptyDnd />;
+  }
 
   return (
     <DndWrap>

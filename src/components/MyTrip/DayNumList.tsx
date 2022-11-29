@@ -19,11 +19,17 @@ const DayNumList: React.FC<IProps> = ({ pickedDay, setPickedDay }) => {
   const [showBoxLen, setShowBoxLen] = useState(4);
 
   const handleClickLeft = () => {
+    if (daylist.length <= 3) {
+      return;
+    }
     const changeList = showBoxLen === 4 ? showBoxLen : showBoxLen - 1;
     setShowBoxLen(changeList);
   };
 
   const handleClickRight = () => {
+    if (daylist.length <= 3) {
+      return;
+    }
     const lastLen = daylist.length;
     const changeList = showBoxLen > lastLen ? lastLen + 1 : showBoxLen + 1;
     setShowBoxLen(changeList);

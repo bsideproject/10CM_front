@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AddrT } from 'types/dtos/address';
+import { KakaoAddress } from 'dtos/kakao';
 
-const initialState: AddrT = {
+const initialState: KakaoAddress = {
   address_name: '',
   category_group_code: '',
   category_group_name: '',
@@ -21,7 +21,7 @@ const MakeTripSlice = createSlice({
   name: 'newPlace',
   initialState,
   reducers: {
-    setAddr: (state, action: PayloadAction<AddrT>) => {
+    setAddr: (state, action: PayloadAction<KakaoAddress>) => {
       state = action.payload;
     },
   },
