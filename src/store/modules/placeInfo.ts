@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { initFromDate, initToDate } from 'services/misc';
+import { initFromDate, initToDate, addZero } from 'services/misc';
 interface IState {
   title: string;
   fromDate: string;
@@ -23,10 +23,10 @@ const placeInfoSlice = createSlice({
       state.title = action.payload;
     },
     setFromDate: (state, action: PayloadAction<string>) => {
-      state.fromDate = action.payload;
+      state.fromDate = addZero(action.payload);
     },
     setToDate: (state, action: PayloadAction<string>) => {
-      state.toDate = action.payload;
+      state.toDate = addZero(action.payload);
     },
     setImg: (state, action: PayloadAction<any>) => {
       state.img = action.payload;

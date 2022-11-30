@@ -9,4 +9,6 @@ export const sizes = {
   CALENDAR_ICON_SIZE: '24px',
   ARROW_ICON_SIZE: '24px',
   PLUS_ICON_SIZE: '24px',
+  DOT_ICON_SIZE: '24px',
+  SHARE_ICON_SIZE: '32px',
 };

@@ -20,7 +20,7 @@ const MyTripContent: React.FC = () => {
   useEffect(() => {
     getTripList().then(res => setTripData(res));
   }, []);
-
+  console.log(tripData);
   const emptyData =
     Object.keys(tripData).length === 0 || tripData?.data.length === 0;
   // ${data.length}

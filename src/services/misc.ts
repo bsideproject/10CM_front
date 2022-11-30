@@ -69,5 +69,16 @@ export const convertTripDate = (startDate: string, endDate: string) => {
   const end = endDate.slice(5).replace('-', '.');
   return `${start} - ${end}`;
 };
+
+export const addZero = (date: string) => {
+  const splitArr = date.split('-');
+  const data = splitArr.map(el => {
+    if (el.length === 1) {
+      return `0${el}`;
+    }
+    return el;
+  });
+  return `${data[0]}-${data[1]}-${data[2]}`;
+};
 // x = longtidue 경도
 // y = latitude 위도

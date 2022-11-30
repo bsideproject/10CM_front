@@ -35,6 +35,7 @@ const MyTripPlace: React.FC<IProps> = ({ daysData, onClose }) => {
       start_date: fromDate,
       trip_details: Misc.convertTripDetails(daysData),
     };
+    console.log(prms);
     createTrip(prms);
     onClose();
     navigate('/my-trip');
