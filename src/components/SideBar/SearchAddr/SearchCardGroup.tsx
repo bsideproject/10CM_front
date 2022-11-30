@@ -2,11 +2,10 @@ import SearchCard from 'components/SearchCard';
 import { KakaoAddress } from 'dtos/kakao';
 import React from 'react';
 import styled from 'styled-components';
-import { AddrT } from 'types/dtos/address';
 interface IProps {
-  addrList: AddrT[];
+  addrList: KakaoAddress[];
   pickedDay: number;
-  onSetDaysData: (addr: AddrT, dayNum: number) => void;
+  onSetDaysData: (addr: KakaoAddress, dayNum: number) => void;
   onClickCard: (addressInfo: KakaoAddress) => void;
 }
 const SearchCardGroup: React.FC<IProps> = ({

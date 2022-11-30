@@ -1,4 +1,4 @@
-import { AddrT } from 'types/dtos/address';
+import { KakaoAddress } from 'dtos/kakao';
 import { useState, useCallback, ChangeEvent } from 'react';
 
 const useDaysData = (endDay: number): any => {
@@ -6,9 +6,9 @@ const useDaysData = (endDay: number): any => {
   for (let i = 0; i < endDay; i += 1) {
     initValue[i] = [];
   }
-  const [mapData, setData] = useState<AddrT[][]>(initValue);
+  const [mapData, setData] = useState<KakaoAddress[][]>(initValue);
 
-  const handleChangeData = (addr: AddrT, dayNum: number) => {
+  const handleChangeData = (addr: KakaoAddress, dayNum: number) => {
     const filteredData = mapData[dayNum - 1].filter(el => el.id === addr.id);
     if (filteredData.length > 0) {
       return;
@@ -19,7 +19,7 @@ const useDaysData = (endDay: number): any => {
     setData([...mapData]);
   };
 
-  const handleRemoveData = (addr: AddrT, dayNum: number) => {
+  const handleRemoveData = (addr: KakaoAddress, dayNum: number) => {
     const filteredData = mapData[dayNum - 1].filter(el => el.id !== addr.id);
     mapData[dayNum - 1] = filteredData;
     setData([...mapData]);

@@ -6,12 +6,12 @@ import PickDateInfo from 'components/MyTrip/PickDateInfo';
 import EmptyDnd from 'components/common/EmptyContent/EmptyDnd';
 import TripSummary from 'components/MyTrip/TripSummary';
 import DraggableItem, { Item } from 'components/TripDayGroup';
-import { AddrT, DndType } from 'types/dtos/address';
+import { KakaoAddress } from 'dtos/kakao';
 interface IProps {
-  daysData: AddrT[][];
+  daysData: KakaoAddress[][];
   pickedDay: number;
   setPickedDay: React.Dispatch<React.SetStateAction<any>>;
-  removeDaysData: (addr: AddrT, dayNum: number) => void;
+  removeDaysData: (addr: KakaoAddress, dayNum: number) => void;
 }
 
 const DayListBar: React.FC<IProps> = ({
@@ -26,7 +26,7 @@ const DayListBar: React.FC<IProps> = ({
     setAddrData(daysData[pickedDay - 1]);
   }, [daysData, pickedDay]);
 
-  const handleChangeCard = (items: AddrT[]) => {
+  const handleChangeCard = (items: KakaoAddress[]) => {
     setAddrData(items);
   };
   return (

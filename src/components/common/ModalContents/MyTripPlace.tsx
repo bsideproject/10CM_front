@@ -10,13 +10,13 @@ import * as CFG from 'services/config.js';
 import styled from 'styled-components';
 import { colors } from 'constants/colors';
 import * as Misc from 'services/misc';
-import { AddrT } from 'types/dtos/address';
+import { KakaoAddress } from 'dtos/kakao';
 import { useAppSelect } from 'store/configureStore.hooks';
 import { createTrip } from 'apis/tripApi';
 import { useNavigate } from 'react-router-dom';
 
 interface IProps {
-  daysData: AddrT[][];
+  daysData: KakaoAddress[][];
   onClose: () => void;
 }
 const MyTripPlace: React.FC<IProps> = ({ daysData, onClose }) => {
