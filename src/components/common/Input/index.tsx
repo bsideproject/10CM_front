@@ -118,7 +118,12 @@ const getInputBackground = (disabled?: boolean) => {
     background-color: ${colors.WHITE};
   `;
 };
-const getInputBorder = (error: boolean) => {
+const getInputBorder = (error: boolean, disabled?: boolean) => {
+  if (disabled) {
+    return css`
+      border: 0;
+    `;
+  }
   if (error) {
     return css`
       border: 1px solid ${colors.ALERT};
@@ -154,7 +159,7 @@ const MyInput = styled.input<{
   ${({ isClear, isSearch }) => getInputPadding(isClear, isSearch)};
   height: 44px;
   ${({ disabled }) => getInputBackground(disabled)}
-  ${({ error }) => getInputBorder(error)};
+  ${({ error, disabled }) => getInputBorder(error, disabled)};
 `;
 const OptionsWrap = styled.div<{ error: boolean }>`
   display: flex;
