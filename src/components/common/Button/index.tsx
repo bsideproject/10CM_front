@@ -106,6 +106,7 @@ const defaultButtonStyle = css`
   transition: 0.1s;
   box-sizing: border-box;
   cursor: pointer;
+  ${fonts('text-sm-bold')};
 `;
 // button 스타일
 const MyButton = styled.button<{
