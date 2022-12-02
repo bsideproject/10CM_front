@@ -9,8 +9,8 @@ const DeleteTrip = () => {
   return (
     <Modal onClose={() => {}}>
       <Wrap>
-        <NoticeText>‘삭제할장소인데정말로긴이이이이이이인이름’</NoticeText>
-        <NoticeText>을 정말로 삭제하시겠습니까?</NoticeText>
+        <NoticeText>삭제한 일정은 복구가 불가능합니다.</NoticeText>
+        <NoticeText>정말로 삭제하시겠습니까?</NoticeText>
         <ModalButton btnText="확인" btnSize="medium" btnWidth="67px" />
       </Wrap>
     </Modal>
@@ -20,9 +20,10 @@ const DeleteTrip = () => {
 const Wrap = styled.div`
   display: flex;
   flex-direction: column;
-  width: 480px;
+  align-items: center;
+  width: 292px;
   border-radius: 4px;
-  padding: 24px;
+  padding: 32px;
   gap: 8px;
   background-color: ${colors.WHITE};
 `;
