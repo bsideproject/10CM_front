@@ -10,7 +10,7 @@ import { KakaoAddress } from 'dtos/kakao';
 interface IProps {
   daysData: KakaoAddress[][];
   pickedDay: number;
-  setPickedDay: React.Dispatch<React.SetStateAction<any>>;
+  setPickedDay: React.Dispatch<React.SetStateAction<number>>;
   removeDaysData: (addr: KakaoAddress, dayNum: number) => void;
 }
 

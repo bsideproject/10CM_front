@@ -10,8 +10,8 @@ interface IState {
 
 const initialState: IState = {
   title: '',
-  fromDate: initFromDate,
-  toDate: initToDate,
+  fromDate: addZero(initFromDate),
+  toDate: addZero(initToDate),
   img: {},
 };
 

@@ -9,20 +9,29 @@ import { MyTrip } from 'dtos/trip';
 import shareIcon from 'assets/img/shareIcon.svg';
 import dotIcon from 'assets/img/dotIcon.svg';
 import { sizes } from 'constants/sizes';
+import MyPlaceDetail from 'components/common/ModalContents/MyPlaceDetail';
 interface IProps {
   data: MyTrip;
 }
 const CompletedTripCard: React.FC<IProps> = ({ data }) => {
   const [clickedOption, setClickedOption] = useState(false);
+  const [onDetailModal, setOnDetailModal] = useState(false);
   const handleClickDot = () => {
     setClickedOption(!clickedOption);
   };
+
+  const handleClickDetail = () => {
+    setOnDetailModal(!onDetailModal);
+  };
+
+  const tripDate = convertTripDate(data.start_date, data.end_date);
+
   return (
     <Wrap>
       <Img src={emptyContent} width="244px" height="137px" />
       <TripWrap>
         <TripTitle>{data.name}</TripTitle>
-        <TripDate>{convertTripDate(data.start_date, data.end_date)}</TripDate>
+        <TripDate>{tripDate}</TripDate>
       </TripWrap>
       <TripParagraph>{data.description}</TripParagraph>
       <OptionWrap>
@@ -40,12 +49,19 @@ const CompletedTripCard: React.FC<IProps> = ({ data }) => {
         />
         {clickedOption && (
           <OptionList>
-            <OptionItem>상세보기</OptionItem>
+            <OptionItem onClick={handleClickDetail}>상세보기</OptionItem>
             <OptionItem>수정하기</OptionItem>
             <OptionItem>삭제하기</OptionItem>
           </OptionList>
         )}
       </OptionWrap>
+      {onDetailModal && (
+        <MyPlaceDetail
+          tripId={data.trip_id}
+          tripDate={tripDate}
+          onClose={handleClickDetail}
+        />
+      )}
     </Wrap>
   );
 };

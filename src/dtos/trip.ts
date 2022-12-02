@@ -14,6 +14,10 @@ export interface MyTripReqeust {
   share_yn: string;
   start_date: string;
   trip_details: MyTripDetail[][];
+  trip_id?: number;
+  trip_image_url?: string | null;
+  created_date?: string;
+  modified_date?: string | null;
 }
 
 export interface MyTrip {
@@ -34,4 +38,8 @@ export interface MyTripListResponse {
   page: number;
   size: number;
   total_pages: number;
+}
+
+export interface MyTripDelete {
+  trip_id: number;
 }

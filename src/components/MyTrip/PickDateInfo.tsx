@@ -6,13 +6,17 @@ import { useAppSelect } from 'store/configureStore.hooks';
 import * as Misc from 'services/misc';
 interface IProps {
   pickedDay: number;
+  mFromDate?: string;
+  type?: string;
 }
-const PickDateInfo: React.FC<IProps> = ({ pickedDay }) => {
+const PickDateInfo: React.FC<IProps> = ({ pickedDay, mFromDate, type }) => {
   const { fromDate } = useAppSelect(state => state.placeInfo);
+  const fDate = type === 'modal' ? mFromDate : fromDate;
+
   return (
     <Wrap>
       <PickDay>{`DAY${pickedDay}`}</PickDay>
-      <PickDate>{Misc.convertPickDay(fromDate, pickedDay)}</PickDate>
+      <PickDate>{Misc.convertPickDay(fDate!, pickedDay)}</PickDate>
     </Wrap>
   );
 };

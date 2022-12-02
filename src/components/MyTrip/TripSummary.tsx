@@ -7,8 +7,12 @@ import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
 import { useAppDispatch, useAppSelect } from 'store/configureStore.hooks';
 import { useNavigate } from 'react-router-dom';
-
-const TripSummary = () => {
+interface IProps {
+  type?: string;
+  mTitle?: string;
+  mDate?: string;
+}
+const TripSummary: React.FC<IProps> = ({ type, mTitle, mDate }) => {
   const { title, fromDate, toDate } = useAppSelect(state => state.placeInfo);
   const navigate = useNavigate();
   const sliceToDate = toDate.slice(5);
@@ -22,6 +26,12 @@ const TripSummary = () => {
     }
     // fix: 새로고침 시 돌아가기
   }, [title]);
+
+  const summaryData =
+    type === 'modal'
+      ? { title: mTitle, date: mDate }
+      : { title, date: dateText };
+
   return (
     <Wrap>
       <SummaryTitle>
@@ -31,8 +41,8 @@ const TripSummary = () => {
           height={sizes.TRIP_SUMMARY_SIZE}
         />
         <TripWrap>
-          <TripName>{title}</TripName>
-          <TripDate>{dateText}</TripDate>
+          <TripName>{summaryData.title}</TripName>
+          <TripDate>{summaryData.date}</TripDate>
         </TripWrap>
       </SummaryTitle>
     </Wrap>
