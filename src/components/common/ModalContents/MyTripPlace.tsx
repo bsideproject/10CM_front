@@ -11,10 +11,10 @@ import styled from 'styled-components';
 import { colors } from 'constants/colors';
 import * as Misc from 'services/misc';
 import { KakaoAddress } from 'dtos/kakao';
-import { useAppSelect } from 'store/configureStore.hooks';
-import { createTrip } from 'apis/tripApi';
+import { useAppDispatch, useAppSelect } from 'store/configureStore.hooks';
+import { createTrip, updateTrip } from 'apis/tripApi';
 import { useNavigate } from 'react-router-dom';
-
+import { setUpdateData, setUpdateId } from 'store/modules/placeInfo';
 interface IProps {
   daysData: KakaoAddress[][];
   onClose: () => void;
@@ -23,10 +23,13 @@ const MyTripPlace: React.FC<IProps> = ({ daysData, onClose }) => {
   const { TRIP } = CFG.MODAL_MYPLACE;
   const [file, setFile] = useState<File | undefined>();
   const [detailDesc, setDetailDesc] = useState('');
-  const { title, fromDate, toDate } = useAppSelect(state => state.placeInfo);
+  const { title, fromDate, toDate, updateData, updateId } = useAppSelect(
+    state => state.placeInfo,
+  );
   const [titleValue, setTitleValue] = useState(title);
   const navigate = useNavigate();
-  const handleClickSave = () => {
+  const dispatch = useAppDispatch();
+  const handleClickSave = async () => {
     const prms = {
       description: detailDesc,
       end_date: toDate,
@@ -36,9 +39,17 @@ const MyTripPlace: React.FC<IProps> = ({ daysData, onClose }) => {
       trip_details: Misc.convertTripDetails(daysData),
     };
     console.log(prms);
-    createTrip(prms);
+    if (updateData.length > 0) {
+      await updateTrip(updateId, prms).then(() => {
+        dispatch(setUpdateData([]));
+        dispatch(setUpdateId(-1));
+      });
+    } else {
+      await createTrip(prms);
+    }
     onClose();
     navigate('/my-trip');
+    // window.location.reload();
     // 모달 종료
     // 페이지 이동
   };
@@ -69,7 +80,7 @@ const MyTripPlace: React.FC<IProps> = ({ daysData, onClose }) => {
         />
         <ModalButton
           onClick={handleClickSave}
-          btnText="저장하기"
+          btnText={updateData.length > 0 ? '수정하기' : '저장하기'}
           btnSize="large"
           btnWidth="100%"
           isOne

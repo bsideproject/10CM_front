@@ -13,9 +13,8 @@ const useDaysData = (endDay: number): any => {
     if (filteredData.length > 0) {
       return;
     }
-
-    mapData[dayNum - 1].push(addr);
-    console.log(mapData);
+    console.log(mapData[dayNum - 1]);
+    mapData[dayNum - 1] = [...mapData[dayNum - 1], addr];
     setData([...mapData]);
   };
 
@@ -24,7 +23,7 @@ const useDaysData = (endDay: number): any => {
     mapData[dayNum - 1] = filteredData;
     setData([...mapData]);
   };
-  return [mapData, handleChangeData, handleRemoveData];
+  return [mapData, handleChangeData, handleRemoveData, setData];
 };
 
 export default useDaysData;

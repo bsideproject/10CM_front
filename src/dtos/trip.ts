@@ -4,10 +4,12 @@ export interface MyTripDetail {
   description: string;
   latitude: string;
   longitude: string;
+  phone: string;
+  id: string;
   name: string;
 }
 
-export interface MyTripReqeust {
+export interface MyTripRequest {
   description: string;
   end_date: string;
   name: string;

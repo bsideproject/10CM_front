@@ -12,6 +12,7 @@ import { colors } from 'constants/colors';
 import { setTitle, setFromDate, setToDate } from 'store/modules/placeInfo';
 import { useAppDispatch, useAppSelect } from 'store/configureStore.hooks';
 import useEnteredInfo from 'hooks/useEnteredInfo';
+import { routePath } from 'constants/route';
 
 interface IProps {
   onClose: () => void;
@@ -35,9 +36,7 @@ const MakeNewPlace: React.FC<IProps> = ({ onClose }) => {
       return;
     }
     dispatch(setTitle(title));
-    // ref를 걸어서 정보 가져오기
-    // 정보 가져와서 리덕스툴킷 이용
-    navigate('/make-my-trip');
+    navigate(routePath.MAKE_MY_TRIP);
   };
 
   return (

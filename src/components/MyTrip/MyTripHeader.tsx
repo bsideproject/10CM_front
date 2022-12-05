@@ -11,12 +11,23 @@ import { createTrip } from 'apis/tripApi';
 import { KakaoAddress } from 'dtos/kakao';
 import { useNavigate } from 'react-router-dom';
 import { routePath } from 'constants/route';
+import {
+  setTitle,
+  setFromDate,
+  setToDate,
+  setUpdateData,
+  setUpdateId,
+} from 'store/modules/placeInfo';
+import { useAppDispatch } from 'store/configureStore.hooks';
+import { initFromDate, initToDate } from 'services/misc';
+
 interface IProps {
   daysData: KakaoAddress[][];
 }
 const MyTripHeader: React.FC<IProps> = ({ daysData }) => {
   const navigate = useNavigate();
   const [onModal, setOnModal] = useState(false);
+  const dispatch = useAppDispatch();
 
   const handleChangeModal = () => {
     // 빈 데이터 처리
@@ -24,6 +35,11 @@ const MyTripHeader: React.FC<IProps> = ({ daysData }) => {
   };
 
   const handleClickCancel = () => {
+    dispatch(setTitle(''));
+    dispatch(setFromDate(initFromDate));
+    dispatch(setToDate(initToDate));
+    dispatch(setUpdateData([]));
+    dispatch(setUpdateId(-1));
     navigate(routePath.MY_TRIP);
   };
 

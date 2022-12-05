@@ -25,7 +25,7 @@ const MyPlaceContainer: React.FC<IProps> = ({
   useEffect(() => {
     setAddrData(daysData[pickedDay - 1]);
   }, [daysData, pickedDay]);
-
+  console.log(addrData);
   return (
     <Wrap>
       <DayNumList
@@ -37,13 +37,16 @@ const MyPlaceContainer: React.FC<IProps> = ({
       />
       <PickDateInfo pickedDay={pickedDay} mFromDate={mFromDate} type="modal" />
       <CardWrap>
-        <TripDayCard
-          number={0}
-          phone="010-1111-1111"
-          address={addrData[0].address_detail}
-          title={addrData[0].address}
-          cardData={addrData[0]}
-        />
+        {addrData.map((el, idx) => (
+          <TripDayCard
+            key={el.latitude}
+            number={idx + 1}
+            phone={el.phone! || '전화번호 없음'}
+            address={el.address}
+            title={el.name}
+            cardData={el}
+          />
+        ))}
       </CardWrap>
     </Wrap>
   );
@@ -56,11 +59,22 @@ const Wrap = styled.div`
   gap: 20px;
   width: 100%;
   background-color: ${colors.NEUTRAl_50};
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 `;
 
 const CardWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   width: 100%;
-  padding-top: 20px;
+  height: 511px;
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export default MyPlaceContainer;

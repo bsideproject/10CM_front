@@ -36,7 +36,7 @@ export const createAddressDetailOverlay: CreateOverlay = (
   placeName.appendChild(placeNameContent);
   const placeCategory = document.createElement('span');
   const placeCategoryContent = document.createTextNode(
-    addressInfo.category_name.split(' > ')[1],
+    addressInfo.category_name!.split(' > ')[1],
   );
   placeCategory.className = 'overlay-header-category';
   placeCategory.appendChild(placeCategoryContent);
@@ -75,7 +75,7 @@ export const createAddressDetailOverlay: CreateOverlay = (
   const link = document.createElement('a');
   const linkContent = document.createTextNode('홈페이지');
   link.target = '_blank';
-  link.href = addressInfo.place_url;
+  link.href = addressInfo.place_url!;
   link.rel = 'noopener noreferrer';
   link.className = 'overlay-body-text-link';
   link.appendChild(linkContent);
@@ -236,7 +236,7 @@ export const createDndElement: CreateOverlay = (
   placeName.appendChild(placeNameContent);
   const placeCategory = document.createElement('span');
   const placeCategoryContent = document.createTextNode(
-    addressInfo.category_name.split(' > ')[1],
+    addressInfo.category_name!.split(' > ')[1],
   );
   placeCategory.className = 'overlay-header-category';
   placeCategory.appendChild(placeCategoryContent);
@@ -275,7 +275,7 @@ export const createDndElement: CreateOverlay = (
   const link = document.createElement('a');
   const linkContent = document.createTextNode('홈페이지');
   link.target = '_blank';
-  link.href = addressInfo.place_url;
+  link.href = addressInfo.place_url!;
   link.rel = 'noopener noreferrer';
   link.className = 'overlay-body-text-link';
   link.appendChild(linkContent);

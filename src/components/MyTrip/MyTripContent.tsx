@@ -7,20 +7,24 @@ import EmptyContent from 'components/common/EmptyContent/EmptyContent';
 import CompletedTripCard from 'components/CompletedTripCard/CompletedTripCard';
 import CompletedTripGroup from 'components/CompletedTripGroup/CompletedTripGroup';
 import MakeNewPlace from 'components/common/ModalContents/MakeNewPlace';
+import { useAppDispatch } from 'store/configureStore.hooks';
+import { setUpdateData } from 'store/modules/placeInfo';
 import { getTripList } from 'apis/tripApi';
 import TripBanner from './TripBanner';
 
 const MyTripContent: React.FC = () => {
   const [onModal, setOnModal] = useState(false);
   const [tripData, setTripData] = useState<any>({});
+  const dispatch = useAppDispatch();
+
   const handleControlModal = () => {
+    dispatch(setUpdateData([]));
     setOnModal(!onModal);
   };
 
   useEffect(() => {
     getTripList().then(res => setTripData(res));
   }, []);
-  console.log(tripData);
   const emptyData =
     Object.keys(tripData).length === 0 || tripData?.data.length === 0;
   // ${data.length}
@@ -46,7 +50,7 @@ const MyTripContent: React.FC = () => {
           </Button>
         </Header>
         <MainWrap>
-          {emptyData && <EmptyContent />}
+          {emptyData && <EmptyContent onClick={handleControlModal} />}
           {!emptyData && <CompletedTripGroup data={tripData.data} />}
         </MainWrap>
         {onModal && <MakeNewPlace onClose={handleControlModal} />}

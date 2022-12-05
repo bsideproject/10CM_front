@@ -1,27 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
 import Img from 'components/Img/Img';
 import { convertTripDate } from 'services/misc';
 import emptyContent from 'assets/img/emptyContent.svg';
-import { MyTrip } from 'dtos/trip';
+import { MyTrip, MyTripRequest } from 'dtos/trip';
 import shareIcon from 'assets/img/shareIcon.svg';
 import dotIcon from 'assets/img/dotIcon.svg';
 import { sizes } from 'constants/sizes';
 import MyPlaceDetail from 'components/common/ModalContents/MyPlaceDetail';
+import DeleteTrip from 'components/common/ModalContents/DeleteTrip';
+import { useNavigate } from 'react-router-dom';
+import { routePath } from 'constants/route';
+import { useAppDispatch } from 'store/configureStore.hooks';
+import {
+  setTitle,
+  setFromDate,
+  setToDate,
+  setUpdateData,
+  setUpdateId,
+} from 'store/modules/placeInfo';
+import { getDetailTrip } from 'apis/tripApi';
 interface IProps {
   data: MyTrip;
 }
 const CompletedTripCard: React.FC<IProps> = ({ data }) => {
   const [clickedOption, setClickedOption] = useState(false);
   const [onDetailModal, setOnDetailModal] = useState(false);
+  const [onDeleteModal, setOnDeleteModal] = useState(false);
+  const [tripData, setTripData] = useState<MyTripRequest>();
+  useEffect(() => {
+    getDetailTrip(data.trip_id).then(res => setTripData(res));
+  }, []);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const handleClickDot = () => {
     setClickedOption(!clickedOption);
   };
 
   const handleClickDetail = () => {
     setOnDetailModal(!onDetailModal);
+  };
+
+  const handleClickUpdate = () => {
+    dispatch(setTitle(data.name));
+    dispatch(setFromDate(data.start_date));
+    dispatch(setToDate(data.end_date));
+    dispatch(setUpdateData(tripData!.trip_details));
+    dispatch(setUpdateId(data.trip_id));
+    navigate(routePath.MAKE_MY_TRIP);
+  };
+
+  const handleClickDelete = () => {
+    setOnDeleteModal(!onDeleteModal);
   };
 
   const tripDate = convertTripDate(data.start_date, data.end_date);
@@ -50,17 +83,20 @@ const CompletedTripCard: React.FC<IProps> = ({ data }) => {
         {clickedOption && (
           <OptionList>
             <OptionItem onClick={handleClickDetail}>상세보기</OptionItem>
-            <OptionItem>수정하기</OptionItem>
-            <OptionItem>삭제하기</OptionItem>
+            <OptionItem onClick={handleClickUpdate}>수정하기</OptionItem>
+            <OptionItem onClick={handleClickDelete}>삭제하기</OptionItem>
           </OptionList>
         )}
       </OptionWrap>
       {onDetailModal && (
         <MyPlaceDetail
-          tripId={data.trip_id}
           tripDate={tripDate}
+          tripData={tripData!}
           onClose={handleClickDetail}
         />
+      )}
+      {onDeleteModal && (
+        <DeleteTrip onClose={handleClickDelete} tripId={data.trip_id} />
       )}
     </Wrap>
   );

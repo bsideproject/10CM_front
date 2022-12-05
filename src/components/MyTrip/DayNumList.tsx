@@ -75,7 +75,6 @@ const DayNumList: React.FC<IProps> = ({
           src={leftArrow}
           width={sizes.ARROW_ICON_SIZE}
           height={sizes.ARROW_ICON_SIZE}
-          padding="0 8px 0 0"
           onClick={handleClickLeft}
         />
         <Img
@@ -108,5 +107,8 @@ const ControlWrap = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  > img:nth-child(1) {
+    margin-right: 8px;
+  }
 `;
 export default DayNumList;

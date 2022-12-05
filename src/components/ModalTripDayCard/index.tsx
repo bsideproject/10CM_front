@@ -37,10 +37,11 @@ const TripDayCard: React.FC<IProps> = ({
 };
 
 const TripDayCardWrap = styled.article`
-  width: calc(432px - 32px);
+  width: 100%;
   padding: 16px;
   border-radius: 12px;
   background-color: white;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12);
 `;
 const TripDayCardTop = styled.div`
   display: flex;

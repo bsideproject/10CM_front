@@ -7,20 +7,15 @@ import MyPlaceContainer from 'components/UI/MyPlaceContainer';
 import ModalTitle from 'components/ModalContents/ModalTitle';
 import { colors } from 'constants/colors';
 import { getDetailTrip } from 'apis/tripApi';
-import { MyTripReqeust } from 'dtos/trip';
+import { MyTripRequest } from 'dtos/trip';
 interface IProps {
   tripDate: string;
-  tripId: number;
+  tripData: MyTripRequest;
   onClose: () => void;
 }
-const MyPlaceDetail: React.FC<IProps> = ({ tripDate, tripId, onClose }) => {
+const MyPlaceDetail: React.FC<IProps> = ({ tripDate, tripData, onClose }) => {
   const { PLACE_DETAIL } = CFG.MODAL_MYPLACE;
-  const [tripData, setTripData] = useState<MyTripReqeust>();
   const [pickedDay, setPickedDay] = useState(1);
-
-  useEffect(() => {
-    getDetailTrip(tripId).then(res => setTripData(res));
-  }, []);
 
   if (!tripData) {
     return null;

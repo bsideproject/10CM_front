@@ -26,6 +26,7 @@ const Wrap = styled.div`
   align-items: center;
   gap: 8px;
   width: 100%;
+  padding: 9px 0px;
   border-bottom: 1px solid ${colors.NEUTRAl_100};
 `;
 

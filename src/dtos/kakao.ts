@@ -3,14 +3,14 @@ export interface KakaoAddress {
   address_name: string;
 
   // 그룹 코드
-  category_group_code: string;
+  category_group_code?: string;
 
   // 그룹 이름
-  category_group_name: string;
+  category_group_name?: string;
 
   // 주소 카테고리
-  category_name: string;
-  distance: string;
+  category_name?: string;
+  distance?: string;
 
   // pk
   id: string;
@@ -22,7 +22,7 @@ export interface KakaoAddress {
   place_name: string;
 
   // 장소 링크
-  place_url: string;
+  place_url?: string;
 
   // 도로명 주소
   road_address_name: string;
