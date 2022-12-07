@@ -14,18 +14,19 @@ import { KakaoAddress } from 'dtos/kakao';
 import { useAppDispatch, useAppSelect } from 'store/configureStore.hooks';
 import { createTrip, updateTrip } from 'apis/tripApi';
 import { useNavigate } from 'react-router-dom';
-import { setUpdateData, setUpdateId } from 'store/modules/placeInfo';
+import { setUpdateData, setUpdateId, setImg } from 'store/modules/placeInfo';
 interface IProps {
   daysData: KakaoAddress[][];
   onClose: () => void;
 }
 const MyTripPlace: React.FC<IProps> = ({ daysData, onClose }) => {
   const { TRIP } = CFG.MODAL_MYPLACE;
-  const [file, setFile] = useState<File | undefined>();
+
   const [detailDesc, setDetailDesc] = useState('');
-  const { title, fromDate, toDate, updateData, updateId } = useAppSelect(
+  const { title, fromDate, toDate, img, updateData, updateId } = useAppSelect(
     state => state.placeInfo,
   );
+  const [imgUrl, setImgUrl] = useState(img);
   const [titleValue, setTitleValue] = useState(title);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -36,6 +37,8 @@ const MyTripPlace: React.FC<IProps> = ({ daysData, onClose }) => {
       name: titleValue,
       share_yn: 'N',
       start_date: fromDate,
+      trip_image_url: imgUrl.url || '',
+      trip_image_name: imgUrl.originalName || '',
       trip_details: Misc.convertTripDetails(daysData),
     };
     console.log(prms);
@@ -43,6 +46,7 @@ const MyTripPlace: React.FC<IProps> = ({ daysData, onClose }) => {
       await updateTrip(updateId, prms).then(() => {
         dispatch(setUpdateData([]));
         dispatch(setUpdateId(-1));
+        dispatch(setImg({ originalName: '', url: '' }));
       });
     } else {
       await createTrip(prms);
@@ -72,7 +76,7 @@ const MyTripPlace: React.FC<IProps> = ({ daysData, onClose }) => {
           onChangeTitle={handleChangeInput}
         />
         <AddSchedule isMake={false} />
-        <AddImgBtn file={file} setFile={setFile} />
+        <AddImgBtn setUrl={setImgUrl} />
         <AddTextArea
           purpose="TRIP"
           value={detailDesc}

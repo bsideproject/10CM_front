@@ -23,6 +23,7 @@ export interface MyTripRequest {
 }
 
 export interface MyTrip {
+  trip_image_url?: string;
   created_date: string;
   description: string;
   end_date: string;
@@ -31,6 +32,7 @@ export interface MyTrip {
   share_yn: string;
   start_date: string;
   trip_id: number;
+  trip_image_name?: string;
 }
 
 export interface MyTripListResponse {

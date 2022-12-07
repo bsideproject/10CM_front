@@ -129,7 +129,7 @@ const DraggableItem: React.FC<Props> = ({
 export default DraggableItem;
 
 const DndWrap = styled.div`
-  height: calc(100vh - 311px);
+  height: calc(100vh - 351px);
   overflow-y: scroll;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */

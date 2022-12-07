@@ -23,7 +23,8 @@ type SelectedType = 'search' | 'myPlace';
 
 const SearchAddress: React.FC<Props> = ({ map, pickedDay, onSetDaysData }) => {
   const [selectedMenu, setSelectedMenu] = useState<SelectedType>('search');
-  const [searchValue, onChangeSearchValue] = useEnteredInfo('');
+  const [searchValue, onChangeSearchValue, onResetSearchValue] =
+    useEnteredInfo('');
   const [searchedData, setSearchedData] = useState<KakaoAddress[]>([]);
 
   const currentMarker = useRef<any>();
@@ -127,6 +128,8 @@ const SearchAddress: React.FC<Props> = ({ map, pickedDay, onSetDaysData }) => {
         <Input
           placeholder="장소 검색"
           isSearch
+          isClear
+          onClear={onResetSearchValue}
           value={searchValue}
           onChange={onChangeSearchValue}
           onKeyPress={handleKeyPress}

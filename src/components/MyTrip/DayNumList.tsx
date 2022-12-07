@@ -39,6 +39,7 @@ const DayNumList: React.FC<IProps> = ({
 
   const initBoxLen = isModalType ? 6 : 4;
   const [showBoxLen, setShowBoxLen] = useState(initBoxLen);
+  const showControlWrap = daylist.length >= initBoxLen;
 
   const handleClickLeft = () => {
     if (daylist.length <= initBoxLen - 1) {
@@ -70,20 +71,22 @@ const DayNumList: React.FC<IProps> = ({
           />
         ))}
       </DayWrap>
-      <ControlWrap>
-        <Img
-          src={leftArrow}
-          width={sizes.ARROW_ICON_SIZE}
-          height={sizes.ARROW_ICON_SIZE}
-          onClick={handleClickLeft}
-        />
-        <Img
-          src={rightArrow}
-          width={sizes.ARROW_ICON_SIZE}
-          height={sizes.ARROW_ICON_SIZE}
-          onClick={handleClickRight}
-        />
-      </ControlWrap>
+      {showControlWrap && (
+        <ControlWrap>
+          <Img
+            src={leftArrow}
+            width={sizes.ARROW_ICON_SIZE}
+            height={sizes.ARROW_ICON_SIZE}
+            onClick={handleClickLeft}
+          />
+          <Img
+            src={rightArrow}
+            width={sizes.ARROW_ICON_SIZE}
+            height={sizes.ARROW_ICON_SIZE}
+            onClick={handleClickRight}
+          />
+        </ControlWrap>
+      )}
     </Wrap>
   );
 };

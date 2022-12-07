@@ -1,7 +1,8 @@
 import Img from 'components/Img/Img';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import logo from 'assets/img/smallNavLogo.svg';
+import defaultTripImg from 'assets/img/defaultTripImg.svg';
+
 import { sizes } from 'constants/sizes';
 import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
@@ -13,7 +14,9 @@ interface IProps {
   mDate?: string;
 }
 const TripSummary: React.FC<IProps> = ({ type, mTitle, mDate }) => {
-  const { title, fromDate, toDate } = useAppSelect(state => state.placeInfo);
+  const { title, fromDate, toDate, img } = useAppSelect(
+    state => state.placeInfo,
+  );
   const navigate = useNavigate();
   const sliceToDate = toDate.slice(5);
   const dateText = `${fromDate.replaceAll('-', '.')} - ${sliceToDate.replaceAll(
@@ -36,7 +39,7 @@ const TripSummary: React.FC<IProps> = ({ type, mTitle, mDate }) => {
     <Wrap>
       <SummaryTitle>
         <Img
-          src={logo}
+          src={img.url || defaultTripImg}
           width={sizes.TRIP_SUMMARY_SIZE}
           height={sizes.TRIP_SUMMARY_SIZE}
         />

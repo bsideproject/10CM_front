@@ -15,6 +15,7 @@ import {
   setTitle,
   setFromDate,
   setToDate,
+  setImg,
   setUpdateData,
   setUpdateId,
 } from 'store/modules/placeInfo';
@@ -40,6 +41,7 @@ const MyTripHeader: React.FC<IProps> = ({ daysData }) => {
     dispatch(setToDate(initToDate));
     dispatch(setUpdateData([]));
     dispatch(setUpdateId(-1));
+    dispatch(setImg({ url: '', originalName: '' }));
     navigate(routePath.MY_TRIP);
   };
 

@@ -19,6 +19,7 @@ const useMyPlaceList = () => {
     }
     return false;
   };
+
   const reFetchMyPlaceList = async () => {
     setIsLoading(true);
     try {
@@ -37,6 +38,7 @@ const useMyPlaceList = () => {
     }
     setIsLoading(false);
   };
+
   const fetchNextMyPlaceList = async () => {
     setIsLoading(true);
     try {
@@ -53,6 +55,7 @@ const useMyPlaceList = () => {
     }
     setIsLoading(false);
   };
+
   const fetchMyPlaceList = async () => {
     setIsLoading(true);
     try {

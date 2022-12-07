@@ -1,57 +1,62 @@
 import Input from 'components/common/Input';
 import Img from 'components/Img/Img';
-import React, { useState, MouseEvent } from 'react';
-import deleteIcon from 'assets/img/deleteIcon.svg';
+import React, { useState, useEffect } from 'react';
+import { ReactComponent as CancelSvg } from 'assets/svg/input-cancel.svg';
 import * as CFG from 'services/config.js';
 import styled, { css } from 'styled-components';
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
 import { sizes } from 'constants/sizes';
-import { useAppDispatch } from 'store/configureStore.hooks';
+import { useAppDispatch, useAppSelect } from 'store/configureStore.hooks';
 import { setImg } from 'store/modules/placeInfo';
+import { uploadImage } from 'apis/image';
 interface IProps {
-  file: File | undefined;
-  setFile: React.Dispatch<React.SetStateAction<any>>;
+  setUrl: React.Dispatch<React.SetStateAction<any>>;
 }
-const AddImgBtn: React.FC<IProps> = ({ file, setFile }) => {
+const AddImgBtn: React.FC<IProps> = ({ setUrl }) => {
   const [labelText, setLableText] = useState<string>(CFG.INIT_ADD_IMG_LABEL);
   // const [file, setFile] = useState<File>();
   const showDeleteBtn = labelText !== CFG.INIT_ADD_IMG_LABEL;
   const dispatch = useAppDispatch();
-
-  const handleInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const { img } = useAppSelect(state => state.placeInfo);
+  useEffect(() => {
+    if (img.originalName) {
+      setLableText(img.originalName);
+    }
+  }, []);
+  const handleInputFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.currentTarget;
     const files = (target.files as FileList)[0];
     const { size, name } = files;
 
     if (size > CFG.FILE_SIZE_MAX_LIMIT) {
+      alert('파일 용량이 500MB를 넘을 수 없습니다.');
       target.value = '';
-      // alert
       return;
     }
 
     setLableText(name);
     // 정상적으로 통과 한다면
-    setFile(files);
-    // ref: https://velog.io/@mjhyp88/ReactTypscript-%ED%8C%8C%EC%9D%BC%EC%97%85%EB%A1%9C%EB%93%9C-%EA%B8%B0%EB%8A%A5-%EA%B5%AC%ED%98%84With.-Springboot
+    const formData = new FormData();
+    formData.append('file', files);
+    const data = await uploadImage(formData).catch(() => {
+      alert('이미지 업로드에 실패하였습니다.');
+      setLableText('');
+    });
+    console.log(data);
+    if (data) {
+      setUrl({ originalName: data.original_name, url: data.url });
+    }
   };
 
   const handleInitText = () => {
-    setFile(undefined);
+    setUrl('');
     setLableText(CFG.INIT_ADD_IMG_LABEL);
   };
   return (
     <Wrap>
       <HeaderText>사진 첨부</HeaderText>
-      {showDeleteBtn && (
-        <Img
-          src={deleteIcon}
-          width={sizes.CLOSE_BTN_SIZE}
-          height={sizes.CLOSE_BTN_SIZE}
-          padding="0 9px 0 0"
-          onClick={handleInitText}
-        />
-      )}
+      {showDeleteBtn && <CancelIcon onClick={handleInitText} />}
       <InputLable htmlFor="input-file" showBtn={showDeleteBtn}>
         <span>{labelText}</span>
       </InputLable>
@@ -78,12 +83,6 @@ const Wrap = styled.div`
   gap: 4px;
   height: 107px;
   position: relative;
-
-  > img {
-    position: absolute;
-    top: 49px;
-    right: 0;
-  }
 `;
 
 const HeaderText = styled.span`
@@ -122,4 +121,13 @@ const WarningText = styled.span`
   color: ${colors.NEUTRAl_400};
 `;
 
+const CancelIcon = styled(CancelSvg)`
+  width: 24px;
+  height: 24px;
+  margin-right: 9px;
+  position: absolute;
+  top: 49px;
+  right: 0;
+  cursor: pointer;
+`;
 export default AddImgBtn;

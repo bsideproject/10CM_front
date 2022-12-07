@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
 import Img from 'components/Img/Img';
 import { convertTripDate } from 'services/misc';
-import emptyContent from 'assets/img/emptyContent.svg';
+import defaultTripImg from 'assets/img/defaultTripImg.svg';
 import { MyTrip, MyTripRequest } from 'dtos/trip';
 import shareIcon from 'assets/img/shareIcon.svg';
 import dotIcon from 'assets/img/dotIcon.svg';
@@ -19,6 +19,7 @@ import {
   setFromDate,
   setToDate,
   setUpdateData,
+  setImg,
   setUpdateId,
 } from 'store/modules/placeInfo';
 import { getDetailTrip } from 'apis/tripApi';
@@ -29,10 +30,22 @@ const CompletedTripCard: React.FC<IProps> = ({ data }) => {
   const [clickedOption, setClickedOption] = useState(false);
   const [onDetailModal, setOnDetailModal] = useState(false);
   const [onDeleteModal, setOnDeleteModal] = useState(false);
+  const clickedOptionRef = useRef<any>();
   const [tripData, setTripData] = useState<MyTripRequest>();
+
   useEffect(() => {
     getDetailTrip(data.trip_id).then(res => setTripData(res));
   }, []);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  });
+
+  useEffect(() => {});
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -50,6 +63,12 @@ const CompletedTripCard: React.FC<IProps> = ({ data }) => {
     dispatch(setToDate(data.end_date));
     dispatch(setUpdateData(tripData!.trip_details));
     dispatch(setUpdateId(data.trip_id));
+    dispatch(
+      setImg({
+        url: data.trip_image_url || '',
+        originalName: data.trip_image_name || '',
+      }),
+    );
     navigate(routePath.MAKE_MY_TRIP);
   };
 
@@ -57,17 +76,29 @@ const CompletedTripCard: React.FC<IProps> = ({ data }) => {
     setOnDeleteModal(!onDeleteModal);
   };
 
+  const handleClickOutside = (e: MouseEvent) => {
+    if (clickedOption && !clickedOptionRef.current.contains(e.target)) {
+      handleClickDot();
+    }
+  };
+
   const tripDate = convertTripDate(data.start_date, data.end_date);
 
   return (
     <Wrap>
-      <Img src={emptyContent} width="244px" height="137px" />
+      <HoverWrap>
+        <Img
+          src={data.trip_image_url || defaultTripImg}
+          width="244px"
+          height="137px"
+        />
+      </HoverWrap>
       <TripWrap>
         <TripTitle>{data.name}</TripTitle>
         <TripDate>{tripDate}</TripDate>
       </TripWrap>
       <TripParagraph>{data.description}</TripParagraph>
-      <OptionWrap>
+      <OptionWrap ref={clickedOptionRef}>
         <Img
           src={shareIcon}
           width={sizes.SHARE_ICON_SIZE}
@@ -113,6 +144,11 @@ const Wrap = styled.div`
   border-radius: 4px;
 `;
 
+const HoverWrap = styled.div`
+  width: 244px;
+  height: 137px;
+`;
+
 const TripWrap = styled.div`
   width: 100%;
   display: flex;
@@ -134,6 +170,7 @@ const TripDate = styled.span`
 
 const TripParagraph = styled.p`
   width: 100%;
+  height: 52px;
   ${fonts('text-xs-regular')};
   color: ${colors.BLACK};
   letter-spacing: 0.013em;
@@ -142,7 +179,7 @@ const TripParagraph = styled.p`
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  word-break: break-all;
+  /* word-break: break-all; */
 `;
 
 const OptionWrap = styled.div`

@@ -11,7 +11,7 @@ import ModalButton from 'components/ModalContents/ModalButton';
 import { colors } from 'constants/colors';
 const UpdatePlace: React.FC = () => {
   const { UPDATE } = CFG.MODAL_MYPLACE;
-  const [file, setFile] = useState<File | undefined>();
+  const [imgUrl, setImgUrl] = useState();
 
   return (
     <Modal onClose={() => {}}>
@@ -19,7 +19,7 @@ const UpdatePlace: React.FC = () => {
         <ModalTitle headerText={UPDATE.headerText} />
         <OverFlowWrap>
           <SearchLocation />
-          <AddImgBtn file={file} setFile={setFile} />
+          <AddImgBtn setUrl={setImgUrl} />
           <AddInput purpose="TAG" />
           <AddTextArea purpose="TAG" />
         </OverFlowWrap>

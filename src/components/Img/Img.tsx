@@ -51,6 +51,7 @@ const MyImg = styled.img<ImgProps>`
   cursor: ${props => props.cursor};
   background: ${props => props.background};
   border-radius: ${props => props.borderRadius};
+  object-fit: cover;
 `;
 
 export default Img;

@@ -3,9 +3,20 @@ import { ReactComponent as leftArrowSvg } from 'assets/img/leftArrowPagi.svg';
 import { ReactComponent as rightArrowSvg } from 'assets/img/rightArrowPagi.svg';
 import styled from 'styled-components';
 import { colors } from 'constants/colors';
+import { getPagination } from 'utils/paging';
 
 interface IProps {}
 const Pagination: React.FC<IProps> = () => {
+  console.log(
+    getPagination({
+      currentPage: 6,
+      pagePerView: 5,
+      articlePerPage: 6,
+      total: 60,
+    }),
+  );
+  // 예시
+
   return (
     <Wrap>
       <LeftArrowIcon />
@@ -14,11 +25,6 @@ const Pagination: React.FC<IProps> = () => {
       <PerPage>3</PerPage>
       <PerPage>4</PerPage>
       <PerPage>5</PerPage>
-      <PerPage>6</PerPage>
-      <PerPage>7</PerPage>
-      <PerPage>8</PerPage>
-      <PerPage>9</PerPage>
-      <PerPage>10</PerPage>
       <RightArrowIcon />
     </Wrap>
   );
@@ -29,7 +35,7 @@ const Wrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 24px;
 `;
 
 const LeftArrowIcon = styled(leftArrowSvg)`

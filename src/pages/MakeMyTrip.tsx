@@ -20,13 +20,11 @@ const MakeMyTrip: React.FC = () => {
   const handleChangeRef = (map: any) => {
     mapRef.current = map;
   };
-  console.log(updateData);
   useEffect(() => {
     if (updateData.length > 0) {
       setInitDaysData([...updateData]);
     }
   }, []);
-  console.log(daysData);
   return (
     <MakeTripLayout
       header={<MyTripHeader daysData={daysData} />}
@@ -45,7 +43,13 @@ const MakeMyTrip: React.FC = () => {
           onSetDaysData={setDaysData}
         />
       }
-      map={<Map mapRef={mapRef} setMapRef={handleChangeRef} />}
+      map={
+        <Map
+          mapRef={mapRef}
+          setMapRef={handleChangeRef}
+          pickedDay={pickedDay}
+        />
+      }
     />
   );
 };

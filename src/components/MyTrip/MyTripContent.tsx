@@ -10,6 +10,7 @@ import MakeNewPlace from 'components/common/ModalContents/MakeNewPlace';
 import { useAppDispatch } from 'store/configureStore.hooks';
 import { setUpdateData } from 'store/modules/placeInfo';
 import { getTripList } from 'apis/tripApi';
+import Pagination from 'components/common/Pagination/Pagination';
 import TripBanner from './TripBanner';
 
 const MyTripContent: React.FC = () => {
@@ -32,7 +33,7 @@ const MyTripContent: React.FC = () => {
   const headerText = emptyData
     ? '나의 여행'
     : `나의 여행 (${tripData.data.length})`;
-
+  console.log(tripData);
   return (
     <Wrap>
       <TripBanner />
@@ -52,6 +53,7 @@ const MyTripContent: React.FC = () => {
         <MainWrap>
           {emptyData && <EmptyContent onClick={handleControlModal} />}
           {!emptyData && <CompletedTripGroup data={tripData.data} />}
+          <Pagination />
         </MainWrap>
         {onModal && <MakeNewPlace onClose={handleControlModal} />}
       </TripWrap>

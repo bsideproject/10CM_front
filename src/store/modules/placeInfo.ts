@@ -15,7 +15,7 @@ interface IState {
   toDate: string;
   updateData: KakaoAddress[][];
   updateId: number;
-  img: any;
+  img: { originalName: string; url: string };
 }
 
 const initialState: IState = {
@@ -24,7 +24,10 @@ const initialState: IState = {
   toDate: addZero(initToDate),
   updateData: [],
   updateId: -1,
-  img: {},
+  img: {
+    originalName: '',
+    url: '',
+  },
 };
 
 const placeInfoSlice = createSlice({
@@ -46,7 +49,10 @@ const placeInfoSlice = createSlice({
     setUpdateId: (state, action: PayloadAction<number>) => {
       state.updateId = action.payload;
     },
-    setImg: (state, action: PayloadAction<any>) => {
+    setImg: (
+      state,
+      action: PayloadAction<{ originalName: string; url: string }>,
+    ) => {
       state.img = action.payload;
     },
   },
