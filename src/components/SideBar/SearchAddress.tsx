@@ -5,7 +5,7 @@ import React, { useState, useRef, KeyboardEvent } from 'react';
 import styled, { css } from 'styled-components';
 import SearchAddressCard from 'components/SearchCard';
 import MapConfig from 'services/map-config.js';
-import { createAddressDetailOverlay } from 'utils/overlay';
+import { createDndElement } from 'utils/overlay';
 import MyPlaceGroup from 'components/CreateTrip/MyPlaceGroup';
 
 import useEnteredInfo from 'hooks/useEnteredInfo';
@@ -23,7 +23,8 @@ type SelectedType = 'search' | 'myPlace';
 
 const SearchAddress: React.FC<Props> = ({ map, pickedDay, onSetDaysData }) => {
   const [selectedMenu, setSelectedMenu] = useState<SelectedType>('search');
-  const [searchValue, onChangeSearchValue] = useEnteredInfo('');
+  const [searchValue, onChangeSearchValue, onResetSearchValue] =
+    useEnteredInfo('');
   const [searchedData, setSearchedData] = useState<KakaoAddress[]>([]);
 
   const currentMarker = useRef<any>();
@@ -65,9 +66,9 @@ const SearchAddress: React.FC<Props> = ({ map, pickedDay, onSetDaysData }) => {
     }
   };
 
-  // 포스팅 추가하기 클릭
-  const handleCreateClick = (addressInfo: KakaoAddress) => {
-    console.log(addressInfo);
+  // dnd 추가하기
+  const handlePushDndElement = (addressInfo: KakaoAddress) => {
+    onSetDaysData(addressInfo, pickedDay);
     // setSelectedAddress(addressInfo);
   };
 
@@ -84,10 +85,10 @@ const SearchAddress: React.FC<Props> = ({ map, pickedDay, onSetDaysData }) => {
       );
       MapConfig.changeOverlayContent(
         currentOverlay.current,
-        createAddressDetailOverlay(
+        createDndElement(
           addressInfo,
           handleOverayOverlayClose,
-          handleCreateClick,
+          handlePushDndElement,
         ),
       );
       MapConfig.moveMap(map, addressInfo.y, addressInfo.x);
@@ -102,10 +103,10 @@ const SearchAddress: React.FC<Props> = ({ map, pickedDay, onSetDaysData }) => {
       };
 
       const overlay = new kakao.maps.CustomOverlay({
-        content: createAddressDetailOverlay(
+        content: createDndElement(
           addressInfo,
           closeOverlay,
-          handleCreateClick,
+          handlePushDndElement,
         ),
         map: map.current,
         position: marker.getPosition(),
@@ -127,6 +128,8 @@ const SearchAddress: React.FC<Props> = ({ map, pickedDay, onSetDaysData }) => {
         <Input
           placeholder="장소 검색"
           isSearch
+          isClear
+          onClear={onResetSearchValue}
           value={searchValue}
           onChange={onChangeSearchValue}
           onKeyPress={handleKeyPress}

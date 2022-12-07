@@ -46,7 +46,7 @@ const SearchCard: React.FC<Props> = ({
         <SearchAddressCardZibun>{data.address_name}</SearchAddressCardZibun>
       </SearchAddressCardBody>
       <SearchAddressCardFooter>
-        <div>{data.phone}</div>
+        <div>{data.phone || '전화번호 없음'}</div>
         <a href={data.place_url} target="_blank" rel="noopener noreferrer">
           홈페이지
         </a>

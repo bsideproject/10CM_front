@@ -69,6 +69,7 @@ export default TripDayCard;
 
 const TripDayCardWrap = styled.article`
   width: 310px;
+  /* 432px */
   padding: 16px;
   border-radius: 12px;
   background-color: white;

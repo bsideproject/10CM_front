@@ -1,4 +1,5 @@
 import { KakaoAddress } from 'dtos/kakao';
+import { MyTripDetail } from 'dtos/trip';
 type SplitType = 'dash' | 'dot';
 const DATE_ONE_DAY = 86400000;
 
@@ -48,6 +49,7 @@ export const convertPickDay = (date: string, pickedDay: number) => {
 };
 
 export const convertTripDetails = (data: KakaoAddress[][]) => {
+  console.log(data);
   const convertData = data.map(arr =>
     arr.map(el => {
       return {
@@ -55,6 +57,8 @@ export const convertTripDetails = (data: KakaoAddress[][]) => {
         longitude: el.x,
         description: '',
         name: el.place_name,
+        phone: el.phone,
+        id: el.id,
         address: el.road_address_name,
         address_detail: el.address_name,
       };
@@ -68,6 +72,33 @@ export const convertTripDate = (startDate: string, endDate: string) => {
   const start = startDate.replaceAll('-', '.');
   const end = endDate.slice(5).replace('-', '.');
   return `${start} - ${end}`;
+};
+
+export const addZero = (date: string) => {
+  const splitArr = date.split('-');
+  const data = splitArr.map(el => {
+    if (el.length === 1) {
+      return `0${el}`;
+    }
+    return el;
+  });
+  return `${data[0]}-${data[1]}-${data[2]}`;
+};
+
+export const updateAddrData = (data: MyTripDetail[][]) => {
+  return data.map(dayData =>
+    dayData.map(el => {
+      return {
+        road_address_name: el.address,
+        address_name: el.address_detail,
+        x: el.longitude,
+        y: el.latitude,
+        id: el.id,
+        place_name: el.name,
+        phone: el.phone,
+      };
+    }),
+  );
 };
 // x = longtidue 경도
 // y = latitude 위도

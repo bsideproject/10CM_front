@@ -14,7 +14,7 @@ interface IProps {
 }
 const AddPlace: React.FC<IProps> = ({ onClose }) => {
   const { ADD } = CFG.MODAL_MYPLACE;
-  const [file, setFile] = useState<File | undefined>();
+  const [imgUrl, setImgUrl] = useState();
 
   return (
     <Modal onClose={onClose}>
@@ -22,7 +22,7 @@ const AddPlace: React.FC<IProps> = ({ onClose }) => {
         <ModalTitle headerText={ADD.headerText} />
         <OverFlowWrap>
           <SearchLocation />
-          <AddImgBtn file={file} setFile={setFile} />
+          <AddImgBtn setUrl={setImgUrl} />
           <AddInput purpose="TAG" />
           <AddTextArea purpose="TAG" />
         </OverFlowWrap>

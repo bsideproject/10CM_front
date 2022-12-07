@@ -1,18 +1,33 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { initFromDate, initToDate } from 'services/misc';
+import {
+  initFromDate,
+  initToDate,
+  addZero,
+  updateAddrData,
+} from 'services/misc';
+import { MyTripDetail } from 'dtos/trip';
+import { KakaoAddress } from 'dtos/kakao';
+
 interface IState {
   title: string;
   fromDate: string;
   toDate: string;
-  img: any;
+  updateData: KakaoAddress[][];
+  updateId: number;
+  img: { originalName: string; url: string };
 }
 
 const initialState: IState = {
   title: '',
-  fromDate: initFromDate,
-  toDate: initToDate,
-  img: {},
+  fromDate: addZero(initFromDate),
+  toDate: addZero(initToDate),
+  updateData: [],
+  updateId: -1,
+  img: {
+    originalName: '',
+    url: '',
+  },
 };
 
 const placeInfoSlice = createSlice({
@@ -23,19 +38,34 @@ const placeInfoSlice = createSlice({
       state.title = action.payload;
     },
     setFromDate: (state, action: PayloadAction<string>) => {
-      state.fromDate = action.payload;
+      state.fromDate = addZero(action.payload);
     },
     setToDate: (state, action: PayloadAction<string>) => {
-      state.toDate = action.payload;
+      state.toDate = addZero(action.payload);
     },
-    setImg: (state, action: PayloadAction<any>) => {
+    setUpdateData: (state, action: PayloadAction<MyTripDetail[][]>) => {
+      state.updateData = updateAddrData(action.payload);
+    },
+    setUpdateId: (state, action: PayloadAction<number>) => {
+      state.updateId = action.payload;
+    },
+    setImg: (
+      state,
+      action: PayloadAction<{ originalName: string; url: string }>,
+    ) => {
       state.img = action.payload;
     },
   },
 });
 
-export const { setTitle, setFromDate, setToDate, setImg } =
-  placeInfoSlice.actions;
+export const {
+  setTitle,
+  setFromDate,
+  setToDate,
+  setUpdateData,
+  setUpdateId,
+  setImg,
+} = placeInfoSlice.actions;
 export default placeInfoSlice.reducer;
 
 // 여행제목, 날짜, 사진

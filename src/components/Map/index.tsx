@@ -2,13 +2,16 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Address } from 'types/dtos/address';
 import MapConfig from 'services/map-config.js';
+import { useAppSelect } from 'store/configureStore.hooks';
 
 interface Props {
   mapRef: React.MutableRefObject<any>;
   setMapRef?: (map: any) => void;
+  pickedDay?: number;
 }
 
-const Map: React.FC<Props> = ({ mapRef, setMapRef = () => {} }) => {
+const Map: React.FC<Props> = ({ mapRef, setMapRef = () => {}, pickedDay }) => {
+  const { updateData } = useAppSelect(state => state.placeInfo);
   let manager: any;
   useEffect(() => {
     const { kakao } = window;
@@ -22,6 +25,13 @@ const Map: React.FC<Props> = ({ mapRef, setMapRef = () => {} }) => {
     // MapConfig.confirmMapLog(kakao, map);
     setMapRef(map);
   }, []);
+
+  useEffect(() => {
+    if (updateData.length > 0) {
+      handleCreatePolyLine();
+    }
+  }, []);
+
   // 지도 생성
   // 맵 이벤트 등록
   const createMarker = () => {
@@ -86,8 +96,11 @@ const Map: React.FC<Props> = ({ mapRef, setMapRef = () => {} }) => {
   };
   const handleCreatePolyLine = () => {
     const { kakao } = window;
-
-    MapConfig.drawPolyLine(kakao, mapRef.current);
+    let lineData;
+    if (pickedDay) {
+      lineData = updateData[pickedDay - 1];
+    }
+    MapConfig.drawPolyLine(kakao, mapRef.current, lineData);
   };
   const handleCreateRoadView = () => {
     const { kakao } = window;

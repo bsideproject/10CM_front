@@ -32,6 +32,11 @@ const SearchCardGroup: React.FC<IProps> = ({
 const Wrap = styled.div`
   height: calc(100vh - 216px);
   overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export default SearchCardGroup;

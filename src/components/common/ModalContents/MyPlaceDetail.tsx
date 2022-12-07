@@ -1,23 +1,40 @@
 import Modal from 'components/UI/Modal';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import * as CFG from 'services/config.js';
 import TripSummary from 'components/MyTrip/TripSummary';
 import MyPlaceContainer from 'components/UI/MyPlaceContainer';
 import ModalTitle from 'components/ModalContents/ModalTitle';
 import { colors } from 'constants/colors';
-
-const MyPlaceDetail: React.FC = () => {
+import { getDetailTrip } from 'apis/tripApi';
+import { MyTripRequest } from 'dtos/trip';
+interface IProps {
+  tripDate: string;
+  tripData: MyTripRequest;
+  onClose: () => void;
+}
+const MyPlaceDetail: React.FC<IProps> = ({ tripDate, tripData, onClose }) => {
   const { PLACE_DETAIL } = CFG.MODAL_MYPLACE;
+  const [pickedDay, setPickedDay] = useState(1);
 
+  if (!tripData) {
+    return null;
+  }
+  console.log(tripData);
   return (
-    <Modal onClose={() => {}}>
+    <Modal onClose={onClose}>
       <Wrap>
         <SummaryWrap>
-          <ModalTitle headerText={PLACE_DETAIL.headerText} />
-          <TripSummary />
+          <ModalTitle headerText={PLACE_DETAIL.headerText} onClose={onClose} />
+          <TripSummary type="modal" mTitle={tripData?.name} mDate={tripDate} />
         </SummaryWrap>
-        <MyPlaceContainer />
+        <MyPlaceContainer
+          pickedDay={pickedDay}
+          setPickedDay={setPickedDay}
+          mFromDate={tripData!.start_date}
+          mEndDate={tripData!.end_date}
+          daysData={tripData.trip_details}
+        />
       </Wrap>
     </Modal>
   );

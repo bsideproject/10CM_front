@@ -4,14 +4,15 @@ import AddSchedule from 'components/ModalContents/AddSchedule';
 import ModalButton from 'components/ModalContents/ModalButton';
 import ModalTitle from 'components/ModalContents/ModalTitle';
 import Modal from 'components/UI/Modal';
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import * as CFG from 'services/config.js';
 import { useNavigate } from 'react-router-dom';
 import { colors } from 'constants/colors';
-import { setTitle, setFromDate, setToDate } from 'store/modules/placeInfo';
+import { setTitle, setImg } from 'store/modules/placeInfo';
 import { useAppDispatch, useAppSelect } from 'store/configureStore.hooks';
 import useEnteredInfo from 'hooks/useEnteredInfo';
+import { routePath } from 'constants/route';
 
 interface IProps {
   onClose: () => void;
@@ -19,7 +20,7 @@ interface IProps {
 
 const MakeNewPlace: React.FC<IProps> = ({ onClose }) => {
   const [title, onChangeTitle] = useEnteredInfo('');
-  const [file, setFile] = useState<File | undefined>();
+  const [imgUrl, setImgUrl] = useState({ originalName: '', url: '' });
 
   const { TRIP } = CFG.MODAL_MYPLACE;
   const navigate = useNavigate();
@@ -34,10 +35,13 @@ const MakeNewPlace: React.FC<IProps> = ({ onClose }) => {
     if (fromDate > toDate) {
       return;
     }
+
+    if (Object.values(imgUrl).length > 0) {
+      dispatch(setImg({ url: imgUrl.url, originalName: imgUrl.originalName }));
+    }
+
     dispatch(setTitle(title));
-    // ref를 걸어서 정보 가져오기
-    // 정보 가져와서 리덕스툴킷 이용
-    navigate('/make-my-trip');
+    navigate(routePath.MAKE_MY_TRIP);
   };
 
   return (
@@ -46,7 +50,7 @@ const MakeNewPlace: React.FC<IProps> = ({ onClose }) => {
         <ModalTitle headerText={TRIP.headerText} onClose={onClose} />
         <AddInput purpose="TRIP" title={title} onChangeTitle={onChangeTitle} />
         <AddSchedule isMake />
-        <AddImgBtn file={file} setFile={setFile} />
+        <AddImgBtn setUrl={setImgUrl} />
         <ModalButton
           onClick={handleClickBtn}
           btnText="상세 일정 만들기"

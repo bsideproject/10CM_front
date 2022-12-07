@@ -10,12 +10,14 @@ interface IProps {
   btnWidth: string;
   isOne?: boolean;
   onClick?: () => void;
+  onClose?: () => void;
 }
 const ModalButton: React.FC<IProps> = ({
   btnText,
   btnSize,
   btnWidth,
   isOne,
+  onClose,
   onClick,
 }) => {
   const isFullSize = isOne;
@@ -40,13 +42,16 @@ const ModalButton: React.FC<IProps> = ({
             buttonWidth={btnWidth}
             disabled={false}
           >
-            <ButtonText isCancel>취소</ButtonText>
+            <ButtonText isCancel onClick={onClose}>
+              취소
+            </ButtonText>
           </Button>
           <Button
             buttonType="filled"
             buttonSize={btnSize}
             buttonWidth={btnWidth}
             disabled={false}
+            onClick={onClick}
           >
             <ButtonText isCancel={false}>{btnText}</ButtonText>
           </Button>

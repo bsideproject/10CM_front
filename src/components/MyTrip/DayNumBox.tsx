@@ -6,16 +6,18 @@ interface IProps {
   idx: number;
   pickedDay: number;
   showBoxLen: number;
+  isModalType: boolean;
   setPickedDay: React.Dispatch<React.SetStateAction<any>>;
 }
 const DayNumBox: React.FC<IProps> = ({
   idx,
   pickedDay,
   showBoxLen,
+  isModalType,
   setPickedDay,
 }) => {
   const day = idx + 1;
-  const moveBox = showBoxLen - 4;
+  const moveBox = isModalType ? showBoxLen - 6 : showBoxLen - 4;
   return (
     <Wrap
       idx={idx}
@@ -34,6 +36,7 @@ const pickedCss = css`
 const Wrap = styled.div<{ idx: number; pickedDay: number; moveBox: number }>`
   position: absolute;
   left: ${({ idx, moveBox }) => `${66 * idx + moveBox * -66}px`};
+  transition: 0.3s linear;
   display: flex;
   justify-content: center;
   align-items: center;

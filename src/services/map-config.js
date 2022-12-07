@@ -208,22 +208,18 @@ class MapConfig {
     });
   }
 
-  static drawPolyLine(kakao, map) {
-    const linePath = [
-      new kakao.maps.LatLng(33.44861872974139, 126.57085430868555),
-      new kakao.maps.LatLng(33.44829225907745, 126.57030740427622),
-      new kakao.maps.LatLng(33.44820519052851, 126.57120050948008),
-    ];
-
+  static drawPolyLine(kakao, map, lineData, reset) {
+    const linePath = lineData.map(
+      el => new kakao.maps.LatLng(Number(el.y), Number(el.x)),
+    );
     const polyline = new kakao.maps.Polyline({
       path: linePath,
-      strokeWeight: 4,
-      strokeColor: '#FFAE00',
-      strokeOpacity: 0.7,
-      strokeStyle: 'solid',
+      strokeWeight: 9,
+      strokeColor: '#33D5B6',
+      strokeOpacity: 0.9,
+      strokeStyle: 'dashed',
     });
-
-    polyline.setMap(map.current);
+    polyline.setMap(map);
   }
 
   static createRoadview(kakao, roadview, locations) {

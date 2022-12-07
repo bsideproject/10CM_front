@@ -150,7 +150,9 @@ const DateWrap = styled.div`
   }
   .react-datepicker__day--today {
     position: relative;
-    ${fonts('text-sm')};
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 18px;
     &::after {
       content: '';
       height: 4px;
@@ -166,6 +168,7 @@ const DateWrap = styled.div`
   .react-datepicker__day--selected {
     background-color: ${colors.BLUE_BASE};
     color: ${colors.NEUTRAl_100};
+    border-radius: 60px;
     &:hover {
       background-color: ${colors.BLUE_BASE};
     }

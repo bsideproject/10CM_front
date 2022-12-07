@@ -44,6 +44,10 @@ const Wrap = styled.nav`
       align-items: center;
       padding: 10px 20px 10px 12px;
       cursor: pointer;
+
+      > span {
+        margin-left: 2px;
+      }
     }
     li.selected {
       color: ${colors.BLUE_BASE};
