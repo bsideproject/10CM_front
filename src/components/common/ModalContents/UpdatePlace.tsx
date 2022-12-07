@@ -1,5 +1,5 @@
 import Modal from 'components/UI/Modal';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import * as CFG from 'services/config.js';
 import ModalTitle from 'components/ModalContents/ModalTitle';
@@ -11,6 +11,7 @@ import ModalButton from 'components/ModalContents/ModalButton';
 import { colors } from 'constants/colors';
 const UpdatePlace: React.FC = () => {
   const { UPDATE } = CFG.MODAL_MYPLACE;
+  const [imgUrl, setImgUrl] = useState();
 
   return (
     <Modal onClose={() => {}}>
@@ -18,7 +19,7 @@ const UpdatePlace: React.FC = () => {
         <ModalTitle headerText={UPDATE.headerText} />
         <OverFlowWrap>
           <SearchLocation />
-          <AddImgBtn />
+          <AddImgBtn setUrl={setImgUrl} />
           <AddInput purpose="TAG" />
           <AddTextArea purpose="TAG" />
         </OverFlowWrap>

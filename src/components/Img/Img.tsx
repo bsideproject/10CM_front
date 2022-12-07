@@ -6,6 +6,8 @@ interface IProps {
   width: string;
   height: string;
   padding?: string;
+  background?: string;
+  borderRadius?: string;
   onClick?: () => void;
 }
 
@@ -14,9 +16,19 @@ interface ImgProps {
   height: string;
   padding: string;
   cursor: string;
+  background?: string;
+  borderRadius?: string;
 }
 
-const Img: React.FC<IProps> = ({ src, width, height, padding, onClick }) => {
+const Img: React.FC<IProps> = ({
+  src,
+  width,
+  height,
+  padding,
+  background,
+  borderRadius,
+  onClick,
+}) => {
   return (
     <MyImg
       src={src}
@@ -24,8 +36,10 @@ const Img: React.FC<IProps> = ({ src, width, height, padding, onClick }) => {
       width={width}
       height={height}
       padding={padding || '0'}
+      background={background}
+      borderRadius={borderRadius}
       onClick={onClick}
-      cursor={(typeof onClick === 'function').toString()}
+      cursor={typeof onClick === 'function' ? 'pointer' : 'default'}
     />
   );
 };
@@ -34,7 +48,10 @@ const MyImg = styled.img<ImgProps>`
   width: ${props => props.width};
   height: ${props => props.height};
   padding: ${props => props.padding};
-  cursor: ${props => (props.cursor === 'true' ? 'pointer' : undefined)};
+  cursor: ${props => props.cursor};
+  background: ${props => props.background};
+  border-radius: ${props => props.borderRadius};
+  object-fit: cover;
 `;
 
 export default Img;

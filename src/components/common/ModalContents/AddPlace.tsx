@@ -1,5 +1,5 @@
 import Modal from 'components/UI/Modal';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import * as CFG from 'services/config.js';
 import ModalTitle from 'components/ModalContents/ModalTitle';
@@ -14,6 +14,7 @@ interface IProps {
 }
 const AddPlace: React.FC<IProps> = ({ onClose }) => {
   const { ADD } = CFG.MODAL_MYPLACE;
+  const [imgUrl, setImgUrl] = useState();
 
   return (
     <Modal onClose={onClose}>
@@ -21,7 +22,7 @@ const AddPlace: React.FC<IProps> = ({ onClose }) => {
         <ModalTitle headerText={ADD.headerText} />
         <OverFlowWrap>
           <SearchLocation />
-          <AddImgBtn />
+          <AddImgBtn setUrl={setImgUrl} />
           <AddInput purpose="TAG" />
           <AddTextArea purpose="TAG" />
         </OverFlowWrap>

@@ -23,6 +23,7 @@
   "rules": {
     // useTabs는 eslint와 prettier 충돌로 인해 false
     // endOfLine은 window와 linux에서 줄넘김이 다르므로 auto
+    "no-param-reassign": 0,
     "prettier/prettier": "off",
     // 확인 필요
     "react/jsx-filename-extension": [
@@ -79,16 +80,18 @@
     "react/jsx-props-no-spreading": "off",
     "react/prop-types": "off",
     "no-undef": "off",
-    "no-shadow": "off"
+    "no-shadow": "off",
     // prop-types X
+    "import/no-unresolved": "off"
+    // 경로의 파일이 unresolved 되는 일 없도록 하는 옵션
   },
   "settings": {
     "import/resolver": {
       "typescript": {},
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
-      },
-      "paths": ["src"]
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "paths": ["src"]
+      }
     }
     // 모듈 './App'에 대한 경로를 확인할 수 없는 경우에 대한 세팅
   },

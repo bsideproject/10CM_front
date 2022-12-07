@@ -1,23 +1,51 @@
 import Img from 'components/Img/Img';
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import logo from 'assets/img/smallNavLogo.svg';
+import defaultTripImg from 'assets/img/defaultTripImg.svg';
+
 import { sizes } from 'constants/sizes';
 import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
+import { useAppDispatch, useAppSelect } from 'store/configureStore.hooks';
+import { useNavigate } from 'react-router-dom';
+interface IProps {
+  type?: string;
+  mTitle?: string;
+  mDate?: string;
+}
+const TripSummary: React.FC<IProps> = ({ type, mTitle, mDate }) => {
+  const { title, fromDate, toDate, img } = useAppSelect(
+    state => state.placeInfo,
+  );
+  const navigate = useNavigate();
+  const sliceToDate = toDate.slice(5);
+  const dateText = `${fromDate.replaceAll('-', '.')} - ${sliceToDate.replaceAll(
+    '-',
+    '.',
+  )}`;
+  useEffect(() => {
+    if (title.length === 0) {
+      navigate('/my-trip');
+    }
+    // fix: 새로고침 시 돌아가기
+  }, [title]);
 
-const TripSummary = () => {
+  const summaryData =
+    type === 'modal'
+      ? { title: mTitle, date: mDate }
+      : { title, date: dateText };
+
   return (
     <Wrap>
       <SummaryTitle>
         <Img
-          src={logo}
+          src={img.url || defaultTripImg}
           width={sizes.TRIP_SUMMARY_SIZE}
           height={sizes.TRIP_SUMMARY_SIZE}
         />
         <TripWrap>
-          <TripName>가나다라마바사</TripName>
-          <TripDate>2022-09-04</TripDate>
+          <TripName>{summaryData.title}</TripName>
+          <TripDate>{summaryData.date}</TripDate>
         </TripWrap>
       </SummaryTitle>
     </Wrap>

@@ -7,7 +7,6 @@ const PAGE_SIZE = 15;
 
 const useMyPlaceList = () => {
   const { isDidMount } = useDidmount();
-
   const [isLoading, setIsLoading] = useState(false);
   const [currentSort, setCurrentSort] = useState<Sort>('createdDate,DESC');
   const [myPlaceList, setMyPlaceList] = useState<MyPlaceResponse[]>([]);
@@ -20,23 +19,18 @@ const useMyPlaceList = () => {
     }
     return false;
   };
-  // const getCurrentPage = (totalPage: number) => {
-  //   if (totalPage % PAGE_SIZE === 0) {
-  //     return totalPage / PAGE_SIZE;
-  //   }
-  //   return Math.floor(totalPage / PAGE_SIZE) + 1;
-  // };
+
   const reFetchMyPlaceList = async () => {
     setIsLoading(true);
     try {
       const data = await getPlaceList({
-        size: currentPage * PAGE_SIZE,
+        size: (currentPage + 1) * PAGE_SIZE,
         page: 0,
         sort: currentSort,
       });
       setMyPlaceList(data.place_list);
       setCurrentPage(Math.floor(data.count / PAGE_SIZE));
-      if (data.count > currentPage * PAGE_SIZE) {
+      if (data.count > (currentPage + 1) * PAGE_SIZE) {
         setHasMyPlaceNextPage(true);
       }
     } catch (e) {
@@ -44,7 +38,25 @@ const useMyPlaceList = () => {
     }
     setIsLoading(false);
   };
-  const fetchNextMyPlaces = async () => {
+
+  const fetchNextMyPlaceList = async () => {
+    setIsLoading(true);
+    try {
+      const data = await getPlaceList({
+        size: PAGE_SIZE,
+        page: currentPage + 1,
+        sort: currentSort,
+      });
+      setMyPlaceList(prev => prev.concat(data.place_list));
+      setHasMyPlaceNextPage(getHasNextPage(data.count, currentPage + 2));
+      setCurrentPage(prev => prev + 1);
+    } catch (e) {
+      console.log(e);
+    }
+    setIsLoading(false);
+  };
+
+  const fetchMyPlaceList = async () => {
     setIsLoading(true);
     try {
       const data = await getPlaceList({
@@ -54,7 +66,6 @@ const useMyPlaceList = () => {
       });
       setMyPlaceList(prev => prev.concat(data.place_list));
       setHasMyPlaceNextPage(getHasNextPage(data.count, currentPage + 1));
-      setCurrentPage(prev => prev + 1);
     } catch (e) {
       console.log(e);
     }
@@ -67,7 +78,7 @@ const useMyPlaceList = () => {
   // 첫 렌더링 시 초기 저장된 장소 목록
   useEffect(() => {
     (async () => {
-      await fetchNextMyPlaces();
+      await fetchMyPlaceList();
     })();
   }, []);
   useEffect(() => {
@@ -84,7 +95,7 @@ const useMyPlaceList = () => {
     handleChangeSort,
     reFetchMyPlaceList,
     hasMyPlaceNextPage,
-    getMyPlaceListNextPage: fetchNextMyPlaces,
+    getMyPlaceListNextPage: fetchNextMyPlaceList,
     currentSort,
   };
 };

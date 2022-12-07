@@ -7,6 +7,7 @@ import {
   useEffect,
   useRef,
   useState,
+  KeyboardEvent,
 } from 'react';
 import styled, { css } from 'styled-components';
 import { ReactComponent as SearchSvg } from 'assets/svg/input-search.svg';
@@ -18,6 +19,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   onClear?: () => void;
   isClear?: boolean;
   isSearch?: boolean;
+  onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void;
 }
 
 // 48
@@ -116,7 +118,12 @@ const getInputBackground = (disabled?: boolean) => {
     background-color: ${colors.WHITE};
   `;
 };
-const getInputBorder = (error: boolean) => {
+const getInputBorder = (error: boolean, disabled?: boolean) => {
+  if (disabled) {
+    return css`
+      border: 0;
+    `;
+  }
   if (error) {
     return css`
       border: 1px solid ${colors.ALERT};
@@ -152,7 +159,7 @@ const MyInput = styled.input<{
   ${({ isClear, isSearch }) => getInputPadding(isClear, isSearch)};
   height: 44px;
   ${({ disabled }) => getInputBackground(disabled)}
-  ${({ error }) => getInputBorder(error)};
+  ${({ error, disabled }) => getInputBorder(error, disabled)};
 `;
 const OptionsWrap = styled.div<{ error: boolean }>`
   display: flex;
@@ -186,4 +193,5 @@ const CancelIcon = styled(CancelSvg)`
   width: 24px;
   height: 24px;
   cursor: pointer;
+  color: ${colors.BLUE_BASE};
 `;

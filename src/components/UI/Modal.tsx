@@ -26,7 +26,7 @@ const Modal: React.FC<IProps> = ({ children, onClose }) => {
 export default Modal;
 
 const ModalBackground = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.5);
@@ -41,3 +41,4 @@ const ModalContent = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
 `;
+// fix: 스크롤 부분에서 문제가 있으므로 position:fixed로 변경

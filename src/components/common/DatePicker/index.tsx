@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import DatePick from 'react-datepicker';
 import ko from 'date-fns/locale/ko';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -10,18 +10,22 @@ import { ReactComponent as RightIcon } from 'assets/svg/go.svg';
 import { ReactComponent as LeftIcon } from 'assets/svg/arrow-left.svg';
 
 interface Props {
-  onChange?: (e: Date | null) => void;
+  onChange?: (e: Date) => void;
   date?: Date;
   metropolitanAreas?: Date[];
-  excludeDates?: Date[];
-  ableDate?: Date[];
+  // excludeDates?: Date[];
+  // ableDate?: Date;
 }
+
+const CustomInput = forwardRef((props: any, ref) => {
+  return <input {...props} ref={ref} />;
+});
 
 const DatePicker: React.FC<Props> = ({
   onChange = () => {},
   date,
   metropolitanAreas = [],
-  ableDate = [],
+  // ableDate = [],
 }) => {
   return (
     <DateWrap>
@@ -29,7 +33,7 @@ const DatePicker: React.FC<Props> = ({
         open
         inline
         locale={ko}
-        minDate={ableDate?.[0]}
+        minDate={new Date()}
         selected={date}
         onChange={onChange}
         monthsShown={1}
@@ -38,6 +42,7 @@ const DatePicker: React.FC<Props> = ({
         showPopperArrow={false}
         showPreviousMonths={false}
         focusSelectedMonth={false}
+        customInput={<CustomInput />}
         renderCustomHeader={({
           monthDate,
           customHeaderCount,
@@ -59,37 +64,24 @@ const DatePicker: React.FC<Props> = ({
 };
 export default DatePicker;
 
-const Header = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 24px;
-  ${fonts('text-sm-regular')};
-`;
-const PrevButton = styled(LeftIcon)`
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-`;
-const NextButton = styled(RightIcon)`
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-`;
-const Month = styled.span`
-  ${fonts('title-md-bold')};
-  color: ${colors.NEUTRAl_900};
-`;
 const DateWrap = styled.div`
-  width: 100%;
+  position: absolute;
+  width: 352px;
+  top: 300px;
+  background-color: ${colors.WHITE};
+  padding: 24px 16px;
+  z-index: 9999;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.08),
+    0px 10px 25px 4px rgba(0, 0, 0, 0.06);
+  border-radius: 2px;
   > div {
     width: 100%;
   }
   .react-datepicker {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
   }
   .react-datepicker__day-names {
@@ -125,7 +117,9 @@ const DateWrap = styled.div`
     color: ${colors.NEUTRAl_900};
     &:hover {
       box-shadow: 0px 0px 0px 1px ${colors.BLUE_BASE} inset;
-      background-color: transparent;
+      background-color: ${colors.BLUE_BASE};
+      border-radius: 60px;
+      color: ${colors.WHITE};
     }
   }
   .react-datepicker__day--disabled {
@@ -156,7 +150,9 @@ const DateWrap = styled.div`
   }
   .react-datepicker__day--today {
     position: relative;
-    ${fonts('text-sm')};
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 18px;
     &::after {
       content: '';
       height: 4px;
@@ -172,6 +168,7 @@ const DateWrap = styled.div`
   .react-datepicker__day--selected {
     background-color: ${colors.BLUE_BASE};
     color: ${colors.NEUTRAl_100};
+    border-radius: 60px;
     &:hover {
       background-color: ${colors.BLUE_BASE};
     }
@@ -188,4 +185,26 @@ const DateWrap = styled.div`
     transform: translateX(-50%);
     background-color: ${colors.BLUE_BASE};
   }
+`;
+
+const Header = styled.header`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  ${fonts('text-sm-regular')};
+`;
+const PrevButton = styled(LeftIcon)`
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+`;
+const NextButton = styled(RightIcon)`
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+`;
+const Month = styled.span`
+  ${fonts('title-md-bold')};
+  color: ${colors.NEUTRAl_900};
 `;

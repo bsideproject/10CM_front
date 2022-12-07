@@ -1,17 +1,15 @@
 import Img from 'components/Img/Img';
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import emptyImg from 'assets/img/emptyContent.svg';
 import { sizes } from 'constants/sizes';
 import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
 import Button from 'components/common/Button';
-import MakeNewPlace from '../ModalContents/MakeNewPlace';
-const EmptyContent = () => {
-  const [onModal, setOnModal] = useState(false);
-  const handleControlModal = () => {
-    setOnModal(!onModal);
-  };
+interface IProps {
+  onClick: () => void;
+}
+const EmptyContent: React.FC<IProps> = ({ onClick }) => {
   return (
     <Wrap>
       <Img
@@ -24,12 +22,11 @@ const EmptyContent = () => {
         buttonType="outline"
         buttonSize="medium"
         buttonWidth="122px"
-        onClick={handleControlModal}
+        onClick={onClick}
         disabled={false}
       >
         여행 만들기
       </Button>
-      {onModal && <MakeNewPlace onClose={handleControlModal} />}
     </Wrap>
   );
 };
