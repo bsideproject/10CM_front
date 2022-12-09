@@ -5,9 +5,10 @@ const axiosConfig: AxiosRequestConfig = {
   headers: {
     'content-type': 'application/json',
     Authorization:
-      'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1Iiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2NzA0MDcxOTQsImV4cCI6MTY3MDQ5MzU5NH0.JsnM5g3UWOkZAUC38PpxKVg88WIX7zioMiSNc9U9-JUZ-0of_tgCmAvbUDLy7AMHxRPQISKjYprP2S8szRmgZQ',
+      'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1Iiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2NzA1ODIzODUsImV4cCI6MTY3MDY2ODc4NX0.JvJ3HSQ7iapX69kgNwZdq-V3BKdLxHxck8Zd8WXm6WN-6FP4HdIGJpl6oD9Gz8CXNV-3leiOSIEWuDsh5jbg1Q',
   },
 };
+
 const api = axios.create(axiosConfig);
 api.interceptors.request.use(
   config => {
