@@ -30,12 +30,11 @@ const MyTripContent: React.FC = () => {
 
   const emptyData =
     Object.keys(tripData).length === 0 || tripData?.data.length === 0;
-  // ${data.length}
 
   const headerText = emptyData
     ? '나의 여행'
     : `나의 여행 (${tripData.data.length})`;
-  console.log(tripData);
+
   return (
     <Wrap>
       <TripBanner />
