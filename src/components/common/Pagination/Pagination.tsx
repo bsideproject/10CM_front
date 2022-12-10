@@ -28,8 +28,7 @@ const Pagination: React.FC<IProps> = ({curPage, totalPage, onChangePage}) => {
     }
     
   }
-  
-  console.log(pageInfos);
+
   // 예시
   return (
     <Wrap>
