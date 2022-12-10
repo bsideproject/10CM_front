@@ -1,31 +1,43 @@
-import React from 'react';
+import React, { SetStateAction } from 'react';
 import { ReactComponent as leftArrowSvg } from 'assets/img/leftArrowPagi.svg';
 import { ReactComponent as rightArrowSvg } from 'assets/img/rightArrowPagi.svg';
 import styled from 'styled-components';
 import { colors } from 'constants/colors';
 import { getPagination } from 'utils/paging';
 
-interface IProps {}
-const Pagination: React.FC<IProps> = () => {
-  console.log(
-    getPagination({
-      currentPage: 6,
-      pagePerView: 5,
-      articlePerPage: 6,
-      total: 60,
-    }),
-  );
-  // 예시
+interface IProps {
+  curPage: number;
+  totalPage: number;
+  onChangePage: React.Dispatch<React.SetStateAction<number>>
+}
+const Pagination: React.FC<IProps> = ({curPage, totalPage, onChangePage}) => {
+  
+  const pageInfos = getPagination({
+    currentPage: curPage,
+    pagePerView: 5,
+    articlePerPage: 6,
+    total: totalPage * 6,
+  });
 
+  const handleChangePage = (move: string) => {
+    if(move === 'left' && pageInfos.first.movable) {
+      onChangePage(curPage - 1);
+    }
+    if(move === 'right' && pageInfos.last.movable) {
+      onChangePage(curPage + 1);
+    }
+    
+  }
+  
+  console.log(pageInfos);
+  // 예시
   return (
     <Wrap>
-      <LeftArrowIcon />
-      <PerPage clicked>1</PerPage>
-      <PerPage>2</PerPage>
-      <PerPage>3</PerPage>
-      <PerPage>4</PerPage>
-      <PerPage>5</PerPage>
-      <RightArrowIcon />
+      <LeftArrowIcon onClick={() => handleChangePage('left')}/>
+      {pageInfos.pages.map(num => (
+        <PerPage key={num} clicked={num === curPage} onClick={() => onChangePage(num)}>{num}</PerPage>
+      ))}  
+      <RightArrowIcon onClick={() => handleChangePage('right')}/>
     </Wrap>
   );
 };
@@ -37,6 +49,12 @@ const Wrap = styled.div`
   align-items: center;
   gap: 24px;
   padding-top: 16px;
+`;
+
+const ArrowButton = styled.button`
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
 `;
 
 const LeftArrowIcon = styled(leftArrowSvg)`

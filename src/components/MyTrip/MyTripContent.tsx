@@ -16,6 +16,7 @@ import TripBanner from './TripBanner';
 const MyTripContent: React.FC = () => {
   const [onModal, setOnModal] = useState(false);
   const [tripData, setTripData] = useState<any>({});
+  const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useAppDispatch();
 
   const handleControlModal = () => {
@@ -24,9 +25,9 @@ const MyTripContent: React.FC = () => {
   };
 
   useEffect(() => {
-    getTripList().then(res => setTripData(res));
-  }, []);
-  
+    getTripList(currentPage).then(res => setTripData(res));
+  }, [currentPage]);
+
   const emptyData =
     Object.keys(tripData).length === 0 || tripData?.data.length === 0;
   // ${data.length}
@@ -54,7 +55,7 @@ const MyTripContent: React.FC = () => {
         <MainWrap>
           {emptyData && <EmptyContent onClick={handleControlModal} />}
           {!emptyData && <CompletedTripGroup data={tripData.data} />}
-          <Pagination />
+          <Pagination curPage={currentPage} totalPage={tripData.total_pages} onChangePage={setCurrentPage}/>
         </MainWrap>
         {onModal && <MakeNewPlace onClose={handleControlModal} />}
       </TripWrap>

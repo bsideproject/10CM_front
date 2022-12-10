@@ -83,7 +83,7 @@
   flex-shrink: 0;
   width: 80px;
   height: 80px;
-  background-color: red;
+  background-color: transparent;
 }
 .update-overlay-body-image {
   height: 100%;
