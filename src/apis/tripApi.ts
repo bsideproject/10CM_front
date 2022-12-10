@@ -7,8 +7,8 @@ export const createTrip = async (body: MyTripRequest) => {
   await api.post(url, body).then(res => console.log(res));
 };
 
-export const getTripList = async () => {
-  const { data } = await api.get<MyTripListResponse>(url);
+export const getTripList = async (page: number) => {
+  const { data } = await api.get<MyTripListResponse>(`${url}/?page=${page}`);
   return data;
 };
 
