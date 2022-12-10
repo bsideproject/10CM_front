@@ -36,6 +36,7 @@ const Wrap = styled.div`
   justify-content: center;
   align-items: center;
   gap: 24px;
+  padding-top: 16px;
 `;
 
 const LeftArrowIcon = styled(leftArrowSvg)`
