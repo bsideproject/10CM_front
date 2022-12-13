@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import { colors } from 'constants/colors';
@@ -7,12 +7,17 @@ import { fonts } from 'assets/fonts/fonts';
 import * as CFG from 'services/config.js';
 import profileImg from 'assets/img/profileImg.svg';
 import navLogo from 'assets/img/navLogo.svg';
+import Login from 'components/common/ModalContents/Login';
 import ImgLists from './ImgLists';
 interface IProps {
   className?: string;
 }
 
 const Nav: React.FC<IProps> = ({ className }) => {
+  const [onLoginModal, setOnLoginModal] = useState(false);
+  const handleClickLogin = () => {
+    setOnLoginModal(!onLoginModal);
+  };
   return (
     <Wrap className={className}>
       <NavContent>
@@ -22,12 +27,13 @@ const Nav: React.FC<IProps> = ({ className }) => {
         <MenuWrap>
           <UserProfile>
             <Img src={profileImg} width="64px" height="64px" />
-            <ProfileName>가나다라마바사아님</ProfileName>
+            <ProfileName onClick={handleClickLogin}>로그인</ProfileName>
           </UserProfile>
           <ImgLists listsData={CFG.NAV_DESC} isNav />
           <ImgLists listsData={CFG.NAV_DESC_SEC} isNav />
         </MenuWrap>
       </NavContent>
+      {onLoginModal && <Login onClose={handleClickLogin} />}
     </Wrap>
   );
 };

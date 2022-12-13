@@ -8,10 +8,9 @@ import { getPagination } from 'utils/paging';
 interface IProps {
   curPage: number;
   totalPage: number;
-  onChangePage: React.Dispatch<React.SetStateAction<number>>
+  onChangePage: React.Dispatch<React.SetStateAction<number>>;
 }
-const Pagination: React.FC<IProps> = ({curPage, totalPage, onChangePage}) => {
-  
+const Pagination: React.FC<IProps> = ({ curPage, totalPage, onChangePage }) => {
   const pageInfos = getPagination({
     currentPage: curPage,
     pagePerView: 5,
@@ -20,23 +19,28 @@ const Pagination: React.FC<IProps> = ({curPage, totalPage, onChangePage}) => {
   });
 
   const handleChangePage = (move: string) => {
-    if(move === 'left' && pageInfos.first.movable) {
+    if (move === 'left' && pageInfos.first.movable) {
       onChangePage(curPage - 1);
     }
-    if(move === 'right' && pageInfos.last.movable) {
+    if (move === 'right' && pageInfos.last.movable) {
       onChangePage(curPage + 1);
     }
-    
-  }
+  };
 
   // 예시
   return (
     <Wrap>
-      <LeftArrowIcon onClick={() => handleChangePage('left')}/>
+      <LeftArrowIcon onClick={() => handleChangePage('left')} />
       {pageInfos.pages.map(num => (
-        <PerPage key={num} clicked={num === curPage} onClick={() => onChangePage(num)}>{num}</PerPage>
-      ))}  
-      <RightArrowIcon onClick={() => handleChangePage('right')}/>
+        <PerPage
+          key={num}
+          clicked={num === curPage}
+          onClick={() => onChangePage(num)}
+        >
+          {num}
+        </PerPage>
+      ))}
+      <RightArrowIcon onClick={() => handleChangePage('right')} />
     </Wrap>
   );
 };
