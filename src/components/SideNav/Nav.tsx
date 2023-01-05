@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable camelcase */
+import React, { useState, useEffect, useMemo } from 'react';
 import styled, { css } from 'styled-components';
 
 import { colors } from 'constants/colors';
@@ -11,6 +12,7 @@ import smallRightArrowBtn from 'assets/img/smallRightArrowBtn.svg';
 import Login from 'components/common/ModalContents/Login';
 import { getUserInfo } from 'apis/userInfo';
 import { user } from 'dtos/userInfo';
+import { useAppSelect } from 'store/configureStore.hooks';
 import ImgLists from './ImgLists';
 interface IProps {
   className?: string;
@@ -18,17 +20,13 @@ interface IProps {
 
 const Nav: React.FC<IProps> = ({ className }) => {
   const [onLoginModal, setOnLoginModal] = useState(false);
-  const [userInfo, setUserInfo] = useState<user>();
-  const accToken = localStorage.getItem('accessToken');
+
+  const { nickname, profile_image_url } = useAppSelect(state => state.authInfo);
+
   const handleClickLogin = () => {
     setOnLoginModal(!onLoginModal);
   };
 
-  useEffect(() => {
-    if (accToken) {
-      getUserInfo().then(res => setUserInfo(res));
-    }
-  }, [accToken]);
   return (
     <Wrap className={className}>
       <NavContent>
@@ -38,12 +36,13 @@ const Nav: React.FC<IProps> = ({ className }) => {
         <MenuWrap>
           <UserProfile>
             <Img
-              src={userInfo?.profile_image_url || defaultLoginImg}
+              src={profile_image_url || defaultLoginImg}
               width="64px"
               height="64px"
+              borderRadius="50%"
             />
             <ProfileWrap onClick={handleClickLogin}>
-              <ProfileName>{userInfo?.nickname || '로그인'}</ProfileName>
+              <ProfileName>{nickname || '로그인'}</ProfileName>
               <Img src={smallRightArrowBtn} width="20px" height="20px" />
             </ProfileWrap>
           </UserProfile>
