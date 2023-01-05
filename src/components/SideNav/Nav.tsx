@@ -5,8 +5,9 @@ import { colors } from 'constants/colors';
 import Img from 'components/Img/Img';
 import { fonts } from 'assets/fonts/fonts';
 import * as CFG from 'services/config.js';
-import profileImg from 'assets/img/profileImg.svg';
+import defaultLoginImg from 'assets/img/defaultLoginImg.svg';
 import navLogo from 'assets/img/navLogo.svg';
+import smallRightArrowBtn from 'assets/img/smallRightArrowBtn.svg';
 import Login from 'components/common/ModalContents/Login';
 import ImgLists from './ImgLists';
 interface IProps {
@@ -26,8 +27,11 @@ const Nav: React.FC<IProps> = ({ className }) => {
         </LogoWrap>
         <MenuWrap>
           <UserProfile>
-            <Img src={profileImg} width="64px" height="64px" />
-            <ProfileName onClick={handleClickLogin}>로그인</ProfileName>
+            <Img src={defaultLoginImg} width="64px" height="64px" />
+            <ProfileWrap onClick={handleClickLogin}>
+              <ProfileName>로그인</ProfileName>
+              <Img src={smallRightArrowBtn} width="20px" height="20px" />
+            </ProfileWrap>
           </UserProfile>
           <ImgLists listsData={CFG.NAV_DESC} isNav />
           <ImgLists listsData={CFG.NAV_DESC_SEC} isNav />
@@ -85,11 +89,16 @@ const UserProfile = styled.div`
   margin-bottom: 16px;
 `;
 
+const ProfileWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;
+
 const ProfileName = styled.div`
   ${fonts('text-xxs-regular')};
   color: ${colors.NEUTRAl_600};
-  width: 148px;
-  height: 24px;
   display: flex;
   justify-content: center;
   align-items: center;

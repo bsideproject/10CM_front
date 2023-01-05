@@ -15,17 +15,17 @@ export const NAV_DESC = [
   {
     img: introduceImg,
     text: '서비스 소개',
-    route: routePath.INTRO
+    route: routePath.INTRO,
   },
   {
     img: interestPlaceImg,
     text: '나의 관심장소',
-    route: routePath.MY_PLACE
+    route: routePath.MY_PLACE,
   },
   {
     img: myPlaceTripImg,
     text: '나의 여행',
-    route: routePath.MY_TRIP
+    route: routePath.MY_TRIP,
   },
 ];
 

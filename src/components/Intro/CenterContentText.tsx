@@ -50,6 +50,6 @@ const MiddleText = styled.span`
 const BottomText = styled.span`
   ${fonts('text-sm')};
   color: ${colors.NEUTRAl_400};
-  letter-spacing: 0.13em;
+  letter-spacing: 0.013em;
 `;
 export default CenterContentText;

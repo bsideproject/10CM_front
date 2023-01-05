@@ -12,6 +12,12 @@ interface IProps {
   onClose: () => void;
 }
 const Login: React.FC<IProps> = ({ onClose }) => {
+  const handleClickLogin = () => {
+    window.location.href = 'https://unzido.site/oauth2/authorization/kakao';
+  };
+  // 토큰 받기
+  // callback에서 토큰 받으면, 적용하고 리다이렉트
+
   return (
     <Modal onClose={onClose}>
       <Wrap>
@@ -29,7 +35,7 @@ const Login: React.FC<IProps> = ({ onClose }) => {
             src={kakaoLoginImg}
             width="300px"
             height="45px"
-            onClick={() => {}}
+            onClick={handleClickLogin}
           />
         </ContentWrap>
       </Wrap>
