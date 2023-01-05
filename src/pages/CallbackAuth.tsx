@@ -11,12 +11,14 @@ const CallbackAuth = () => {
   const query = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
-  const accessToken = query.access as string;
+  // const accessToken = query.access as string;
+  const accessToken =
+    'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1Iiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2NzI5MTI5NTIsImV4cCI6MTY3Mjk5OTM1Mn0.IVZeJt_77yvdMmTqkttWiCiT87KmUTmq1BxhKpgJA8TnVM7JzjyI7YyzVDgro9Gq_XLLeOIauRtR7mdws2hjQQ';
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     localStorage.setItem('accessToken', accessToken);
-    getUserInfo().then(res => dispatch(setAuthInfo(res)));
+    getUserInfo(accessToken).then(res => dispatch(setAuthInfo(res)));
 
     navigate('/intro', { replace: true });
 
