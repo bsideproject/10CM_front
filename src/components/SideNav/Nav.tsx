@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 
 import { colors } from 'constants/colors';
@@ -9,6 +9,8 @@ import defaultLoginImg from 'assets/img/defaultLoginImg.svg';
 import navLogo from 'assets/img/navLogo.svg';
 import smallRightArrowBtn from 'assets/img/smallRightArrowBtn.svg';
 import Login from 'components/common/ModalContents/Login';
+import { getUserInfo } from 'apis/userInfo';
+import { user } from 'dtos/userInfo';
 import ImgLists from './ImgLists';
 interface IProps {
   className?: string;
@@ -16,9 +18,17 @@ interface IProps {
 
 const Nav: React.FC<IProps> = ({ className }) => {
   const [onLoginModal, setOnLoginModal] = useState(false);
+  const [userInfo, setUserInfo] = useState<user>();
+  const accToken = localStorage.getItem('accessToken');
   const handleClickLogin = () => {
     setOnLoginModal(!onLoginModal);
   };
+
+  useEffect(() => {
+    if (accToken) {
+      getUserInfo().then(res => setUserInfo(res));
+    }
+  }, [accToken]);
   return (
     <Wrap className={className}>
       <NavContent>
@@ -27,9 +37,13 @@ const Nav: React.FC<IProps> = ({ className }) => {
         </LogoWrap>
         <MenuWrap>
           <UserProfile>
-            <Img src={defaultLoginImg} width="64px" height="64px" />
+            <Img
+              src={userInfo?.profile_image_url || defaultLoginImg}
+              width="64px"
+              height="64px"
+            />
             <ProfileWrap onClick={handleClickLogin}>
-              <ProfileName>로그인</ProfileName>
+              <ProfileName>{userInfo?.nickname || '로그인'}</ProfileName>
               <Img src={smallRightArrowBtn} width="20px" height="20px" />
             </ProfileWrap>
           </UserProfile>
@@ -41,7 +55,7 @@ const Nav: React.FC<IProps> = ({ className }) => {
     </Wrap>
   );
 };
-
+// 마이페이지 가는 로직 구성해야함
 const defaultStyle = css`
   width: 220px;
 `;
