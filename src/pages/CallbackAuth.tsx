@@ -12,7 +12,7 @@ const CallbackAuth = () => {
 
   if (accessToken) {
     localStorage.setItem('accessToken', accessToken);
-    navigate('/intro');
+    navigate('/intro', { replace: true });
   }
 
   return <div>로그인 중...</div>;
