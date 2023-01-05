@@ -1,11 +1,20 @@
 import React from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import qs from 'qs';
 
 const CallbackAuth = () => {
-  const param = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
+  const query = qs.parse(location.search, {
+    ignoreQueryPrefix: true,
+  });
+  const accessToken = query.access as string;
 
-  console.log(param, location);
+  if (accessToken) {
+    localStorage.setItem('accessToken', accessToken);
+    navigate('/intro');
+  }
+
   return <div>로그인 중...</div>;
 };
 
