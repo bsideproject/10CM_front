@@ -8,6 +8,7 @@ import MyTrip from 'pages/MyTrip';
 import MakeMyTrip from 'pages/MakeMyTrip';
 import UnzidoIntro from 'pages/UnzidoIntro';
 import MyPage from 'pages/MyPage';
+import CallbackAuth from 'pages/CallbackAuth';
 
 const App = () => {
   return (
@@ -21,7 +22,8 @@ const App = () => {
           <Route path={routePath.MY_TRIP} element={<MyTrip />} />
           <Route path={routePath.MAKE_MY_TRIP} element={<MakeMyTrip />} />
           <Route path={routePath.MY_PAGE} element={<MyPage />} />
-          <Route path="*" element={<div>없는 페이지임 ㅋㅋ</div>} />
+          <Route path={routePath.CALLBACK_KAKAO} element={<CallbackAuth />} />
+          <Route path="*" element={<div>---</div>} />
         </Routes>
       </BrowserRouter>
     </div>
