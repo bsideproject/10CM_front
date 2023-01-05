@@ -23,7 +23,7 @@ const App = () => {
           <Route path={routePath.MAKE_MY_TRIP} element={<MakeMyTrip />} />
           <Route path={routePath.MY_PAGE} element={<MyPage />} />
           <Route path={routePath.CALLBACK_KAKAO} element={<CallbackAuth />} />
-          <Route path="*" element={<div>---</div>} />
+          <Route path="*" element={<UnzidoIntro />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import IntroTopBg from 'assets/img/IntroTopBackground.svg';
-import Img from 'components/Img/Img';
+
 import { ReactComponent as earthImg } from 'assets/img/earthImg.svg';
 import IntroBottomBg from 'assets/img/introBottomBackground.svg';
-import { useNavigate } from 'react-router-dom';
+
 import TopContent from './TopContent';
 import CenterContent from './CenterContent';
 import BottomContent from './BottomContent';
+
 const Intro = () => {
   return (
     <Wrap>
