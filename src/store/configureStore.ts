@@ -1,11 +1,24 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import placeInfo from './modules/placeInfo';
 import authInfo from './modules/authInfo';
+
+const persistConfig = {
+  key: 'menu',
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, authInfo);
+
 const store = configureStore({
   reducer: {
     placeInfo,
-    authInfo,
+    authInfo: persistedReducer,
   },
+  middleware: getDefaultMiddleware({
+    serializableCheck: false,
+  }),
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

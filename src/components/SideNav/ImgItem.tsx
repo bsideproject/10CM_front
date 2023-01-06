@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import Img from 'components/Img/Img';
@@ -7,6 +7,7 @@ import { sizes } from 'constants/sizes';
 import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
 import { useNavigate } from 'react-router-dom';
+import LogoutModal from 'components/common/ModalContents/LogoutModal';
 interface IProps {
   img: string;
   text: string;
@@ -16,15 +17,24 @@ interface IProps {
 
 const ImgItem: React.FC<IProps> = ({ img, text, route, isNav }) => {
   const navigate = useNavigate();
+  const [onLogoutModal, setOnLogoutModal] = useState(false);
+
   const handleClickList = () => {
+    if (text === '로그아웃') {
+      setOnLogoutModal(!onLogoutModal);
+    }
     if (route) {
       navigate(route);
     }
   };
+
   return (
     <ListItem isNav={isNav} onClick={handleClickList}>
       <Img src={img} width={sizes.NAV_IMGS_SIZE} height={sizes.NAV_IMGS_SIZE} />
       {isNav && <ListText>{text}</ListText>}
+      {onLogoutModal && (
+        <LogoutModal onClose={() => setOnLogoutModal(!onLogoutModal)} />
+      )}
     </ListItem>
   );
 };

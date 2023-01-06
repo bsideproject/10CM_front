@@ -33,6 +33,7 @@ export const NAV_DESC_SEC = [
   {
     img: logoutImg,
     text: '로그아웃',
+    route: routePath.INTRO,
   },
 ];
 
