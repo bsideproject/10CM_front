@@ -8,10 +8,11 @@ import { asyncUserFetch } from 'store/modules/authInfo';
 const UnzidoIntro = () => {
   const dispatch = useAppDispatch();
   dispatch(asyncUserFetch());
+  const { status } = useAppSelect(state => state.authInfo);
   let isInitial = true;
 
   useEffect(() => {
-    if (isInitial) {
+    if (isInitial && status === 'fulfilled') {
       isInitial = false;
     }
   }, []);
