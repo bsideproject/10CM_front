@@ -9,7 +9,8 @@ const UnzidoIntro = () => {
   const dispatch = useAppDispatch();
   dispatch(asyncUserFetch());
   const { status } = useAppSelect(state => state.authInfo);
-  if (status !== 'fulfilled') {
+  const getToken = localStorage.getItem('accessToken');
+  if (status !== 'fulfilled' && getToken) {
     return null;
   }
   return <HomeLayout nav={<Nav />} content={<Intro />} />;
