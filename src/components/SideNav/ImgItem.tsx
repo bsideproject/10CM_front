@@ -69,7 +69,7 @@ const ListItem = styled.li<{ isNav?: boolean | undefined }>`
 `;
 
 const ListText = styled.span`
-  ${fonts('text-xs')}
+  ${fonts('text-xs')};
   height: 26px;
   letter-spacing: 0.013em;
   margin-left: 12px;

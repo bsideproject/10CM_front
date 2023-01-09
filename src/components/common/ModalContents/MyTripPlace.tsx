@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelect } from 'store/configureStore.hooks';
 import { createTrip, updateTrip } from 'apis/tripApi';
 import { useNavigate } from 'react-router-dom';
 import { setUpdateData, setUpdateId, setImg } from 'store/modules/placeInfo';
+import { routePath } from 'constants/route';
 interface IProps {
   daysData: KakaoAddress[][];
   onClose: () => void;
@@ -52,7 +53,7 @@ const MyTripPlace: React.FC<IProps> = ({ daysData, onClose }) => {
       await createTrip(prms);
     }
     onClose();
-    navigate('/my-trip');
+    navigate(routePath.MY_TRIP);
     // window.location.reload();
     // 모달 종료
     // 페이지 이동

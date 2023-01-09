@@ -25,8 +25,7 @@ api.interceptors.response.use(
   },
   e => {
     if (e.response.status === 401 && accToken) {
-      alert('로그인 기간 만료');
-
+      // alert('로그인 기간 만료');
       // 토큰 만료 시 처리
     }
 

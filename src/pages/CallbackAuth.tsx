@@ -11,6 +11,7 @@ const CallbackAuth = () => {
   });
   const accessToken = query.access as string;
   localStorage.setItem('accessToken', accessToken);
+
   navigate(routePath.INTRO, { replace: true });
 
   return <div>로그인 중...</div>;
