@@ -7,7 +7,6 @@ import { routePath } from 'constants/route';
 
 const TopContent = () => {
   const navigate = useNavigate();
-
   const handleClickButton = () => {
     navigate(routePath.MY_TRIP);
   };

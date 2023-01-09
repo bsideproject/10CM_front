@@ -5,10 +5,10 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { setAuthInfo, info } from 'store/modules/authInfo';
-import { persistor } from 'index';
 import { useNavigate } from 'react-router-dom';
 import { routePath } from 'constants/route';
-
+import { persistor } from 'index';
+import { fonts } from 'assets/fonts/fonts';
 interface IProps {
   onClose: () => void;
 }
@@ -20,20 +20,23 @@ const LogoutModal: React.FC<IProps> = ({ onClose }) => {
     const initUserInfo = info;
     localStorage.clear();
     dispatch(setAuthInfo(initUserInfo));
-    await persistor.purge();
+    persistor.purge();
+    onClose();
     navigate(routePath.INTRO);
+    window.location.reload();
   };
 
   return (
     <Modal onClose={onClose}>
       <Wrap>
-        <span>정말로 로그아웃 하시겠습니까?</span>
+        <LogoutText>정말로 로그아웃 하시겠습니까?</LogoutText>
         <ModalButton
           btnText="확인"
-          btnSize="medium"
+          btnSize="small"
           btnWidth="67px"
           onClose={onClose}
           onClick={handleClickLogout}
+          isLogout
         />
       </Wrap>
     </Modal>
@@ -49,6 +52,12 @@ const Wrap = styled.div`
   gap: 8px;
   background-color: ${colors.WHITE};
   border-radius: 4px;
+`;
+
+const LogoutText = styled.span`
+  ${fonts('text-sm-regular')};
+  letter-spacing: 0.013em;
+  color: ${colors.NEUTRAl_600};
 `;
 
 export default LogoutModal;

@@ -9,6 +9,7 @@ interface IProps {
   btnSize: BtnSize;
   btnWidth: string;
   isOne?: boolean;
+  isLogout?: boolean;
   onClick?: () => void;
   onClose?: () => void;
 }
@@ -17,12 +18,13 @@ const ModalButton: React.FC<IProps> = ({
   btnSize,
   btnWidth,
   isOne,
+  isLogout,
   onClose,
   onClick,
 }) => {
   const isFullSize = isOne;
   return (
-    <Wrap btnSize={btnSize}>
+    <Wrap btnSize={btnSize} isLogout>
       {isFullSize && (
         <Button
           buttonType="filled"
@@ -61,10 +63,11 @@ const ModalButton: React.FC<IProps> = ({
   );
 };
 
-const Wrap = styled.div<{ btnSize: string }>`
+const Wrap = styled.div<{ btnSize: string; isLogout?: boolean }>`
   width: ${props => (props.btnSize === 'medium' ? '160px' : '100%')};
   display: flex;
-  justify-content: space-between;
+  justify-content: ${({ isLogout }) => (isLogout ? 'center' : 'space-between')};
+  gap: ${({ isLogout }) => (isLogout ? '8px' : undefined)};
 `;
 
 const ButtonText = styled.div<{ isCancel: boolean }>`

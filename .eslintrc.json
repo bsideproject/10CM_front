@@ -82,8 +82,10 @@
     "no-undef": "off",
     "no-shadow": "off",
     // prop-types X
-    "import/no-unresolved": "off"
+    "import/no-unresolved": "off",
     // 경로의 파일이 unresolved 되는 일 없도록 하는 옵션
+    "import/no-cycle": "off"
+    // 사이클 off , 왜인지 찾아보기
   },
   "settings": {
     "import/resolver": {

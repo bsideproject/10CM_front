@@ -8,20 +8,31 @@ import CompletedTripCard from 'components/CompletedTripCard/CompletedTripCard';
 import CompletedTripGroup from 'components/CompletedTripGroup/CompletedTripGroup';
 import MakeNewPlace from 'components/common/ModalContents/MakeNewPlace';
 import { useAppDispatch } from 'store/configureStore.hooks';
+import { MyTripListResponse } from 'dtos/trip';
 import { setUpdateData } from 'store/modules/placeInfo';
 import { getTripList } from 'apis/tripApi';
 import Pagination from 'components/common/Pagination/Pagination';
+import Toast from 'components/common/Toast';
 import TripBanner from './TripBanner';
 
 const MyTripContent: React.FC = () => {
   const [onModal, setOnModal] = useState(false);
   const [tripData, setTripData] = useState<any>({});
   const [currentPage, setCurrentPage] = useState(1);
+  const [onToast, setOnToast] = useState(false);
+  const isLogin = localStorage.getItem('accessToken');
   const dispatch = useAppDispatch();
 
   const handleControlModal = () => {
-    dispatch(setUpdateData([]));
-    setOnModal(!onModal);
+    if (isLogin) {
+      dispatch(setUpdateData([]));
+      setOnModal(!onModal);
+      return;
+    }
+    setOnToast(true);
+    setTimeout(() => {
+      setOnToast(false);
+    }, 1500);
   };
 
   useEffect(() => {
@@ -35,6 +46,7 @@ const MyTripContent: React.FC = () => {
     ? '나의 여행'
     : `나의 여행 (${tripData.data.length})`;
 
+  console.log(tripData);
   return (
     <Wrap>
       <TripBanner />
@@ -54,10 +66,15 @@ const MyTripContent: React.FC = () => {
         <MainWrap>
           {emptyData && <EmptyContent onClick={handleControlModal} />}
           {!emptyData && <CompletedTripGroup data={tripData.data} />}
-          <Pagination curPage={currentPage} totalPage={tripData.total_pages} onChangePage={setCurrentPage}/>
+          <Pagination
+            curPage={currentPage}
+            totalPage={tripData.total_pages}
+            onChangePage={setCurrentPage}
+          />
         </MainWrap>
         {onModal && <MakeNewPlace onClose={handleControlModal} />}
       </TripWrap>
+      {onToast && <Toast toastText="로그인 후 이용이 가능합니다." />}
     </Wrap>
   );
 };

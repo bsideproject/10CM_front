@@ -8,6 +8,7 @@ import { colors } from 'constants/colors';
 import { fonts } from 'assets/fonts/fonts';
 import { useNavigate } from 'react-router-dom';
 import LogoutModal from 'components/common/ModalContents/LogoutModal';
+import Toast from 'components/common/Toast';
 interface IProps {
   img: string;
   text: string;
@@ -17,12 +18,23 @@ interface IProps {
 
 const ImgItem: React.FC<IProps> = ({ img, text, route, isNav }) => {
   const navigate = useNavigate();
+  const isLogin = localStorage.getItem('accessToken');
   const [onLogoutModal, setOnLogoutModal] = useState(false);
+  const [onToast, setOnToast] = useState(false);
 
   const handleClickList = () => {
     if (text === '로그아웃') {
-      setOnLogoutModal(!onLogoutModal);
+      if (isLogin) {
+        setOnLogoutModal(!onLogoutModal);
+        return;
+      }
+      setOnToast(true);
+      setTimeout(() => {
+        setOnToast(false);
+      }, 1500);
+      return;
     }
+
     if (route) {
       navigate(route);
     }
@@ -35,6 +47,7 @@ const ImgItem: React.FC<IProps> = ({ img, text, route, isNav }) => {
       {onLogoutModal && (
         <LogoutModal onClose={() => setOnLogoutModal(!onLogoutModal)} />
       )}
+      {onToast && <Toast toastText="로그인 후 이용이 가능합니다." />}
     </ListItem>
   );
 };
