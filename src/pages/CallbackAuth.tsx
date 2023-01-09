@@ -12,7 +12,10 @@ const CallbackAuth = () => {
   const accessToken = query.access as string;
   localStorage.setItem('accessToken', accessToken);
 
-  navigate(routePath.INTRO, { replace: true });
+  useEffect(() => {
+    navigate(routePath.INTRO, { replace: true });
+  }, []);
+  // ref: navigate는 사용자 작동이나 훅에 의해 동작
 
   return <div>로그인 중...</div>;
 };

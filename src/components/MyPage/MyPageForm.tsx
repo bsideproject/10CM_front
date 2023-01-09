@@ -6,14 +6,18 @@ import styled from 'styled-components';
 import { ReactComponent as CameraIcon } from '../../assets/svg/camera.svg';
 import { ReactComponent as KakaoIcon } from '../../assets/svg/kakao.svg';
 
-interface Props {}
+interface Props {
+  email: string;
+  nickname: string;
+  profileImg: string;
+}
 
-const MyPageForm: React.FC<Props> = () => {
+const MyPageForm: React.FC<Props> = ({ email, nickname, profileImg }) => {
   return (
     <MyPageFormWrap>
       <form>
         <MyPageImageWrap>
-          <MyPageImage />
+          <MyPageImage src={profileImg} />
           <MyPlaceImageEditButton>
             <CameraIcon width={12} height={12} />
           </MyPlaceImageEditButton>
@@ -21,7 +25,7 @@ const MyPageForm: React.FC<Props> = () => {
         <MyPageInputWrap>
           <MyPageInputItem>
             <Formlabel label="닉네임" required>
-              <Input />
+              <Input placeholder="10자 이내 작성" />
             </Formlabel>
           </MyPageInputItem>
           <MyPageInputItem>
@@ -30,13 +34,8 @@ const MyPageForm: React.FC<Props> = () => {
                 <KakaoWrap>
                   <KakaoIcon />
                 </KakaoWrap>
-                <div>email</div>
+                <div>{email}</div>
               </MyPageEmail>
-            </Formlabel>
-          </MyPageInputItem>
-          <MyPageInputItem>
-            <Formlabel label="휴대폰번호" required>
-              <Input disabled />
             </Formlabel>
           </MyPageInputItem>
         </MyPageInputWrap>
