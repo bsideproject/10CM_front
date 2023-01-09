@@ -19,6 +19,7 @@ const initialState = {
     email: '',
     profile_image_url: '',
   },
+  status: 'rejected',
 };
 
 const authInfoSlice = createSlice({
@@ -34,6 +35,7 @@ const authInfoSlice = createSlice({
       asyncUserFetch.fulfilled,
       (state, action: PayloadAction<user>) => {
         state.info = action.payload;
+        state.status = 'fulfilled';
       },
     );
     builder.addCase(PURGE, () => initialState);
