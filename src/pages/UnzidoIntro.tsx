@@ -8,11 +8,14 @@ import { asyncUserFetch } from 'store/modules/authInfo';
 const UnzidoIntro = () => {
   const dispatch = useAppDispatch();
   dispatch(asyncUserFetch());
-  const { status } = useAppSelect(state => state.authInfo);
-  const getToken = localStorage.getItem('accessToken');
-  if (status !== 'fulfilled' && getToken) {
-    return null;
-  }
+  let isInitial = true;
+
+  useEffect(() => {
+    if (isInitial) {
+      isInitial = false;
+    }
+  }, []);
+
   return <HomeLayout nav={<Nav />} content={<Intro />} />;
 };
 
