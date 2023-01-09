@@ -7,11 +7,7 @@ import { asyncUserFetch } from 'store/modules/authInfo';
 
 const UnzidoIntro = () => {
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(asyncUserFetch());
-    window.location.reload();
-  }, [dispatch]);
+  dispatch(asyncUserFetch());
 
   return <HomeLayout nav={<Nav />} content={<Intro />} />;
 };
