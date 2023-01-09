@@ -10,6 +10,7 @@ const UnzidoIntro = () => {
 
   useEffect(() => {
     dispatch(asyncUserFetch());
+    window.location.reload();
   }, [dispatch]);
 
   return <HomeLayout nav={<Nav />} content={<Intro />} />;
