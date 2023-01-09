@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { routePath } from 'constants/route';
 const BottomContent = () => {
   const navigate = useNavigate();
-
   const handleClickButton = () => {
     navigate(routePath.MY_TRIP);
   };

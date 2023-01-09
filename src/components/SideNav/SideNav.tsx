@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import Nav from './Nav';
 import SmallNav from './SmallNav';

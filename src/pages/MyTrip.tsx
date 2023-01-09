@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import React from 'react';
 import HomeLayout from 'components/UI/HomeLayout';
 import Nav from 'components/SideNav/Nav';

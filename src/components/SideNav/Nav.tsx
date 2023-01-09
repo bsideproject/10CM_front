@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 
 import { colors } from 'constants/colors';
@@ -10,9 +10,10 @@ import defaultLoginImg from 'assets/img/defaultLoginImg.svg';
 import navLogo from 'assets/img/navLogo.svg';
 import smallRightArrowBtn from 'assets/img/smallRightArrowBtn.svg';
 import Login from 'components/common/ModalContents/Login';
-import { getUserInfo } from 'apis/userInfo';
+import { useNavigate } from 'react-router-dom';
 import { user } from 'dtos/userInfo';
 import { useAppSelect } from 'store/configureStore.hooks';
+import { routePath } from 'constants/route';
 import ImgLists from './ImgLists';
 interface IProps {
   className?: string;
@@ -20,11 +21,17 @@ interface IProps {
 
 const Nav: React.FC<IProps> = ({ className }) => {
   const [onLoginModal, setOnLoginModal] = useState(false);
+  const navigate = useNavigate();
+  const { nickname, profile_image_url: profileImg } = useAppSelect(
+    state => state.authInfo.info,
+  );
 
-  const { nickname, profile_image_url } = useAppSelect(state => state.authInfo);
+  const isLogin = !!localStorage.getItem('accessToken');
 
-  const handleClickLogin = () => {
-    setOnLoginModal(!onLoginModal);
+  const handleClickText = () => {
+    return isLogin
+      ? navigate(routePath.MY_PAGE)
+      : setOnLoginModal(!onLoginModal);
   };
 
   return (
@@ -36,12 +43,12 @@ const Nav: React.FC<IProps> = ({ className }) => {
         <MenuWrap>
           <UserProfile>
             <Img
-              src={profile_image_url || defaultLoginImg}
+              src={profileImg || defaultLoginImg}
               width="64px"
               height="64px"
               borderRadius="50%"
             />
-            <ProfileWrap onClick={handleClickLogin}>
+            <ProfileWrap onClick={handleClickText}>
               <ProfileName>{nickname || '로그인'}</ProfileName>
               <Img src={smallRightArrowBtn} width="20px" height="20px" />
             </ProfileWrap>
@@ -50,7 +57,7 @@ const Nav: React.FC<IProps> = ({ className }) => {
           <ImgLists listsData={CFG.NAV_DESC_SEC} isNav />
         </MenuWrap>
       </NavContent>
-      {onLoginModal && <Login onClose={handleClickLogin} />}
+      {onLoginModal && <Login onClose={handleClickText} />}
     </Wrap>
   );
 };

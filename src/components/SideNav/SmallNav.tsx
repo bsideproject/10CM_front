@@ -2,7 +2,6 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 
 import smallNavLogo from 'assets/img/smallNavLogo.svg';
-import profileImg from 'assets/img/profileImg.svg';
 
 import Img from 'components/Img/Img';
 
@@ -10,12 +9,17 @@ import * as CFG from 'services/config.js';
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
 import { sizes } from 'constants/sizes';
+import { useAppSelect } from 'store/configureStore.hooks';
 
 import ImgLists from './ImgLists';
 interface IProps {
   className: string;
 }
 const SmallNav: React.FC<IProps> = ({ className }) => {
+  const { nickname, profile_image_url: profileImg } = useAppSelect(
+    state => state.authInfo.info,
+  );
+
   return (
     <Wrap className={className}>
       <LogoWrap>
@@ -27,13 +31,8 @@ const SmallNav: React.FC<IProps> = ({ className }) => {
       </LogoWrap>
       <MenuWrap>
         <UserProfile>
-          <Img
-            src={profileImg}
-            width="48px"
-            height="48px"
-            padding="18px 0 0 0"
-          />
-          <ProfileName>가나...님</ProfileName>
+          <Img src={profileImg} width="48px" height="48px" borderRadius="50%" />
+          <ProfileName>{`${nickname}`}</ProfileName>
         </UserProfile>
         <ImgLists listsData={CFG.NAV_DESC} />
         <ImgLists listsData={CFG.NAV_DESC_SEC} />
@@ -84,9 +83,11 @@ const ProfileName = styled.div`
   color: ${colors.NEUTRAl_600};
   width: 64px;
   height: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export default SmallNav;
