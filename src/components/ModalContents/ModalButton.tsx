@@ -24,7 +24,7 @@ const ModalButton: React.FC<IProps> = ({
 }) => {
   const isFullSize = isOne;
   return (
-    <Wrap btnSize={btnSize} isLogout>
+    <Wrap btnSize={btnSize} isLogout={isLogout}>
       {isFullSize && (
         <Button
           buttonType="filled"

@@ -12,4 +12,5 @@ export const sizes = {
   DOT_ICON_SIZE: '24px',
   SHARE_ICON_SIZE: '32px',
   TOAST_CHECKED_SIZE: '24px',
+  WITHDRAWAL_LAST_SIZE: '160px',
 };

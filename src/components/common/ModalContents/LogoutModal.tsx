@@ -12,6 +12,7 @@ import { fonts } from 'assets/fonts/fonts';
 interface IProps {
   onClose: () => void;
 }
+
 const LogoutModal: React.FC<IProps> = ({ onClose }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

@@ -15,7 +15,7 @@ const UnzidoIntro = () => {
     if (isInitial && status === 'fulfilled') {
       isInitial = false;
     }
-  }, []);
+  }, [status]);
 
   return <HomeLayout nav={<Nav />} content={<Intro />} />;
 };
