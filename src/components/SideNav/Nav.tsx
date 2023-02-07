@@ -25,6 +25,10 @@ const Nav: React.FC<IProps> = ({ className }) => {
   const { nickname, profile_image_url: profileImg } = useAppSelect(
     state => state.authInfo.info,
   );
+  const [userInfo, setUserInfo] = useState({
+    nickname,
+    profileImg,
+  });
 
   const isLogin = !!localStorage.getItem('accessToken');
 
@@ -33,6 +37,13 @@ const Nav: React.FC<IProps> = ({ className }) => {
       ? navigate(routePath.MY_PAGE)
       : setOnLoginModal(!onLoginModal);
   };
+
+  useEffect(() => {
+    setUserInfo({
+      nickname,
+      profileImg,
+    });
+  }, [nickname]);
 
   return (
     <Wrap className={className}>
@@ -43,13 +54,13 @@ const Nav: React.FC<IProps> = ({ className }) => {
         <MenuWrap>
           <UserProfile>
             <Img
-              src={profileImg || defaultLoginImg}
+              src={userInfo.profileImg || defaultLoginImg}
               width="64px"
               height="64px"
               borderRadius="50%"
             />
             <ProfileWrap onClick={handleClickText}>
-              <ProfileName>{nickname || '로그인'}</ProfileName>
+              <ProfileName>{userInfo.nickname || '로그인'}</ProfileName>
               <Img src={smallRightArrowBtn} width="20px" height="20px" />
             </ProfileWrap>
           </UserProfile>
