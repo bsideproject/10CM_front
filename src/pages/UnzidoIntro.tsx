@@ -16,6 +16,7 @@ const UnzidoIntro = () => {
       isInitial = false;
     }
   }, [status]);
+  // 이 코드가 필요없을 수 있음.
 
   return <HomeLayout nav={<Nav />} content={<Intro />} />;
 };
