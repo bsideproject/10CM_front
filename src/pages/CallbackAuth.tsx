@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import qs from 'qs';
 import { routePath } from 'constants/route';
+import { useAppDispatch, useAppSelect } from 'store/configureStore.hooks';
+import { asyncUserFetch } from 'store/modules/authInfo';
+
 
 const CallbackAuth = () => {
   const location = useLocation();
@@ -13,11 +16,15 @@ const CallbackAuth = () => {
   localStorage.setItem('accessToken', accessToken);
   const getToken = localStorage.getItem('accessToken');
 
+  const dispatch = useAppDispatch();
+  dispatch(asyncUserFetch()).then(() => {});
+  const { status } = useAppSelect((state) => state.authInfo)
+
   useEffect(() => {
-    if(getToken) {
+    if(status === 'fulfilled') {
       navigate(routePath.INTRO, { replace: true });
     }
-  }, [getToken]);
+  }, [status]);
   // ref: navigate는 사용자 작동이나 훅에 의해 동작
 
   return <div>로그인 중...</div>;

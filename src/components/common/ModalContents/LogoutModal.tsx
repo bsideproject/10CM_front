@@ -21,10 +21,10 @@ const LogoutModal: React.FC<IProps> = ({ onClose }) => {
     const initUserInfo = info;
     localStorage.clear();
     dispatch(setAuthInfo(initUserInfo));
-    persistor.purge();
-    onClose();
-    navigate(routePath.INTRO);
-    window.location.reload();
+    persistor.purge().then(() => {
+      onClose();
+      navigate(routePath.INTRO);
+    });
   };
 
   return (
