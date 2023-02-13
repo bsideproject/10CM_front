@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import qs from 'qs';
 import { routePath } from 'constants/route';
 import { useAppDispatch, useAppSelect } from 'store/configureStore.hooks';
 import { asyncUserFetch } from 'store/modules/authInfo';
-
 
 const CallbackAuth = () => {
   const location = useLocation();
@@ -12,16 +11,18 @@ const CallbackAuth = () => {
   const query = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
+  const { status } = useAppSelect(state => state.authInfo);
+  const [authStatus, setAuthStatus] = useState(status);
   const accessToken = query.access as string;
   localStorage.setItem('accessToken', accessToken);
   const getToken = localStorage.getItem('accessToken');
 
   const dispatch = useAppDispatch();
-  dispatch(asyncUserFetch()).then(() => {});
-  const { status } = useAppSelect((state) => state.authInfo)
+  dispatch(asyncUserFetch());
 
   useEffect(() => {
-    if(status === 'fulfilled') {
+    setAuthStatus(status);
+    if (status === 'fulfilled') {
       navigate(routePath.INTRO, { replace: true });
     }
   }, [status]);
