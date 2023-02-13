@@ -32,7 +32,7 @@ const SmallNav: React.FC<IProps> = ({ className }) => {
       <MenuWrap>
         <UserProfile>
           <Img src={profileImg} width="48px" height="48px" borderRadius="50%" />
-          <ProfileName>{`${nickname}`}</ProfileName>
+          <ProfileName>{nickname}</ProfileName>
         </UserProfile>
         <ImgLists listsData={CFG.NAV_DESC} />
         <ImgLists listsData={CFG.NAV_DESC_SEC} />

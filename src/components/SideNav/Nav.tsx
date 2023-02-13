@@ -43,7 +43,7 @@ const Nav: React.FC<IProps> = ({ className }) => {
       nickname,
       profileImg,
     });
-  }, [nickname]);
+  }, [nickname, profileImg]);
 
   return (
     <Wrap className={className}>
