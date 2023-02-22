@@ -4,7 +4,7 @@ import { colors } from 'constants/colors';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { setAuthInfo, info } from 'store/modules/authInfo';
+import { setAuthInfo, setIsLoggedIn, info } from 'store/modules/authInfo';
 import { useNavigate } from 'react-router-dom';
 import { routePath } from 'constants/route';
 import { persistor } from 'index';
@@ -21,6 +21,7 @@ const LogoutModal: React.FC<IProps> = ({ onClose }) => {
     const initUserInfo = info;
     localStorage.clear();
     dispatch(setAuthInfo(initUserInfo));
+    dispatch(setIsLoggedIn(false));
     persistor.purge().then(() => {
       onClose();
       navigate(routePath.INTRO);

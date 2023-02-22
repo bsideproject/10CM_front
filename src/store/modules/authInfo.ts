@@ -19,7 +19,7 @@ const initialState = {
     email: '',
     profile_image_url: '',
   },
-  status: 'rejected',
+  isLoggedIn: false,
 };
 
 const authInfoSlice = createSlice({
@@ -29,19 +29,22 @@ const authInfoSlice = createSlice({
     setAuthInfo: (state, action: PayloadAction<user>) => {
       state.info = action.payload;
     },
+    setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
+      state.isLoggedIn = action.payload;
+    },
   },
   extraReducers: builder => {
     builder.addCase(
       asyncUserFetch.fulfilled,
       (state, action: PayloadAction<user>) => {
         state.info = action.payload;
-        state.status = 'fulfilled';
+        state.isLoggedIn = true;
       },
     );
     builder.addCase(PURGE, () => initialState);
   },
 });
 
-export const { setAuthInfo } = authInfoSlice.actions;
+export const { setAuthInfo, setIsLoggedIn } = authInfoSlice.actions;
 export const { info } = initialState;
 export default authInfoSlice.reducer;

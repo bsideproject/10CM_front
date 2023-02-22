@@ -10,6 +10,7 @@ import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
 import { sizes } from 'constants/sizes';
 import { useAppSelect } from 'store/configureStore.hooks';
+import { shallowEqual } from 'react-redux';
 
 import ImgLists from './ImgLists';
 interface IProps {
@@ -18,6 +19,7 @@ interface IProps {
 const SmallNav: React.FC<IProps> = ({ className }) => {
   const { nickname, profile_image_url: profileImg } = useAppSelect(
     state => state.authInfo.info,
+    shallowEqual,
   );
 
   return (

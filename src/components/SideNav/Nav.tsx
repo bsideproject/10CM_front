@@ -12,6 +12,7 @@ import smallRightArrowBtn from 'assets/img/smallRightArrowBtn.svg';
 import Login from 'components/common/ModalContents/Login';
 import { useNavigate } from 'react-router-dom';
 import { user } from 'dtos/userInfo';
+import { shallowEqual } from 'react-redux';
 import { useAppSelect } from 'store/configureStore.hooks';
 import { routePath } from 'constants/route';
 import ImgLists from './ImgLists';
@@ -24,11 +25,8 @@ const Nav: React.FC<IProps> = ({ className }) => {
   const navigate = useNavigate();
   const { nickname, profile_image_url: profileImg } = useAppSelect(
     state => state.authInfo.info,
+    shallowEqual,
   );
-  const [userInfo, setUserInfo] = useState({
-    nickname,
-    profileImg,
-  });
 
   const isLogin = !!localStorage.getItem('accessToken');
 
@@ -37,13 +35,6 @@ const Nav: React.FC<IProps> = ({ className }) => {
       ? navigate(routePath.MY_PAGE)
       : setOnLoginModal(!onLoginModal);
   };
-
-  useEffect(() => {
-    setUserInfo({
-      nickname,
-      profileImg,
-    });
-  }, [nickname, profileImg]);
 
   return (
     <Wrap className={className}>
@@ -54,13 +45,13 @@ const Nav: React.FC<IProps> = ({ className }) => {
         <MenuWrap>
           <UserProfile>
             <Img
-              src={userInfo.profileImg || defaultLoginImg}
+              src={profileImg || defaultLoginImg}
               width="64px"
               height="64px"
               borderRadius="50%"
             />
             <ProfileWrap onClick={handleClickText}>
-              <ProfileName>{userInfo.nickname || '로그인'}</ProfileName>
+              <ProfileName>{nickname || '로그인'}</ProfileName>
               <Img src={smallRightArrowBtn} width="20px" height="20px" />
             </ProfileWrap>
           </UserProfile>
