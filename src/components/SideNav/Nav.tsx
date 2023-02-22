@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable camelcase */
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
@@ -23,9 +24,10 @@ interface IProps {
 const Nav: React.FC<IProps> = ({ className }) => {
   const [onLoginModal, setOnLoginModal] = useState(false);
   const navigate = useNavigate();
-  const { nickname, profile_image_url: profileImg } = useAppSelect(
-    state => state.authInfo.info,
-    shallowEqual,
+
+  const nickname = useAppSelect(state => state.authInfo.info.nickname);
+  const profileImg = useAppSelect(
+    state => state.authInfo.info.profile_image_url,
   );
 
   const isLogin = !!localStorage.getItem('accessToken');

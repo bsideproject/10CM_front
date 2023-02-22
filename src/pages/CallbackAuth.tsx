@@ -12,7 +12,8 @@ const CallbackAuth = () => {
   const query = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
-  const { isLoggedIn } = useAppSelect(state => state.authInfo, shallowEqual);
+
+  const isLoggedIn = useAppSelect(state => state.authInfo.isLoggedIn);
   const accessToken = query.access as string;
   localStorage.setItem('accessToken', accessToken);
 
