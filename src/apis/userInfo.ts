@@ -2,7 +2,7 @@ import { user } from 'dtos/userInfo';
 import axios from 'axios';
 import api from './common';
 
-const url = '/api/v1/user';
+const url = 'api/v1/user';
 
 export const initUserState: user = {
   user_id: -1,
