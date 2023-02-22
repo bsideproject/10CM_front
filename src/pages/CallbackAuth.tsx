@@ -25,7 +25,8 @@ const CallbackAuth = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate(routePath.INTRO, { replace: true });
+      // navigate(routePath.INTRO, { replace: true });
+      window.location.replace('https://unzido.site/intro');
     }
   }, [isLoggedIn]);
   // ref: navigate는 사용자 작동이나 훅에 의해 동작
