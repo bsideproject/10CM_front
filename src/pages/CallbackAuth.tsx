@@ -11,21 +11,18 @@ const CallbackAuth = () => {
   const query = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
-  const { status } = useAppSelect(state => state.authInfo);
-  const [authStatus, setAuthStatus] = useState(status);
+  const { user_id: userId } = useAppSelect(state => state.authInfo);
   const accessToken = query.access as string;
   localStorage.setItem('accessToken', accessToken);
-  const getToken = localStorage.getItem('accessToken');
 
   const dispatch = useAppDispatch();
   dispatch(asyncUserFetch());
-
+  // 처리를 어디서 할지 고민해보기
   useEffect(() => {
-    setAuthStatus(status);
-    if (status === 'fulfilled') {
+    if (userId !== -1) {
       navigate(routePath.INTRO, { replace: true });
     }
-  }, [status]);
+  }, [userId]);
   // ref: navigate는 사용자 작동이나 훅에 의해 동작
 
   return <div>로그인 중...</div>;

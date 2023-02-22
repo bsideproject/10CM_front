@@ -30,6 +30,7 @@ const AddImageButton: React.FC<Props> = ({ onChange, value }) => {
       ref.current.click();
     }
   };
+
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       if (e.target.files[0].size <= 1024 * 1024 * 500) {
