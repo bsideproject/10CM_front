@@ -9,6 +9,7 @@ import { shallowEqual } from 'react-redux';
 const CallbackAuth = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const query = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
@@ -17,9 +18,11 @@ const CallbackAuth = () => {
   const accessToken = query.access as string;
   localStorage.setItem('accessToken', accessToken);
 
-  const dispatch = useAppDispatch();
-  dispatch(asyncUserFetch());
   // 처리를 어디서 할지 고민해보기
+  useEffect(() => {
+    dispatch(asyncUserFetch());
+  }, []);
+
   useEffect(() => {
     if (isLoggedIn) {
       navigate(routePath.INTRO, { replace: true });
