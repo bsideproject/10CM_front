@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import { useDispatch } from 'react-redux';
 
 const accToken = localStorage.getItem('accessToken');
 

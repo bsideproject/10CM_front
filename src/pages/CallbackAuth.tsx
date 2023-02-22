@@ -4,6 +4,7 @@ import qs from 'qs';
 import { routePath } from 'constants/route';
 import { useAppDispatch, useAppSelect } from 'store/configureStore.hooks';
 import { asyncUserFetch } from 'store/modules/authInfo';
+import { shallowEqual } from 'react-redux';
 
 const CallbackAuth = () => {
   const location = useLocation();
@@ -11,7 +12,7 @@ const CallbackAuth = () => {
   const query = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
-  const { isLoggedIn } = useAppSelect(state => state.authInfo);
+  const { isLoggedIn } = useAppSelect(state => state.authInfo, shallowEqual);
   const accessToken = query.access as string;
   localStorage.setItem('accessToken', accessToken);
 
