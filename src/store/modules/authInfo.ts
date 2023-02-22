@@ -5,8 +5,8 @@ import { PURGE } from 'redux-persist';
 
 export const asyncUserFetch = createAsyncThunk(
   'authInfoSlice/asyncUserFetch',
-  async () => {
-    const data = await getUserInfo();
+  async (accToken: string) => {
+    const data = await getUserInfo(accToken);
     return data;
   },
 );

@@ -20,7 +20,7 @@ const CallbackAuth = () => {
 
   // 처리를 어디서 할지 고민해보기
   useEffect(() => {
-    dispatch(asyncUserFetch());
+    dispatch(asyncUserFetch(accessToken));
   }, []);
 
   useEffect(() => {

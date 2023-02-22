@@ -1,4 +1,5 @@
 import { user } from 'dtos/userInfo';
+import axios from 'axios';
 import api from './common';
 
 const url = '/api/v1/user';
@@ -11,8 +12,13 @@ export const initUserState: user = {
   profile_image_url: '',
 };
 
-export const getUserInfo = async () => {
-  const { data } = await api.get<user>(url);
+export const getUserInfo = async (accToken: string) => {
+  const sumUrl = process.env.REACT_APP_API_URL + url;
+  const headers = {
+    headers: { Authorization: `Bearer ${accToken}` },
+  };
+  const { data } = await axios.get(sumUrl, headers);
+  // const { data } = await api.get<user>(url);
   return data;
 };
 
