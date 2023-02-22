@@ -15,7 +15,8 @@ const MyPage: React.FC<Props> = () => {
   };
 
   useEffect(() => {
-    getUserInfo().then(res => setUserInfo(res));
+    const getToken = localStorage.getItem('accessToken');
+    getUserInfo(getToken!).then(res => setUserInfo(res));
   }, []);
   const { email, nickname, profile_image_url: profileImg } = userInfo;
 
