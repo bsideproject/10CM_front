@@ -34,6 +34,10 @@ const authInfoSlice = createSlice({
     },
   },
   extraReducers: builder => {
+    builder.addCase(asyncUserFetch.pending, state => {
+      state.isLoggedIn = false;
+    });
+
     builder.addCase(
       asyncUserFetch.fulfilled,
       (state, action: PayloadAction<user>) => {
@@ -41,6 +45,12 @@ const authInfoSlice = createSlice({
         state.isLoggedIn = true;
       },
     );
+
+    builder.addCase(asyncUserFetch.rejected, state => {
+      state.isLoggedIn = false;
+      state.info = initialState.info;
+    });
+
     builder.addCase(PURGE, () => initialState);
   },
 });
