@@ -38,6 +38,8 @@ const Nav: React.FC<IProps> = ({ className }) => {
       : setOnLoginModal(!onLoginModal);
   };
 
+  const hideLogout = !isLogin ? CFG.NAV_DESC_SEC.slice(1) : CFG.NAV_DESC_SEC;
+
   return (
     <Wrap className={className}>
       <NavContent>
@@ -58,7 +60,7 @@ const Nav: React.FC<IProps> = ({ className }) => {
             </ProfileWrap>
           </UserProfile>
           <ImgLists listsData={CFG.NAV_DESC} isNav />
-          <ImgLists listsData={CFG.NAV_DESC_SEC} isNav />
+          <ImgLists listsData={hideLogout} isNav />
         </MenuWrap>
       </NavContent>
       {onLoginModal && <Login onClose={handleClickText} />}

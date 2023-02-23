@@ -80,7 +80,7 @@ export interface MyPlaceResponse {
   id: number;
 
   // 이미지
-  image?: string;
+  image?: any;
 
   // 위도
   latitude: string;

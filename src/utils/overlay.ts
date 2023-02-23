@@ -1,5 +1,6 @@
 import CloseIcon from 'assets/svg/overlay-close.svg';
 import PinIcon from 'assets/svg/overlay-pin.svg';
+import noImgIcon from 'assets/img/noImg.svg';
 import { KakaoAddress } from 'dtos/kakao';
 import { MyPlaceResponse } from 'dtos/place';
 
@@ -175,7 +176,7 @@ export const createUpdateOverlay: UpdateOverlay = (
   imageWrap.className = 'update-overlay-body-image-wrap';
   const image = document.createElement('img');
   image.className = 'update-overlay-body-image';
-  image.src = addressInfo.image || '';
+  image.src = addressInfo.image || noImgIcon;
   image.alt = '장소 이미지';
 
   imageWrap.appendChild(image);

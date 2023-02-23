@@ -10,7 +10,8 @@ import {
 import { MyPlaceResponse } from 'dtos/place';
 import dayjs from 'dayjs';
 import { dateFormat } from 'constants/common';
-import Image from 'assets/png/thumbnail-area.png';
+
+import noCardImg from 'assets/img/noCardImg.svg';
 import { ReactComponent as OptionIcon } from 'assets/svg/my-place-option.svg';
 import { ReactComponent as CheckedIcon } from 'assets/svg/checked.svg';
 import { deletePlace } from 'apis/place';
@@ -96,6 +97,8 @@ const MyPlaceCard: React.FC<Props> = ({
       window.removeEventListener('click', handleDidNotOptionClick);
     };
   }, [isShowOption]);
+
+  console.log(place);
   return (
     <MyPlaceCardWrap
       onMouseEnter={handleHover}
@@ -103,7 +106,11 @@ const MyPlaceCard: React.FC<Props> = ({
       onClick={handleCardClick}
     >
       <MyPlaceCardImageWrap>
-        <MyPlaceImage src={Image} alt="장소 이미지" isHover={isHover} />
+        <MyPlaceImage
+          src={place.image || noCardImg}
+          alt="장소 이미지"
+          isHover={isHover}
+        />
       </MyPlaceCardImageWrap>
       <MyPlaceInfoWrap>
         <MyPlaceName>

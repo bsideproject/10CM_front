@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { MyPlaceResponse, Sort } from 'dtos/place';
 import { ReactComponent as SortIcon } from 'assets/svg/my-place-sort.svg';
-import { ReactComponent as CheckIcon } from 'assets/svg/checked.svg';
+import { ReactComponent as CheckIcon } from 'assets/svg/sortChecked.svg';
 import MyPlaceCard from './MyPlaceCard';
 
 interface Props {
@@ -72,21 +72,21 @@ const MyPlaceGroup = React.forwardRef<HTMLDivElement, Props>(
                     isSelected={currentSort === 'modifiedDate,DESC'}
                     onClick={handleSortOptionClick('modifiedDate,DESC')}
                   >
-                    {currentSort === 'modifiedDate,DESC' && <CheckIcon />}
+                    {currentSort === 'modifiedDate,DESC' && <SortChecked />}
                     <span>최근 수정 순</span>
                   </SortOption>
                   <SortOption
                     isSelected={currentSort === 'createdDate,DESC'}
                     onClick={handleSortOptionClick('createdDate,DESC')}
                   >
-                    {currentSort === 'createdDate,DESC' && <CheckIcon />}
+                    {currentSort === 'createdDate,DESC' && <SortChecked />}
                     <span>최근 등록 순</span>
                   </SortOption>
                   <SortOption
                     isSelected={currentSort === 'name,ASC'}
                     onClick={handleSortOptionClick('name,ASC')}
                   >
-                    {currentSort === 'name,ASC' && <CheckIcon />}
+                    {currentSort === 'name,ASC' && <SortChecked />}
                     <span>장소 이름 순</span>
                   </SortOption>
                 </SortOptionWrap>
@@ -182,3 +182,5 @@ const SortOption = styled.div<{ isSelected: boolean }>`
     background-color: ${colors.NEUTRAl_50};
   }
 `;
+
+const SortChecked = styled(CheckIcon)``;

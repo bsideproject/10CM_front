@@ -2,6 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 
 import smallNavLogo from 'assets/img/smallNavLogo.svg';
+import defaultLoginImg from 'assets/img/defaultLoginImg.svg';
 
 import Img from 'components/Img/Img';
 
@@ -33,8 +34,18 @@ const SmallNav: React.FC<IProps> = ({ className }) => {
       </LogoWrap>
       <MenuWrap>
         <UserProfile>
-          <Img src={profileImg} width="48px" height="48px" borderRadius="50%" />
-          <ProfileName>{nickname}</ProfileName>
+          <Img
+            src={profileImg || defaultLoginImg}
+            width="48px"
+            height="48px"
+            borderRadius="50%"
+          />
+          {nickname && <ProfileName>{nickname}</ProfileName>}
+          {!nickname && (
+            <LoginWrap>
+              <span>비로그인</span>
+            </LoginWrap>
+          )}
         </UserProfile>
         <ImgLists listsData={CFG.NAV_DESC} />
         <ImgLists listsData={CFG.NAV_DESC_SEC} />
@@ -90,6 +101,15 @@ const ProfileName = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`;
+
+const LoginWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  ${fonts('text-xxs-regular')};
+  color: ${colors.NEUTRAl_600};
 `;
 
 export default SmallNav;

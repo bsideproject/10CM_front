@@ -31,7 +31,7 @@ const CallbackAuth = () => {
   }, [isLoggedIn]);
   // ref: navigate는 사용자 작동이나 훅에 의해 동작
 
-  return <div>로그인 중...</div>;
+  return <div />;
 };
 
 export default CallbackAuth;

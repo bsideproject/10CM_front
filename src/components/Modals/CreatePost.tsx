@@ -17,6 +17,7 @@ import { createPlace, getPlace } from 'apis/place';
 import { CreatePlaceBody, MyPlaceResponse } from 'dtos/place';
 import AddImageButton from 'components/common/Input/AddImageButton';
 import { getTagToStringArray } from 'utils/plage';
+import Toast from 'components/common/Toast';
 import {
   AddImageTip,
   AddressInputWrap,
@@ -55,6 +56,8 @@ const CreatePost: React.FC<Props> = ({
     ...initialFormData,
   });
   const [tag, setTag] = useState('');
+  const [onToast, setOnToast] = useState(false);
+  const isLogin = localStorage.getItem('accessToken');
 
   const handleMemoChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -78,6 +81,13 @@ const CreatePost: React.FC<Props> = ({
     e.preventDefault();
   };
   const handleSaveClick = async () => {
+    if (!isLogin) {
+      setOnToast(true);
+      setTimeout(() => {
+        setOnToast(false);
+      }, 1500);
+    }
+
     setIsLoading(true);
     try {
       const tagList = getTagToStringArray(tag);
@@ -156,6 +166,7 @@ const CreatePost: React.FC<Props> = ({
           </Button>
         </ModalFormFooter>
       </ModalFormWrap>
+      {onToast && <Toast toastText="로그인 후 이용이 가능합니다." />}
     </Modal>
   );
 };

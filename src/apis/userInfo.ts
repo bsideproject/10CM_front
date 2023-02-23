@@ -26,3 +26,13 @@ export const getCheckedNick = async () => {
   const { data } = await api.get<user>(`${url}/profile/nickname-check`);
   return data;
 };
+
+export const updateNickname = async () => {
+  const { data } = await api.post(`${url}/profile/nickname-update`);
+  return data;
+};
+
+export const updateImg = async () => {
+  const { data } = await api.post(`${url}/profile/image-upload`);
+  return data;
+};
