@@ -33,6 +33,7 @@ const SuccessWithdrawal: React.FC<IProps> = ({ onClose }) => {
           btnSize="large"
           btnWidth="300px"
           isOne
+          onClick={() => window.location.replace('https://unzido.site/intro')}
         />
       </Wrap>
     </Modal>

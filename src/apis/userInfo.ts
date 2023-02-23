@@ -36,3 +36,8 @@ export const updateImg = async () => {
   const { data } = await api.post(`${url}/profile/image-upload`);
   return data;
 };
+
+export const withdrawalUser = async () => {
+  const { data } = await api.delete(url);
+  return data;
+};

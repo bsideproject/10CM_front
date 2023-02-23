@@ -4,19 +4,30 @@ import styled from 'styled-components';
 import { ReactComponent as RightIcon } from 'assets/svg/arrow-right-circle.svg';
 import { fonts } from 'assets/fonts/fonts';
 import WithdrawalDesc from 'components/common/ModalContents/WithdrawalDesc';
+import SuccessWithdrawal from 'components/common/ModalContents/SuccessWithdrawal';
 
 interface Props {}
 
 const MyPageWithdrawal: React.FC<Props> = () => {
   const [onModal, setOnModal] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
   // TODO: desc 종료 후 새로운 desc 열기
+
   return (
     <MyPageWithdrawalWrap>
       <MyPageWithdrawalButton onClick={() => setOnModal(!onModal)}>
         <MyPageWithdrawalText>회원탈퇴</MyPageWithdrawalText>
         <RightIcon />
       </MyPageWithdrawalButton>
-      {onModal && <WithdrawalDesc onClose={() => setOnModal(!onModal)} />}
+      {onModal && (
+        <WithdrawalDesc
+          onClose={() => setOnModal(!onModal)}
+          onSuccess={() => setSuccessModal(!successModal)}
+        />
+      )}
+      {successModal && (
+        <SuccessWithdrawal onClose={() => setSuccessModal(!successModal)} />
+      )}
     </MyPageWithdrawalWrap>
   );
 };

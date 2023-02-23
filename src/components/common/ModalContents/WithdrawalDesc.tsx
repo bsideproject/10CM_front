@@ -1,16 +1,34 @@
+import { withdrawalUser } from 'apis/userInfo';
 import { fonts } from 'assets/fonts/fonts';
 import ModalButton from 'components/ModalContents/ModalButton';
 import ModalTitle from 'components/ModalContents/ModalTitle';
 import Modal from 'components/UI/Modal';
 import { colors } from 'constants/colors';
+import { persistor } from 'index';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { setAuthInfo, setIsLoggedIn, info } from 'store/modules/authInfo';
 import styled from 'styled-components';
-
 interface IProps {
   onClose: () => void;
+  onSuccess: () => void;
 }
 
-const WithdrawalDesc: React.FC<IProps> = ({ onClose }) => {
+const WithdrawalDesc: React.FC<IProps> = ({ onClose, onSuccess }) => {
+  const dispatch = useDispatch();
+
+  const handleClickWithdrawal = async () => {
+    await withdrawalUser();
+    const initUserInfo = info;
+    localStorage.clear();
+    dispatch(setAuthInfo(initUserInfo));
+    dispatch(setIsLoggedIn(false));
+    persistor.purge().then(() => {
+      onClose();
+      onSuccess();
+    });
+  };
+
   return (
     <Modal onClose={onClose}>
       <Wrap>
@@ -54,6 +72,7 @@ const WithdrawalDesc: React.FC<IProps> = ({ onClose }) => {
           btnSize="large"
           btnWidth="212px"
           onClose={onClose}
+          onClick={handleClickWithdrawal}
         />
       </Wrap>
     </Modal>
