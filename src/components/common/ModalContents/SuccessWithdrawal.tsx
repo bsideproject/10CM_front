@@ -19,7 +19,8 @@ const SuccessWithdrawal: React.FC<IProps> = ({ onClose }) => {
         <ModalTitle headerText="회원탈퇴" onClose={onClose} />
         <ContentWrap>
           <ContentTitle>
-            <span>언젠가 와있을 지도</span> 서비스의\n계정삭제가 완료되었습니다.
+            <span>언젠가 와있을 지도</span>{' '}
+            <span>{`서비스의\n계정삭제가 완료되었습니다.`}</span>
           </ContentTitle>
           <Img
             src={withdrawalImg}
@@ -33,6 +34,7 @@ const SuccessWithdrawal: React.FC<IProps> = ({ onClose }) => {
           btnSize="large"
           btnWidth="300px"
           isOne
+          isCenter
           onClick={() => window.location.replace('https://unzido.site/intro')}
         />
       </Wrap>
@@ -44,6 +46,7 @@ const Wrap = styled.div`
   width: 480px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 24px;
   gap: 24px;
   background-color: ${colors.WHITE};
@@ -57,6 +60,7 @@ const ContentWrap = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 32px;
+
   gap: 40px;
 `;
 
@@ -67,12 +71,14 @@ const ContentTitle = styled.span`
   text-align: center;
   white-space: pre-wrap;
 
-  > span {
+  > span:nth-child(1) {
     color: ${colors.BLUE_BASE};
   }
 `;
 
 const ContentLastText = styled.span`
+  display: inline-block;
+  /* width: 100%; */
   ${fonts('text-sm-bold')};
   text-align: center;
   letter-spacing: 0.013em;

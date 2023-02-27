@@ -38,7 +38,7 @@ const LogoutModal: React.FC<IProps> = ({ onClose }) => {
           btnWidth="67px"
           onClose={onClose}
           onClick={handleClickLogout}
-          isLogout
+          isCenter
         />
       </Wrap>
     </Modal>

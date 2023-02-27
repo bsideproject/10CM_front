@@ -9,6 +9,7 @@ import MakeMyTrip from 'pages/MakeMyTrip';
 import UnzidoIntro from 'pages/UnzidoIntro';
 import MyPage from 'pages/MyPage';
 import CallbackAuth from 'pages/CallbackAuth';
+import SuccessWithdrawal from 'components/common/ModalContents/SuccessWithdrawal';
 
 const App = () => {
   return (

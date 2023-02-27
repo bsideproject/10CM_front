@@ -127,6 +127,7 @@ const Map: React.FC<Props> = ({ mapRef, setMapRef = () => {}, pickedDay }) => {
         style={{ display: 'none', width: '100%', height: '100%' }}
         onClick={() => handleCreateRoadView()}
       /> */}
+      {/* <CloseRoadview>X</CloseRoadview> */}
       <div style={{ display: 'none' }}>
         <button onClick={createMarker}>마커생성</button>
         <button onClick={createCluster}>클러스터생성</button>
@@ -144,7 +145,7 @@ const Map: React.FC<Props> = ({ mapRef, setMapRef = () => {}, pickedDay }) => {
     </div>
   );
 };
-export default Map;
+
 const Wrap = styled.div`
   .info-title {
     display: block;
@@ -266,3 +267,7 @@ const Wrap = styled.div`
     background-position: 0 -20px;
   }
 `;
+
+const CloseRoadview = styled.button``;
+
+export default Map;
