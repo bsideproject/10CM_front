@@ -11,6 +11,9 @@ interface Props {}
 const MyPage: React.FC<Props> = () => {
   const [userInfo, setUserInfo] = useState<user>(initUserState);
   const handleSaveClick = () => {
+    // 닉네임 중복 or
+    // 이미지 수정
+    // 에러 체크 후 저장
     console.log('저장');
   };
 
