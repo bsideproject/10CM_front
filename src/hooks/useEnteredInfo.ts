@@ -7,9 +7,9 @@ type ReturnTypes = [
   () => void,
 ];
 
-const useEnteredInfo = (initalValue: string): ReturnTypes => {
+const useEnteredInfo = (initialValue: string): ReturnTypes => {
   // state 정의
-  const [data, setData] = useState(initalValue);
+  const [data, setData] = useState(initialValue);
 
   // 함수 정의
   const handler = useCallback(

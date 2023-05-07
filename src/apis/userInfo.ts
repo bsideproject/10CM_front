@@ -22,8 +22,8 @@ export const getUserInfo = async (accToken: string) => {
   return data;
 };
 
-export const getCheckedNick = async () => {
-  const { data } = await api.get<user>(`${url}/profile/nickname-check`);
+export const getCheckedNick = async (originNickname: string) => {
+  const { data } = await api.get<user>(`${url}/profile/nickname-check?nickname=${originNickname}`);
   return data;
 };
 

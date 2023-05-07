@@ -1,6 +1,7 @@
 import Formlabel from 'components/common/Formlabel';
 import Input from 'components/common/Input';
 import { colors } from 'constants/colors';
+import useEnteredInfo from 'hooks/useEnteredInfo';
 import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CameraIcon } from '../../assets/svg/camera.svg';
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const MyPageForm: React.FC<Props> = ({ email, nickname, profileImg }) => {
+  
   return (
     <MyPageFormWrap>
       <form>
@@ -25,7 +27,7 @@ const MyPageForm: React.FC<Props> = ({ email, nickname, profileImg }) => {
         <MyPageInputWrap>
           <MyPageInputItem>
             <Formlabel label="닉네임" required>
-              <Input placeholder="10자 이내 작성" />
+              <Input placeholder="10자 이내 작성" maxLength={10} value={nickname} onChange={setNickName}/>
             </Formlabel>
           </MyPageInputItem>
           <MyPageInputItem>
@@ -43,6 +45,8 @@ const MyPageForm: React.FC<Props> = ({ email, nickname, profileImg }) => {
     </MyPageFormWrap>
   );
 };
+
+// TODO: 이미지 버튼 클릭 시, 사진 교환
 export default MyPageForm;
 
 const MyPageFormWrap = styled.div`
