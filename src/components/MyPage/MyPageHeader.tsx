@@ -3,13 +3,15 @@ import Button from 'components/common/Button';
 import React from 'react';
 import styled from 'styled-components';
 
-interface Props {}
+interface Props {
+  onClick: () => void;
+}
 
-const MyPageHeader: React.FC<Props> = () => {
+const MyPageHeader: React.FC<Props> = ({ onClick }) => {
   return (
     <MyPageHeaderWrap>
       <MyPageTitle>마이페이지</MyPageTitle>
-      <Button buttonWidth="104px" buttonSize="large">
+      <Button buttonWidth="104px" buttonSize="large" onClick={onClick}>
         저장하기
       </Button>
     </MyPageHeaderWrap>

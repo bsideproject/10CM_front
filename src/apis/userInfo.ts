@@ -1,4 +1,4 @@
-import { user } from 'dtos/userInfo';
+import { checkedNickname, updateUser, user } from 'dtos/userInfo';
 import axios from 'axios';
 import api from './common';
 
@@ -22,18 +22,20 @@ export const getUserInfo = async (accToken: string) => {
   return data;
 };
 
-export const getCheckedNick = async () => {
-  const { data } = await api.get<user>(`${url}/profile/nickname-check`);
+export const getCheckedNick = async (nickname: string) => {
+  const { data } = await api.get<user>(
+    `${url}/profile/nickname-check?nickname=${nickname}`,
+  );
   return data;
 };
 
-export const updateNickname = async () => {
-  const { data } = await api.post(`${url}/profile/nickname-update`);
+export const updateNickname = async (nickname: updateUser) => {
+  const { data } = await api.post(`${url}/profile/nickname-update`, nickname);
   return data;
 };
 
-export const updateImg = async () => {
-  const { data } = await api.post(`${url}/profile/image-upload`);
+export const updateImg = async (form: FormData) => {
+  const { data } = await api.post(`${url}/profile/image-upload`, form);
   return data;
 };
 

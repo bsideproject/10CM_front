@@ -42,7 +42,7 @@ const AddImageButton: React.FC<Props> = ({ onChange, value }) => {
           setImageName(data.original_name);
           e.target.value = '';
         } catch (e) {
-          console.log(e);
+          alert('사진 업로드 중 오류가 발생하였습니다.');
         }
       } else {
         alert('용량을 줄여주세요!');

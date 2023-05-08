@@ -25,6 +25,7 @@ const LogoutModal: React.FC<IProps> = ({ onClose }) => {
     persistor.purge().then(() => {
       onClose();
       navigate(routePath.INTRO);
+      window.location.replace('https://unzido.site/intro');
     });
   };
 
