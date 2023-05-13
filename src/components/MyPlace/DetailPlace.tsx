@@ -3,10 +3,12 @@ import { colors } from 'constants/colors';
 import { MyPlaceResponse } from 'dtos/place';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import image from 'assets/png/detail-dummy.png';
+import noImg from 'assets/img/noImg.svg';
 import { fonts } from 'assets/fonts/fonts';
 import { ReactComponent as CloseIcon } from 'assets/svg/close.svg';
 import { getTagListToString } from 'utils/plage';
+import detailMemoImg from 'assets/img/detailMemoImg.svg';
+import Img from 'components/Img/Img';
 
 interface Props {
   myPlaceDetail: MyPlaceResponse;
@@ -22,11 +24,11 @@ const DetailPlace: React.FC<Props> = ({ myPlaceDetail, onClose }) => {
       {myPlaceDetail && (
         <>
           <ImageWrap>
-            <Image src={image} />
+            <Image src={myPlaceDetail.image || noImg} />
           </ImageWrap>
           <MyPlaceDetailInfoWrap>
             <MyPlaceDetailTitleWrap>
-              <span>여기 책</span>
+              <Img src={detailMemoImg} width="24px" height="24px" />
               <MyPlaceDetailTitle>{myPlaceDetail.name}</MyPlaceDetailTitle>
             </MyPlaceDetailTitleWrap>
             <MyPlaceDetailAddress>{myPlaceDetail.address}</MyPlaceDetailAddress>

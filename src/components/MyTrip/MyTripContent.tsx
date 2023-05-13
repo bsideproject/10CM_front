@@ -65,11 +65,13 @@ const MyTripContent: React.FC = () => {
         <MainWrap>
           {emptyData && <EmptyContent onClick={handleControlModal} />}
           {!emptyData && <CompletedTripGroup data={tripData.data} />}
-          <Pagination
-            curPage={currentPage}
-            totalPage={tripData.total_pages}
-            onChangePage={setCurrentPage}
-          />
+          {!emptyData && (
+            <Pagination
+              curPage={currentPage}
+              totalPage={tripData.total_pages}
+              onChangePage={setCurrentPage}
+            />
+          )}
         </MainWrap>
         {onModal && <MakeNewPlace onClose={handleControlModal} />}
       </TripWrap>

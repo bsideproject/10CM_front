@@ -9,7 +9,6 @@ import { sizes } from 'constants/sizes';
 interface Props {
   data: KakaoAddress;
   pickedDay: number;
-  onClick?: () => void;
   onSetDaysData: (addr: KakaoAddress, dayNum: number) => void;
   onClickCard: (addressInfo: KakaoAddress) => void;
 }
@@ -17,7 +16,6 @@ interface Props {
 const SearchCard: React.FC<Props> = ({
   data,
   pickedDay,
-  onClick,
   onSetDaysData,
   onClickCard,
 }) => {
@@ -30,7 +28,9 @@ const SearchCard: React.FC<Props> = ({
       <SearchAddressCardHeader>
         <SearchAddressCardTitle>
           {data.place_name}
-          <SearchAddressCardCategory>장소 구분</SearchAddressCardCategory>
+          <SearchAddressCardCategory>
+            {data.category_group_name}
+          </SearchAddressCardCategory>
         </SearchAddressCardTitle>
         <Img
           src={placePlusIcon}

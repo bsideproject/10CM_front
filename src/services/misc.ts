@@ -1,4 +1,5 @@
 import { KakaoAddress } from 'dtos/kakao';
+import { MyPlaceResponse } from 'dtos/place';
 import { MyTripDetail } from 'dtos/trip';
 type SplitType = 'dash' | 'dot';
 const DATE_ONE_DAY = 86400000;
@@ -99,6 +100,20 @@ export const updateAddrData = (data: MyTripDetail[][]) => {
       };
     }),
   );
+};
+
+export const convertPlaceData = (data: MyPlaceResponse[]) => {
+  return data.map(place => {
+    return {
+      phone: place.phone || '',
+      id: String(place.id),
+      address_name: place.address,
+      road_address_name: place.address,
+      place_name: place.name,
+      x: place.longitude,
+      y: place.latitude,
+    };
+  });
 };
 // x = longtidue 경도
 // y = latitude 위도

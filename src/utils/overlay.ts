@@ -8,11 +8,13 @@ type CreateOverlay = (
   addressInfo: KakaoAddress,
   onClose: () => void,
   onCreateClick: (info: KakaoAddress) => void,
+  handleCreateRoadView: (addressInfo: MyPlaceResponse | KakaoAddress) => void,
 ) => {};
 type UpdateOverlay = (
   addressInfo: MyPlaceResponse,
   onClose: () => void,
   onUpdateClick: () => void,
+  handleCreateRoadView: (addressInfo: MyPlaceResponse | KakaoAddress) => void,
 ) => void;
 
 // TODO 이거 좀 더 간단한 방법으로 해결 해보기
@@ -21,6 +23,7 @@ export const createAddressDetailOverlay: CreateOverlay = (
   addressInfo,
   onClose,
   onCreateClick,
+  handleCreateRoadView,
 ) => {
   // warp
   const wrap = document.createElement('article');
@@ -114,6 +117,9 @@ export const createAddressDetailOverlay: CreateOverlay = (
   closeButton.onclick = function (e) {
     onClose();
   };
+  pin.onclick = function () {
+    handleCreateRoadView(addressInfo);
+  };
 
   // 삼각형
   const triangle = document.createElement('div');
@@ -129,6 +135,7 @@ export const createUpdateOverlay: UpdateOverlay = (
   addressInfo,
   onClose,
   onUpdateClick,
+  handleCreateRoadView,
 ) => {
   // warp
   const wrap = document.createElement('article');
@@ -205,6 +212,9 @@ export const createUpdateOverlay: UpdateOverlay = (
   closeButton.onclick = function (e) {
     onClose();
   };
+  pin.onclick = function () {
+    handleCreateRoadView(addressInfo);
+  };
 
   // 삼각형
   const triangle = document.createElement('div');
@@ -221,6 +231,7 @@ export const createDndElement: CreateOverlay = (
   addressInfo,
   onClose,
   onCreateClick,
+  handleCreateRoadView,
 ) => {
   // warp
   const wrap = document.createElement('article');
@@ -236,11 +247,11 @@ export const createDndElement: CreateOverlay = (
   placeName.className = 'overlay-header-title';
   placeName.appendChild(placeNameContent);
   const placeCategory = document.createElement('span');
-  const placeCategoryContent = document.createTextNode(
-    addressInfo.category_name!.split(' > ')[1],
-  );
+  // const placeCategoryContent = document.createTextNode(
+  //   addressInfo.category_name!.split(' > ')[1],
+  // );
   placeCategory.className = 'overlay-header-category';
-  placeCategory.appendChild(placeCategoryContent);
+  // placeCategory.appendChild(placeCategoryContent);
   const closeButton = document.createElement('img');
   closeButton.className = 'overlay-header-close';
   closeButton.src = CloseIcon;
@@ -313,6 +324,12 @@ export const createDndElement: CreateOverlay = (
   // 닫기 이벤트 추가
   closeButton.onclick = function (e) {
     onClose();
+  };
+  post.onclick = () => {
+    onCreateClick(addressInfo);
+  };
+  pin.onclick = () => {
+    handleCreateRoadView(addressInfo);
   };
 
   // 삼각형

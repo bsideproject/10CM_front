@@ -43,6 +43,7 @@ const initialFormData = {
   latitude: '',
   longitude: '',
   image: '',
+  phone: '',
 };
 
 const CreatePost: React.FC<Props> = ({
@@ -92,7 +93,7 @@ const CreatePost: React.FC<Props> = ({
     try {
       const tagList = getTagToStringArray(tag);
       const data = await createPlace({
-        name: keyword,
+        name: addressInfo.place_name,
         address: addressInfo.road_address_name,
         address_detail: formData.address_detail,
         description: formData.description,
@@ -100,6 +101,7 @@ const CreatePost: React.FC<Props> = ({
         latitude: addressInfo.y.toString(),
         image: formData.image,
         tag: tagList,
+        phone: addressInfo.phone,
       });
       const createAddressInfo = await getPlace(data.id);
       onCreateComplete(createAddressInfo);

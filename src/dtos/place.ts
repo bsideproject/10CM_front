@@ -25,6 +25,8 @@ export interface CreatePlaceBody {
 
   // 이미지
   image?: string;
+
+  phone: string;
 }
 
 /**
