@@ -6,22 +6,30 @@ import styled, { css } from 'styled-components';
 import SearchAddressCard from 'components/SearchCard';
 import MapConfig from 'services/map-config.js';
 import { createDndElement } from 'utils/overlay';
-import MyPlaceGroup from 'components/CreateTrip/MyPlaceGroup';
 
 import useEnteredInfo from 'hooks/useEnteredInfo';
 import { KakaoAddress } from 'dtos/kakao';
+import { MyPlaceResponse } from 'dtos/place';
+import MyPlaceGroup from 'components/CreateTrip/MyPlaceGroup';
 import { SearchWrap } from './styles';
 import SearchAddressNav from './SearchAddr/SearchAddressNav';
 import SearchCardGroup from './SearchAddr/SearchCardGroup';
+
 interface Props {
   map?: any;
   pickedDay: number;
   onSetDaysData: (addr: KakaoAddress, dayNum: number) => void;
+  handleCreateRoadView: (addressInfo: MyPlaceResponse | KakaoAddress) => void;
 }
 
 type SelectedType = 'search' | 'myPlace';
 
-const SearchAddress: React.FC<Props> = ({ map, pickedDay, onSetDaysData }) => {
+const SearchAddress: React.FC<Props> = ({
+  map,
+  pickedDay,
+  onSetDaysData,
+  handleCreateRoadView,
+}) => {
   const [selectedMenu, setSelectedMenu] = useState<SelectedType>('search');
   const [searchValue, onChangeSearchValue, onResetSearchValue] =
     useEnteredInfo('');
@@ -89,6 +97,7 @@ const SearchAddress: React.FC<Props> = ({ map, pickedDay, onSetDaysData }) => {
           addressInfo,
           handleOverayOverlayClose,
           handlePushDndElement,
+          handleCreateRoadView,
         ),
       );
       MapConfig.moveMap(map, addressInfo.y, addressInfo.x);
@@ -107,6 +116,7 @@ const SearchAddress: React.FC<Props> = ({ map, pickedDay, onSetDaysData }) => {
           addressInfo,
           closeOverlay,
           handlePushDndElement,
+          handleCreateRoadView,
         ),
         map: map.current,
         position: marker.getPosition(),
@@ -141,7 +151,11 @@ const SearchAddress: React.FC<Props> = ({ map, pickedDay, onSetDaysData }) => {
       />
       {selectedMenu === 'myPlace' ? (
         <GroupWrap>
-          <MyPlaceGroup />
+          <MyPlaceGroup
+            pickedDay={pickedDay}
+            onSetDaysData={onSetDaysData}
+            onClickCard={handleClickCard}
+          />
         </GroupWrap>
       ) : (
         <SearchCardGroup

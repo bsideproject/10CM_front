@@ -1,7 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { useDispatch } from 'react-redux';
 
-// 이게 상태값이 아니여서 그런듯
 const accToken = localStorage.getItem('accessToken');
 const axiosConfig: AxiosRequestConfig = {
   baseURL: process.env.REACT_APP_API_URL,
@@ -29,6 +28,7 @@ api.interceptors.response.use(
     if (e.response.status === 401 && accToken) {
       // alert('로그인 기간 만료');
       // 토큰 만료 시 처리
+      // 로그아웃 처리 후 페이지 이동
     }
 
     return Promise.reject(e);

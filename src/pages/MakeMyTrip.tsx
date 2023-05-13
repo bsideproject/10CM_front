@@ -7,6 +7,7 @@ import MakeTripLayout from 'components/UI/MakeTripLayout';
 import React, { useRef, useState, useEffect } from 'react';
 import { useAppSelect } from 'store/configureStore.hooks';
 import * as Misc from 'services/misc';
+import useRoadView from 'hooks/useRoadView';
 
 const MakeMyTrip: React.FC = () => {
   const { fromDate, toDate, updateData } = useAppSelect(
@@ -16,10 +17,13 @@ const MakeMyTrip: React.FC = () => {
   const [daysData, setDaysData, removeDaysData, setInitDaysData] = useDaysData(
     Misc.diffDay(fromDate, toDate),
   );
+  const { isRoadMap, setIsRoadMap, handleCreateRoadView } = useRoadView();
+
   const mapRef = useRef<any>();
   const handleChangeRef = (map: any) => {
     mapRef.current = map;
   };
+
   useEffect(() => {
     if (updateData.length > 0) {
       setInitDaysData([...updateData]);
@@ -41,6 +45,7 @@ const MakeMyTrip: React.FC = () => {
           map={mapRef}
           pickedDay={pickedDay}
           onSetDaysData={setDaysData}
+          handleCreateRoadView={handleCreateRoadView}
         />
       }
       map={
@@ -48,6 +53,8 @@ const MakeMyTrip: React.FC = () => {
           mapRef={mapRef}
           setMapRef={handleChangeRef}
           pickedDay={pickedDay}
+          isRoadMap={isRoadMap}
+          setIsRoadMap={setIsRoadMap}
         />
       }
     />

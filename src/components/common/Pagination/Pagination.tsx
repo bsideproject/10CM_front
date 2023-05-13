@@ -18,6 +18,8 @@ const Pagination: React.FC<IProps> = ({ curPage, totalPage, onChangePage }) => {
     total: totalPage * 6,
   });
 
+  console.log(pageInfos);
+
   const handleChangePage = (move: string) => {
     if (move === 'left' && pageInfos.first.movable) {
       onChangePage(curPage - 1);

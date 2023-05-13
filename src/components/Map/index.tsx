@@ -1,16 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { SetStateAction, useEffect } from 'react';
 import styled from 'styled-components';
 import { Address } from 'types/dtos/address';
 import MapConfig from 'services/map-config.js';
 import { useAppSelect } from 'store/configureStore.hooks';
+import closeBtn from 'assets/img/roadViewCloseBtn.svg';
+import Img from 'components/Img/Img';
 
 interface Props {
   mapRef: React.MutableRefObject<any>;
   setMapRef?: (map: any) => void;
   pickedDay?: number;
+  isRoadMap?: boolean;
+  setIsRoadMap?: React.Dispatch<SetStateAction<boolean>>;
 }
 
-const Map: React.FC<Props> = ({ mapRef, setMapRef = () => {}, pickedDay }) => {
+const Map: React.FC<Props> = ({
+  mapRef,
+  setMapRef = () => {},
+  pickedDay,
+  isRoadMap,
+  setIsRoadMap,
+}) => {
   const { updateData } = useAppSelect(state => state.placeInfo);
   let manager: any;
   useEffect(() => {
@@ -102,32 +112,16 @@ const Map: React.FC<Props> = ({ mapRef, setMapRef = () => {}, pickedDay }) => {
     }
     MapConfig.drawPolyLine(kakao, mapRef.current, lineData);
   };
-  const handleCreateRoadView = () => {
-    const { kakao } = window;
 
-    const roadviewContainer = document.querySelector('#roadview');
-    const roadview = new kakao.maps.Roadview(roadviewContainer);
-    MapConfig.createRoadview(kakao, roadview);
-  };
   return (
-    <div
-      style={{
-        flex: 1,
-      }}
-    >
-      <Wrap
-        id="map"
-        style={{
-          width: '100%',
-          height: '100%',
-        }}
-      />
-      {/* <div
-        id="roadview"
-        style={{ display: 'none', width: '100%', height: '100%' }}
-        onClick={() => handleCreateRoadView()}
-      /> */}
-      {/* <CloseRoadview>X</CloseRoadview> */}
+    <Wrap>
+      <KakaoMapWrap id="map" isRoadMap={isRoadMap} />
+      <RoadMapWrap id="roadview" isRoadMap={isRoadMap} />
+      {isRoadMap && (
+        <CloseBtn onClick={() => setIsRoadMap && setIsRoadMap(false)}>
+          <Img src={closeBtn} width="20px" height="20px" />
+        </CloseBtn>
+      )}
       <div style={{ display: 'none' }}>
         <button onClick={createMarker}>마커생성</button>
         <button onClick={createCluster}>클러스터생성</button>
@@ -140,13 +134,23 @@ const Map: React.FC<Props> = ({ mapRef, setMapRef = () => {}, pickedDay }) => {
           따라다니는 마커
         </button>
         <button onClick={handleCreatePolyLine}>선 테스트</button>
-        <button onClick={handleCreateRoadView}>로드뷰 생성</button>
+        {/* <button onClick={handleCreateRoadView}>로드뷰 생성</button> */}
       </div>
-    </div>
+    </Wrap>
   );
 };
 
 const Wrap = styled.div`
+  flex: 1;
+  position: relative;
+`;
+
+const KakaoMapWrap = styled.div<{ isRoadMap?: boolean }>`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: ${({ isRoadMap }) => (!isRoadMap ? '10' : '0')};
+
   .info-title {
     display: block;
     background: #50627f;
@@ -268,6 +272,22 @@ const Wrap = styled.div`
   }
 `;
 
-const CloseRoadview = styled.button``;
+const RoadMapWrap = styled.div<{ isRoadMap?: boolean }>`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: ${({ isRoadMap }) => (isRoadMap ? '10' : '0')};
+`;
 
+const CloseBtn = styled.button`
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  z-index: 15;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  cursor: pointer;
+`;
 export default Map;

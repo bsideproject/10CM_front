@@ -1,4 +1,5 @@
-// 이거 ts로 수정부탁드립니다.
+import closeButton from 'assets/img/closeButton.svg';
+import emptyImg from 'assets/img/noImg.svg';
 
 class MapConfig {
   static initMapOption(kakao) {
@@ -222,39 +223,78 @@ class MapConfig {
     polyline.setMap(map);
   }
 
-  static createRoadview(kakao, roadview, locations) {
+  static createRoadview(kakao, roadview, addressInfo) {
     const roadviewClient = new kakao.maps.RoadviewClient();
+    const isKakaoInfo = Object.keys(addressInfo).includes('road_address_name');
+    let roadInfo = {};
+    if (isKakaoInfo) {
+      roadInfo.name = addressInfo.place_name;
+      roadInfo.address = addressInfo.road_address_name;
+      roadInfo.longitude = addressInfo.x;
+      roadInfo.latitude = addressInfo.y;
+      roadInfo.image = '';
+      roadInfo.description = '';
+    } else {
+      roadInfo = addressInfo;
+    }
+    const { longitude, latitude, name, address, description, image } = roadInfo;
 
-    const position = new kakao.maps.LatLng(33.450258, 126.570513);
+    const position = new kakao.maps.LatLng(latitude, longitude);
 
     roadviewClient.getNearestPanoId(position, 50, function (panoId) {
       roadview.setPanoId(panoId, position);
     });
 
-    let content = '';
-    content += '<div class="rv-custom">';
-    content += '  <div class="rv-title">';
-    content += '    <span>장소명</span>';
-    content += '    <button>X</button>';
-    content += '  </div>';
-    content += '  <div class="rv-desc">';
-    content += '    <div class="rv-desc-text">';
-    content +=
-      '        <span class="rv-desc-addr">제주특별자치도 제주시 구좌읍 월정리 33-3</span>';
-    content +=
-      '        <p class="rv-desc-p">모든 국민은 신체의 자유를 가진다. 누구든지 법률에 의하지 아니하고는 체포·구속·압수·수색 또는 심문을 받지 아니하며 테스트중입니다. 테스트중입니다. 테스트중입니다. 테스트중입니다.</p>';
-    content += '    </div>';
-    content +=
-      '        <img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/place_thumb.png" alt="">';
-    content += '  </div>';
-    content += '  <div class="rv-action">';
-    content += '    <button>포스팅 수정</button>';
-    content += '  </div>';
-    content += '</div>';
-    // html element로 수정
+    const wrap = document.createElement('div');
+    wrap.className = 'rv-custom';
+    const header = document.createElement('div');
+    header.className = 'rv-title';
+    const placeName = document.createElement('span');
+    placeName.textContent = name;
+    const closeBtn = document.createElement('img');
+    closeBtn.src = closeButton;
+    closeBtn.alt = 'X';
+
+    const descWrap = document.createElement('div');
+    descWrap.className = 'rv-desc';
+    const descTextWrap = document.createElement('div');
+    descTextWrap.className = 'rv-desc-text';
+    const descAddr = document.createElement('span');
+    descAddr.className = 'rv-desc-addr';
+    descAddr.textContent = address;
+    const descMain = document.createElement('p');
+    descMain.className = 'rv-desc-p';
+    descMain.textContent = description || '';
+    const thumbImg = document.createElement('img');
+    thumbImg.src = image || emptyImg;
+    thumbImg.alt = '';
+    const actionWrap = document.createElement('div');
+    actionWrap.className = 'rv-action';
+    const postUpdateBtn = document.createElement('button');
+    postUpdateBtn.textContent = '포스팅 수정';
+    const triangle = document.createElement('div');
+    triangle.className = 'rv-triangle';
+
+    closeBtn.onclick = () => {
+      alert('11');
+    };
+    header.appendChild(placeName);
+    header.appendChild(closeBtn);
+    descTextWrap.appendChild(descAddr);
+    descTextWrap.appendChild(descMain);
+    descWrap.appendChild(descTextWrap);
+    descWrap.appendChild(thumbImg);
+    actionWrap.appendChild(postUpdateBtn);
+    wrap.appendChild(header);
+    wrap.appendChild(descWrap);
+    wrap.appendChild(actionWrap);
+    wrap.appendChild(triangle);
+
+    const wrapString = wrap.outerHTML;
+    console.log(wrapString);
     const rvCustomOverlay = new kakao.maps.CustomOverlay({
       position,
-      content,
+      content: wrapString,
       // https://devtalk.kakao.com/t/topic/105513/5  html 문자열만 가능
       xAnchor: 0.5,
       yAnchor: 1.3,

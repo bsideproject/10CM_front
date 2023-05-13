@@ -20,9 +20,10 @@ import { SearchWrap } from './styles';
 
 interface Props {
   map: any;
+  handleCreateRoadView: (addressInfo: MyPlaceResponse | KakaoAddress) => void;
 }
 
-const MyPlaces: React.FC<Props> = ({ map }) => {
+const MyPlaces: React.FC<Props> = ({ map, handleCreateRoadView }) => {
   const currentMarker = useRef<any>();
   const currentOverlay = useRef<any>();
 
@@ -170,6 +171,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
           placeInfo,
           handleOverayOverlayClose,
           handleClickUpdateClick,
+          handleCreateRoadView,
         ),
       );
       MapConfig.moveMap(map, placeInfo.latitude, placeInfo.longitude);
@@ -187,6 +189,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
           placeInfo,
           closeOverlay,
           handleClickUpdateClick,
+          handleCreateRoadView,
         ),
         map: map.current,
         position: marker.getPosition(),
@@ -242,6 +245,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
             addressInfo,
             handleOverayOverlayClose,
             handleCreateClick,
+            handleCreateRoadView,
           ),
         );
         MapConfig.moveMap(map, addressInfo.y, addressInfo.x);
@@ -259,6 +263,7 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
             addressInfo,
             closeOverlay,
             handleCreateClick,
+            handleCreateRoadView,
           ),
           map: map.current,
           position: marker.getPosition(),
@@ -287,7 +292,12 @@ const MyPlaces: React.FC<Props> = ({ map }) => {
     if (createdPlace) {
       MapConfig.changeOverlayContent(
         currentOverlay.current,
-        createUpdateOverlay(createdPlace, handleOverayOverlayClose, () => {}),
+        createUpdateOverlay(
+          createdPlace,
+          handleOverayOverlayClose,
+          () => {},
+          handleCreateRoadView,
+        ),
       );
     }
   }, [createdPlace]);

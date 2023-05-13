@@ -2,32 +2,67 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { fonts } from 'assets/fonts/fonts';
 import { colors } from 'constants/colors';
+import { KakaoAddress } from 'dtos/kakao';
+import { MyPlaceResponse } from 'dtos/place';
+import noCardImg from 'assets/img/noCardImg.svg';
+import { dateFormat } from 'constants/common';
+import dayjs from 'dayjs';
 import {
   MyPlaceCardImageWrap,
   MyPlaceCardWrap,
   MyPlaceInfoWrap,
 } from '../common/MyPlaceCard/styles';
-import Image from '../../assets/png/thumbnail-area.png';
 import { ReactComponent as AddIcon } from '../../assets/svg/plus.svg';
 
 interface Props {
-  onClickAdd?: () => void;
+  originData: MyPlaceResponse;
+  cvtData: KakaoAddress;
+  pickedDay: number;
+  onSetDaysData: (addr: KakaoAddress, dayNum: number) => void;
+  onClickCard: (addressInfo: KakaoAddress) => void;
 }
 
-const MyPlaceCard: React.FC<Props> = ({ onClickAdd }) => {
+const MyPlaceCard: React.FC<Props> = ({
+  originData,
+  cvtData,
+  pickedDay,
+  onSetDaysData,
+  onClickCard,
+}) => {
+  const [isHover, setIsHover] = useState(false);
+
+  const handleHover = () => {
+    setIsHover(prev => !prev);
+  };
+
   return (
-    <MyPlaceCardWrap>
+    <MyPlaceCardWrap
+      onClick={() => onClickCard(cvtData)}
+      onMouseEnter={handleHover}
+      onMouseLeave={handleHover}
+    >
       <MyPlaceCardImageWrap>
-        <img src={Image} alt="더미" width="100%" />
+        <MyPlaceImage
+          src={originData.image || noCardImg}
+          alt="장소 이미지"
+          isHover={isHover}
+        />
       </MyPlaceCardImageWrap>
       <MyPlaceInfoWrap>
-        <MyPlaceName>장소명</MyPlaceName>
-        <MyPlaceAddress>
-          제주특별자치도 제주시 구좌읍 월정리 33-3
-        </MyPlaceAddress>
-        <MyPlaceHashTag>#카페 #맥주 #태그</MyPlaceHashTag>
-        <MyPlaceDate>2022년 9월 29일</MyPlaceDate>
-        <MyPlaceOptionButton onClick={onClickAdd} fill={colors.NEUTRAl_600} />
+        <MyPlaceName>{originData.name}</MyPlaceName>
+        <MyPlaceAddress>{originData.address}</MyPlaceAddress>
+        <MyPlaceHashTag>
+          {(originData.tag || []).map(tag => (
+            <TagName key={tag}>#{tag}</TagName>
+          ))}
+        </MyPlaceHashTag>
+        <MyPlaceDate>
+          {dayjs(originData.createdDate).format(dateFormat)}
+        </MyPlaceDate>
+        <MyPlaceOptionButton
+          fill={colors.NEUTRAl_600}
+          onClick={() => onSetDaysData(cvtData, pickedDay)}
+        />
       </MyPlaceInfoWrap>
     </MyPlaceCardWrap>
   );
@@ -68,4 +103,17 @@ const MyPlaceOptionItem = styled.div`
   padding: 8px 12px;
   ${fonts('text-xxs-regular')};
   cursor: pointer;
+`;
+
+const TagName = styled.span`
+  color: ${colors.BLUE_BASE};
+`;
+
+const MyPlaceImage = styled.img<{ isHover: boolean }>`
+  position: absolute;
+  width: ${({ isHover }) => (isHover ? '120%' : '100%')};
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: 0.3s;
 `;
