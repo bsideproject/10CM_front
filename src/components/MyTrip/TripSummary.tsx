@@ -24,14 +24,14 @@ const TripSummary: React.FC<IProps> = ({ type, mTitle, mDate }) => {
     '.',
   )}`;
   useEffect(() => {
-    if (title.length === 0) {
+    if (title.length === 0 && type !== 'share') {
       navigate('/my-trip');
     }
     // fix: 새로고침 시 돌아가기
   }, [title]);
 
   const summaryData =
-    type === 'modal'
+    type === 'modal' || type === 'share'
       ? { title: mTitle, date: mDate }
       : { title, date: dateText };
 

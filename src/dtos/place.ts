@@ -27,6 +27,11 @@ export interface CreatePlaceBody {
   image?: string;
 
   phone: string;
+
+  // 홈페이지
+  homepage: string;
+
+  road_address: string;
 }
 
 /**
@@ -71,6 +76,12 @@ export interface MyPlaceResponse {
 
   // 주소 상세
   addressDetail?: string;
+
+  // 도로명 주소
+  road_address: string;
+
+  // 홈페이지 링크
+  homepage: string;
 
   // 생성일
   createdDate: string;

@@ -13,7 +13,7 @@ import MyPlaceDetail from 'components/common/ModalContents/MyPlaceDetail';
 import DeleteTrip from 'components/common/ModalContents/DeleteTrip';
 import { useNavigate } from 'react-router-dom';
 import { routePath } from 'constants/route';
-import { useAppDispatch } from 'store/configureStore.hooks';
+import { useAppDispatch, useAppSelect } from 'store/configureStore.hooks';
 import {
   setTitle,
   setFromDate,
@@ -23,6 +23,7 @@ import {
   setUpdateId,
 } from 'store/modules/placeInfo';
 import { getDetailTrip } from 'apis/tripApi';
+import Toast from 'components/common/Toast';
 interface IProps {
   data: MyTrip;
 }
@@ -30,8 +31,11 @@ const CompletedTripCard: React.FC<IProps> = ({ data }) => {
   const [clickedOption, setClickedOption] = useState(false);
   const [onDetailModal, setOnDetailModal] = useState(false);
   const [onDeleteModal, setOnDeleteModal] = useState(false);
-  const clickedOptionRef = useRef<any>();
+  const [onToast, setOnToast] = useState(false);
   const [tripData, setTripData] = useState<MyTripRequest>();
+  const { nickname } = useAppSelect(state => state.authInfo.info);
+
+  const clickedOptionRef = useRef<any>();
 
   useEffect(() => {
     getDetailTrip(data.trip_id).then(res => setTripData(res));
@@ -82,7 +86,22 @@ const CompletedTripCard: React.FC<IProps> = ({ data }) => {
     }
   };
 
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setOnToast(true);
+      setTimeout(() => {
+        setOnToast(false);
+      }, 1500);
+    } catch (e) {
+      alert('복사에 실패하였습니다');
+    }
+  };
+
   const tripDate = convertTripDate(data.start_date, data.end_date);
+  const copyUrl = `https://unzido.site/share?tripId=${
+    data.trip_id
+  }&nickname=${window.btoa(nickname)}`;
 
   return (
     <Wrap>
@@ -103,7 +122,9 @@ const CompletedTripCard: React.FC<IProps> = ({ data }) => {
           src={shareIcon}
           width={sizes.SHARE_ICON_SIZE}
           height={sizes.SHARE_ICON_SIZE}
-          onClick={() => {}}
+          onClick={() => {
+            handleCopyClipBoard(copyUrl);
+          }}
         />
         <Img
           src={dotIcon}
@@ -129,6 +150,7 @@ const CompletedTripCard: React.FC<IProps> = ({ data }) => {
       {onDeleteModal && (
         <DeleteTrip onClose={handleClickDelete} tripId={data.trip_id} />
       )}
+      {onToast && <Toast toastText="클립보드에 링크가 복사되었습니다." />}
     </Wrap>
   );
 };

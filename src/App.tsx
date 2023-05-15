@@ -8,6 +8,7 @@ import MakeMyTrip from 'pages/MakeMyTrip';
 import UnzidoIntro from 'pages/UnzidoIntro';
 import MyPage from 'pages/MyPage';
 import CallbackAuth from 'pages/CallbackAuth';
+import ShareTrip from 'pages/ShareTrip';
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
           <Route path={routePath.MAKE_MY_TRIP} element={<MakeMyTrip />} />
           <Route path={routePath.MY_PAGE} element={<MyPage />} />
           <Route path={routePath.CALLBACK_KAKAO} element={<CallbackAuth />} />
+          <Route path={routePath.SHARE} element={<ShareTrip />} />
           <Route path="*" element={<UnzidoIntro />} />
         </Routes>
       </BrowserRouter>

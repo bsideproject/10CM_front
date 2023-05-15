@@ -238,7 +238,7 @@ class MapConfig {
       roadInfo = addressInfo;
     }
     const { longitude, latitude, name, address, description, image } = roadInfo;
-
+    console.log(roadInfo);
     const position = new kakao.maps.LatLng(latitude, longitude);
 
     roadviewClient.getNearestPanoId(position, 50, function (panoId) {
@@ -291,7 +291,7 @@ class MapConfig {
     wrap.appendChild(triangle);
 
     const wrapString = wrap.outerHTML;
-    console.log(wrapString);
+
     const rvCustomOverlay = new kakao.maps.CustomOverlay({
       position,
       content: wrapString,
