@@ -1,7 +1,7 @@
 import Img from 'components/Img/Img';
 import { colors } from 'constants/colors';
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import defaultLoginImg from 'assets/img/defaultLoginImg.svg';
 import { fonts } from 'assets/fonts/fonts';
 import MyPlaceContainer from 'components/UI/MyPlaceContainer';
@@ -63,6 +63,16 @@ const ShareTrip = () => {
     </Wrap>
   );
 };
+
+const movePopUp = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+`;
 
 const Wrap = styled.div`
   display: flex;
