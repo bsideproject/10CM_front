@@ -12,8 +12,9 @@ interface IProps {
   type?: string;
   mTitle?: string;
   mDate?: string;
+  shareImg?: string;
 }
-const TripSummary: React.FC<IProps> = ({ type, mTitle, mDate }) => {
+const TripSummary: React.FC<IProps> = ({ type, mTitle, mDate, shareImg }) => {
   const { title, fromDate, toDate, img } = useAppSelect(
     state => state.placeInfo,
   );
@@ -35,11 +36,12 @@ const TripSummary: React.FC<IProps> = ({ type, mTitle, mDate }) => {
       ? { title: mTitle, date: mDate }
       : { title, date: dateText };
 
+  const selectedImg = type === 'share' ? shareImg : img.url;
   return (
     <Wrap>
       <SummaryTitle>
         <Img
-          src={img.url || defaultTripImg}
+          src={selectedImg || defaultTripImg}
           width={sizes.TRIP_SUMMARY_SIZE}
           height={sizes.TRIP_SUMMARY_SIZE}
         />
