@@ -5,4 +5,5 @@ export const routePath = {
   MAKE_MY_TRIP: '/make-my-trip',
   MY_PAGE: '/my-page',
   CALLBACK_KAKAO: '/provide/*',
+  SHARE: '/share',
 };

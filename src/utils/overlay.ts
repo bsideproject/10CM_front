@@ -165,7 +165,7 @@ export const createUpdateOverlay: UpdateOverlay = (
   const textWrap = document.createElement('div');
   textWrap.className = 'overlay-body-text-wrap';
   const street = document.createElement('div');
-  const streetContent = document.createTextNode(addressInfo.address);
+  const streetContent = document.createTextNode(addressInfo.road_address);
   street.className = 'update-overlay-body-text-street';
   street.appendChild(streetContent);
 

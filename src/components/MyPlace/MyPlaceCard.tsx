@@ -119,7 +119,7 @@ const MyPlaceCard: React.FC<Props> = ({
           )}
           {place.name}
         </MyPlaceName>
-        <MyPlaceAddress>{place.address}</MyPlaceAddress>
+        <MyPlaceAddress>{place.road_address}</MyPlaceAddress>
         <MyPlaceHashTag>
           {(place?.tag || []).map(tag => {
             return (
