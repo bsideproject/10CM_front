@@ -30,7 +30,7 @@ const ShareTrip = () => {
   if (!tripData) {
     return null;
   }
-
+  console.log(tripData);
   const tripDate = convertTripDate(tripData.start_date, tripData.end_date);
 
   const handleClickBtn = () => {
@@ -44,7 +44,12 @@ const ShareTrip = () => {
           <Img src={defaultLoginImg} width="32px" height="32px" />
           <span>{nickname}</span>
         </HeaderWrap>
-        <TripSummary type="share" mTitle={tripData.name} mDate={tripDate} />
+        <TripSummary
+          type="share"
+          mTitle={tripData.name}
+          mDate={tripDate}
+          shareImg={tripData.trip_image_url!}
+        />
       </SummaryWrap>
       <MyPlaceContainer
         ref={isBottomRef as React.Ref<HTMLDivElement>}
