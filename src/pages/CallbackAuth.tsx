@@ -17,11 +17,12 @@ const CallbackAuth = () => {
   const isLoggedIn = useAppSelect(state => state.authInfo.isLoggedIn);
   const accessToken = query.access as string;
   localStorage.setItem('accessToken', accessToken);
+  dispatch(asyncUserFetch(accessToken));
 
   // 처리를 어디서 할지 고민해보기
   useEffect(() => {
-    dispatch(asyncUserFetch(accessToken));
-  }, []);
+    // dispatch(asyncUserFetch(accessToken));
+  }, [accessToken]);
 
   useEffect(() => {
     if (isLoggedIn) {
