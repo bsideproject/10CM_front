@@ -5,7 +5,7 @@
 .rv-custom {
   background: #ffffff;
   width: 380px;
-  height: 213px;
+  height: calc(213px - 38px);
   display: flex;
   flex-direction: column;
   border-radius: 12px;

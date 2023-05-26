@@ -23,6 +23,7 @@ const App = () => {
           <Route path={routePath.MY_PAGE} element={<MyPage />} />
           <Route path={routePath.CALLBACK_KAKAO} element={<CallbackAuth />} />
           <Route path={routePath.SHARE} element={<ShareTrip />} />
+          <Route path={routePath.LOGIN_ERROR} element={<UnzidoIntro />} />
           <Route path="*" element={<UnzidoIntro />} />
         </Routes>
       </BrowserRouter>

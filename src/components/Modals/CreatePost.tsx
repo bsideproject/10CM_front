@@ -18,6 +18,7 @@ import { CreatePlaceBody, MyPlaceResponse } from 'dtos/place';
 import AddImageButton from 'components/common/Input/AddImageButton';
 import { getTagToStringArray } from 'utils/plage';
 import Toast from 'components/common/Toast';
+import LoadingSpinner from 'components/common/LoadingSpinner';
 import {
   AddImageTip,
   AddressInputWrap,
@@ -170,7 +171,7 @@ const CreatePost: React.FC<Props> = ({
             취소
           </Button>
           <Button type="button" onClick={handleSaveClick} buttonWidth="100%">
-            저장
+            {isLoading ? <LoadingSpinner /> : '저장'}
           </Button>
         </ModalFormFooter>
       </ModalFormWrap>

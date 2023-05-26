@@ -6,4 +6,5 @@ export const routePath = {
   MY_PAGE: '/my-page',
   CALLBACK_KAKAO: '/provide/*',
   SHARE: '/share',
+  LOGIN_ERROR: '/login?error',
 };

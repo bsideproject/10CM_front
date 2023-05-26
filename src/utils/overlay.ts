@@ -177,8 +177,31 @@ export const createUpdateOverlay: UpdateOverlay = (
   description.appendChild(descriptionContent);
   description.className = 'update-overlay-body-text-description';
 
+  const additionalInfo = document.createElement('div');
+  additionalInfo.className = 'overlay-body-text-additional';
+
+  const tel = document.createElement('span');
+  const telContent = document.createTextNode(
+    addressInfo.phone || '전화번호 없음',
+  );
+  tel.appendChild(telContent);
+  tel.appendChild(telContent);
+  tel.className = 'overlay-body-text-tel';
+
+  const link = document.createElement('a');
+  const linkContent = document.createTextNode('홈페이지');
+  link.target = '_blank';
+  link.href = addressInfo.homepage!;
+  link.rel = 'noopener noreferrer';
+  link.className = 'overlay-body-text-link';
+  link.appendChild(linkContent);
+  additionalInfo.appendChild(tel);
+  additionalInfo.appendChild(link);
+
   textWrap.appendChild(street);
   textWrap.appendChild(description);
+  textWrap.appendChild(additionalInfo);
+
   const imageWrap = document.createElement('div');
   imageWrap.className = 'update-overlay-body-image-wrap';
   const image = document.createElement('img');
@@ -270,10 +293,10 @@ export const createDndElement: CreateOverlay = (
   const streetContent = document.createTextNode(addressInfo.road_address_name);
   street.className = 'overlay-body-text-street';
   street.appendChild(streetContent);
-  const zibun = document.createElement('div');
-  const zibunContent = document.createTextNode(addressInfo.address_name);
-  zibun.appendChild(zibunContent);
-  zibun.className = 'overlay-body-text-zibun';
+  const desc = document.createElement('div');
+  const descContent = document.createTextNode(addressInfo.description || '');
+  desc.appendChild(descContent);
+  desc.className = 'update-overlay-body-text-description';
 
   const additionalInfo = document.createElement('div');
   additionalInfo.className = 'overlay-body-text-additional';
@@ -294,14 +317,19 @@ export const createDndElement: CreateOverlay = (
   additionalInfo.appendChild(tel);
   additionalInfo.appendChild(link);
   textWrap.appendChild(street);
-  textWrap.appendChild(zibun);
+  textWrap.appendChild(desc);
   textWrap.appendChild(additionalInfo);
 
-  // const imageWrap = document.createElement('div');
-  // imageWrap.className = 'overlay-body-image-wrap';
-  // const Image = document.createElement('img');
+  const imageWrap = document.createElement('div');
+  imageWrap.className = 'update-overlay-body-image-wrap';
+  const image = document.createElement('img');
+  image.className = 'update-overlay-body-image';
+  image.src = addressInfo.image || noImgIcon;
+  image.alt = '장소 이미지';
+
+  imageWrap.appendChild(image);
   body.appendChild(textWrap);
-  // body.appendChild(imageWrap);
+  body.appendChild(imageWrap);
 
   // footer
   const footer = document.createElement('div');

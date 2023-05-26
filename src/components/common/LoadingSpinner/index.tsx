@@ -14,6 +14,7 @@ const LoadingWrap = styled.div`
   justify-content: center;
   align-items: center;
   margin-left: 4px;
+  background-color: transparent;
 `;
 
 const spin = keyframes`
@@ -26,8 +27,8 @@ const spin = keyframes`
 `;
 
 const Spinner = styled.div`
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   border: 1.5px solid lightgrey;
   border-top: 1.5px solid black;
   border-radius: 50%;
