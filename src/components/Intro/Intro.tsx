@@ -5,11 +5,25 @@ import IntroTopBg from 'assets/img/IntroTopBackground.svg';
 import { ReactComponent as earthImg } from 'assets/img/earthImg.svg';
 import IntroBottomBg from 'assets/img/introBottomBackground.svg';
 
-import TopContent from './TopContent';
-import CenterContent from './CenterContent';
+import { useDispatch } from 'react-redux';
+import { setAuthInfo, setIsLoggedIn, info } from 'store/modules/authInfo';
+import { persistor } from 'index';
 import BottomContent from './BottomContent';
+import CenterContent from './CenterContent';
+import TopContent from './TopContent';
 
 const Intro = () => {
+  const dispatch = useDispatch();
+  const isExpirationToken = localStorage.getItem('expirationToken');
+  useEffect(() => {
+    if (isExpirationToken) {
+      const initUserInfo = info;
+      localStorage.clear();
+      dispatch(setAuthInfo(initUserInfo));
+      dispatch(setIsLoggedIn(false));
+      persistor.purge();
+    }
+  }, [isExpirationToken]);
   return (
     <Wrap>
       <TopWrap>

@@ -96,7 +96,8 @@ export const updateAddrData = (data: MyTripDetail[][]) => {
         y: el.latitude,
         id: el.id,
         place_name: el.name,
-        phone: el.phone,
+        phone: el.phone || '',
+        description: el.description,
       };
     }),
   );
@@ -112,6 +113,8 @@ export const convertPlaceData = (data: MyPlaceResponse[]) => {
       place_name: place.name,
       x: place.longitude,
       y: place.latitude,
+      description: place.description,
+      image: place.image,
     };
   });
 };

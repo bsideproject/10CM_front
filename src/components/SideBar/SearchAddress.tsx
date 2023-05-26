@@ -77,7 +77,6 @@ const SearchAddress: React.FC<Props> = ({
   // dnd 추가하기
   const handlePushDndElement = (addressInfo: KakaoAddress) => {
     onSetDaysData(addressInfo, pickedDay);
-    // setSelectedAddress(addressInfo);
   };
 
   const handleClickCard = (addressInfo: KakaoAddress) => {

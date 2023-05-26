@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { useDispatch } from 'react-redux';
 
 const accToken = localStorage.getItem('accessToken');
 const axiosConfig: AxiosRequestConfig = {
@@ -16,6 +15,7 @@ api.interceptors.request.use(
     return config;
   },
   e => {
+    console.log(e);
     return Promise.reject(e);
   },
 );
@@ -26,9 +26,12 @@ api.interceptors.response.use(
   e => {
     console.log(e);
     if (e.response.status === 401 && accToken) {
+      alert('로그인이 만료되었습니다.');
+      localStorage.setItem('expirationToken', 'true');
+      window.location.replace('https://unzido.site/intro');
       // alert('로그인 기간 만료');
-      // 토큰 만료 시 처리
-      // 로그아웃 처리 후 페이지 이동
+      // 토큰 만료 시, localstorage에 여부 기입 후 인트로 페이지로 일단 이동
+      // 인트로 페이지에서 로그아웃 진행
     }
 
     return Promise.reject(e);

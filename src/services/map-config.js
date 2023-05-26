@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+/* eslint-disable consistent-return */
 import closeButton from 'assets/img/closeButton.svg';
 import emptyImg from 'assets/img/noImg.svg';
 
@@ -151,6 +153,7 @@ class MapConfig {
   static removeMarkerEvent = (marker, d) => {};
 
   static changeOverlayContent(overlay, content) {
+    console.log(content);
     overlay.setContent(content);
   }
 
@@ -232,16 +235,17 @@ class MapConfig {
       roadInfo.address = addressInfo.road_address_name;
       roadInfo.longitude = addressInfo.x;
       roadInfo.latitude = addressInfo.y;
-      roadInfo.image = '';
-      roadInfo.description = '';
+      roadInfo.image = addressInfo.image;
+      roadInfo.description = addressInfo.description;
     } else {
       roadInfo = addressInfo;
     }
     const { longitude, latitude, name, address, description, image } = roadInfo;
-    console.log(roadInfo);
+    console.log(addressInfo, roadInfo);
     const position = new kakao.maps.LatLng(latitude, longitude);
 
     roadviewClient.getNearestPanoId(position, 50, function (panoId) {
+      if (!panoId) return alert('로드뷰를 찾을 수 없습니다.');
       roadview.setPanoId(panoId, position);
     });
 
@@ -270,13 +274,13 @@ class MapConfig {
     thumbImg.alt = '';
     const actionWrap = document.createElement('div');
     actionWrap.className = 'rv-action';
-    const postUpdateBtn = document.createElement('button');
-    postUpdateBtn.textContent = '포스팅 수정';
+    // const postUpdateBtn = document.createElement('button');
+    // postUpdateBtn.textContent = '포스팅 수정';
     const triangle = document.createElement('div');
     triangle.className = 'rv-triangle';
 
     closeBtn.onclick = () => {
-      alert('11');
+      rvCustomOverlay.setMap(null);
     };
     header.appendChild(placeName);
     header.appendChild(closeBtn);
@@ -284,20 +288,17 @@ class MapConfig {
     descTextWrap.appendChild(descMain);
     descWrap.appendChild(descTextWrap);
     descWrap.appendChild(thumbImg);
-    actionWrap.appendChild(postUpdateBtn);
+    // actionWrap.appendChild(postUpdateBtn);
     wrap.appendChild(header);
     wrap.appendChild(descWrap);
     wrap.appendChild(actionWrap);
     wrap.appendChild(triangle);
 
-    const wrapString = wrap.outerHTML;
-
     const rvCustomOverlay = new kakao.maps.CustomOverlay({
       position,
-      content: wrapString,
-      // https://devtalk.kakao.com/t/topic/105513/5  html 문자열만 가능
+      content: wrap,
       xAnchor: 0.5,
-      yAnchor: 1.3,
+      yAnchor: 1.38,
       // removable: true,
     });
 
@@ -308,7 +309,7 @@ class MapConfig {
       });
 
       rvCustomOverlay.setMap(roadview);
-      rvCustomOverlay.open(roadview, rMarker);
+      // rvCustomOverlay.open(roadview, rMarker);
 
       const projection = roadview.getProjection();
 

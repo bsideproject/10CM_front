@@ -119,7 +119,7 @@ const Map: React.FC<Props> = ({
       <RoadMapWrap id="roadview" isRoadMap={isRoadMap} />
       {isRoadMap && (
         <CloseBtn onClick={() => setIsRoadMap && setIsRoadMap(false)}>
-          <Img src={closeBtn} width="20px" height="20px" />
+          <Img src={closeBtn} width="20px" height="20px" onClick={() => {}} />
         </CloseBtn>
       )}
       <div style={{ display: 'none' }}>

@@ -30,4 +30,8 @@ export interface KakaoAddress {
   // 좌표
   x: string;
   y: string;
+
+  // 나의 여행 관심장소 overlay 추가
+  description?: string;
+  image?: string;
 }

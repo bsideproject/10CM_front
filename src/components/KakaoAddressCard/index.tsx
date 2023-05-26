@@ -21,7 +21,9 @@ const KakaoAddressCard: React.FC<Props> = ({ addressData, onClick }) => {
         <KakaoAddressZibun>{addressData.address_name}</KakaoAddressZibun>
       </KakaoAddressBody>
       <KakaoAddressFooter>
-        <KakaoAddressTel>{addressData.phone}</KakaoAddressTel>
+        <KakaoAddressTel>
+          {addressData.phone || '전화번호 없음'}
+        </KakaoAddressTel>
         <a
           href={addressData.place_url}
           rel="noopener noreferrer"
